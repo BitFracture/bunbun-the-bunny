@@ -1,0 +1,6 @@
+*.temp
+test
+desktop.ini
+._*
+Thumbs.db
+.DS_Store
