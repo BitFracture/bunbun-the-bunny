@@ -1,0 +1,62 @@
+{
+    "name": "Level 0",
+    "description": "A BunBun beta level",
+    "objectList": {
+        "TerrainBlock": [
+            {
+                "__physicsEnabled": true,
+                "x": 40,
+                "y": 40,
+                "w": 20,
+                "h": 2.5,
+                "rot": -30
+            }, {
+                "__physicsEnabled": true,
+                "x": 60,
+                "y": 30,
+                "w": 20,
+                "h": 2.5,
+                "rot": 0
+            }, {
+                "__physicsEnabled": true,
+                "x": 20,
+                "y": 20,
+                "w": 20,
+                "h": 2.5,
+                "rot": 0
+            }, {
+                "__physicsEnabled": true,
+                "x": 70,
+                "y": 50,
+                "w": 20,
+                "h": 2.5,
+                "rot": 0
+            }, {
+                "__physicsEnabled": true,
+                "x": 50,
+                "y": 10,
+                "w": 100,
+                "h": 1,
+                "rot": 0
+            }
+        ],
+        "Carrot": [
+            {
+                "__physicsEnabled": true,
+                "x": 60,
+                "y": 20
+            }, {
+                "__physicsEnabled": true,
+                "x": 80,
+                "y": 20
+            }
+        ],
+        "Player": [
+            {
+                "__physicsEnabled": true,
+                "x": 50,
+                "y": 40
+            }
+        ]
+    }
+}
