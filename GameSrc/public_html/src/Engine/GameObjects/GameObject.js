@@ -18,6 +18,7 @@
  * @memberOf GameObject
  */
 function GameObject(renderableObj) {
+    
     this.mRenderComponent = renderableObj;
     this.mVisible = true;
     this.mCurrentFrontDir = vec2.fromValues(0, 1);  // this is the current front direction of the object
@@ -25,6 +26,7 @@ function GameObject(renderableObj) {
     this.mDrawRenderable = true;
     this.mDrawRigidShape = false; 
     this.mDrawDepth = 0.0;
+    this.mIsDeleted = false;
 }
 
 /**
@@ -120,15 +122,19 @@ GameObject.prototype.update = function () {
     // simple default behavior
     if (this.mRigidBody !== null)
             this.mRigidBody.update();
+    
+    //Debug toggles
+    /*
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.T)) {
         this.toggleDrawRenderable();
     }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
+        this.toggleDrawRigidShape();
+    }
+     */
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.B)) {
         if (this.mRigidBody !== null)
             this.mRigidBody.toggleDrawBound();
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
-        this.toggleDrawRigidShape();
     }
 };
 
@@ -140,4 +146,14 @@ GameObject.prototype.draw = function (aCamera) {
         if ((this.mRigidBody !== null) && (this.mDrawRigidShape))
             this.mRigidBody.draw(aCamera);
     }
+};
+
+GameObject.prototype.delete = function () {
+    
+    this.mIsDeleted = true;
+};
+
+GameObject.prototype.getIsDeleted = function () {
+    
+    return this.mIsDeleted;
 };

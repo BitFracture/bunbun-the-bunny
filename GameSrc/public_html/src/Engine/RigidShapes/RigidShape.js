@@ -25,6 +25,11 @@ function RigidShape(xf) {
     this.mDrawBounds = false;
 }
 
+RigidShape.prototype.getTransform = function () {
+    
+    return this.mXform;
+};
+
 RigidShape.prototype.getInvMass = function() { return this.mInvMass; };
 RigidShape.prototype.getInertia = function() { return this.mInertia; };
 RigidShape.prototype.getFriction = function() { return this.mFriction; };

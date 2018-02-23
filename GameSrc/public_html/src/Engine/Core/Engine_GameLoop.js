@@ -104,7 +104,7 @@ gEngine.GameLoop = (function () {
     
     var getScene = function () {
         
-        return this.mMyGame;
+        return mMyGame;
     };
     
     /**

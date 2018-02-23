@@ -291,4 +291,25 @@ Transform.prototype.getTransform = function () {
 
     return matrix;
 };
+
+Transform.prototype.isPointInside = function (point) {
+    
+    //Get mouse with respect to the origin
+    point[0] -= this.mPosition[0];
+    point[1] -= this.mPosition[1];
+    
+    //Get mouse with respect to the rotated coordinate system
+    var angle = this.mRotationInRad;
+    var newPoint = [0, 0];
+    newPoint[0] = (Math.cos(-angle) * point[0]) - (Math.sin(-angle) * point[1]);
+    newPoint[1] = (Math.sin(-angle) * point[0]) + (Math.cos(-angle) * point[1]);
+    
+    if (newPoint[0] >= -this.mScale[0] / 2
+            && newPoint[0] < this.mScale[0] / 2
+            && newPoint[1] >= -this.mScale[1] / 2
+            && newPoint[1] < this.mScale[1] / 2) {
+        return true;
+    }
+    return false;
+};
 //</editor-fold>

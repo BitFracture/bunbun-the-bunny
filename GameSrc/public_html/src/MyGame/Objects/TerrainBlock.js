@@ -44,7 +44,7 @@ function TerrainBlock(x, y, w, h, angle) {
     r.setMass(0);
     tf.setSize(w, h);
     tf.setPosition(x, y);
-    tf.setRotationInDegree(angle);
+    tf.setRotationInRad(angle);
 }
 gEngine.Core.inheritPrototype(TerrainBlock, GameObject);
 
@@ -67,6 +67,24 @@ TerrainBlock.fromProperties = function (properties) {
 
 
 /**
+ * Generates a properties entry for this object. 
+ */
+TerrainBlock.prototype.toProperties = function () {
+    
+    var transform = this.getTransform();
+    
+    var properties = {
+        "__hasPhysics": true,
+        "position": [transform.getXPos(), transform.getYPos()],
+        "size":     [transform.getWidth(), transform.getHeight()],
+        "angle":    transform.getRotationInRad()
+    };
+    
+    return properties;
+};
+
+
+/**
  * Fallthrough to parent draw.
  * 
  * @param camera  The camera to draw onto, already set up for drawing
@@ -81,6 +99,9 @@ TerrainBlock.prototype.draw = function (camera) {
  * Fallthrough to parent update.
  */
 TerrainBlock.prototype.update = function () {
+    
+    //For terrain, we can sync the rigid body with the transform
+    this.getRigidBody().setSize(this.getTransform().getSize())
     
     GameObject.prototype.update.call(this);
 };
