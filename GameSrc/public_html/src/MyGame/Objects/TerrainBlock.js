@@ -26,10 +26,10 @@
  * @param y  Y position
  * @param w  Width
  * @param h  Height
- * @param rot  Angle in radians
+ * @param angle  Angle in radians
  * @returns {TerrainBlock}
  */
-function TerrainBlock(x, y, w, h, rot) {
+function TerrainBlock(x, y, w, h, angle) {
     
     var p = new Renderable();
     GameObject.call(this, p);
@@ -44,7 +44,7 @@ function TerrainBlock(x, y, w, h, rot) {
     r.setMass(0);
     tf.setSize(w, h);
     tf.setPosition(x, y);
-    tf.setRotationInDegree(rot);
+    tf.setRotationInDegree(angle);
 }
 gEngine.Core.inheritPrototype(TerrainBlock, GameObject);
 
@@ -58,11 +58,11 @@ gEngine.Core.inheritPrototype(TerrainBlock, GameObject);
 TerrainBlock.fromProperties = function (properties) {
     
     return new TerrainBlock(
-            properties["x"], 
-            properties["y"], 
-            properties["w"], 
-            properties["h"], 
-            properties["rot"]);
+            properties["position"][0], 
+            properties["position"][1], 
+            properties["size"][0], 
+            properties["size"][1], 
+            properties["angle"]);
 };
 
 

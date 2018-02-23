@@ -4,58 +4,55 @@
     "objectList": {
         "TerrainBlock": [
             {
-                "__physicsEnabled": true,
-                "x": 40,
-                "y": 40,
-                "w": 20,
-                "h": 2.5,
-                "rot": -30
+                "__hasPhysics": true,
+                "position": [40, 40],
+                "size": [20, 2.5],
+                "angle": -30
             }, {
-                "__physicsEnabled": true,
-                "x": 60,
-                "y": 30,
-                "w": 20,
-                "h": 2.5,
-                "rot": 0
+                "__hasPhysics": true,
+                "position": [60, 30],
+                "size": [20, 2.5],
+                "angle": 0
             }, {
-                "__physicsEnabled": true,
-                "x": 20,
-                "y": 20,
-                "w": 20,
-                "h": 2.5,
-                "rot": 0
+                "__hasPhysics": true,
+                "position": [20, 20],
+                "size": [20, 2.5],
+                "angle": 0
             }, {
-                "__physicsEnabled": true,
-                "x": 70,
-                "y": 50,
-                "w": 20,
-                "h": 2.5,
-                "rot": 0
+                "__hasPhysics": true,
+                "position": [70, 50],
+                "size": [20, 2.5],
+                "angle": 0
             }, {
-                "__physicsEnabled": true,
-                "x": 50,
-                "y": 10,
-                "w": 100,
-                "h": 1,
-                "rot": 0
+                "__hasPhysics": true,
+                "position": [50, 10],
+                "size": [100, 1],
+                "angle": 0
             }
         ],
         "Carrot": [
             {
-                "__physicsEnabled": true,
-                "x": 60,
-                "y": 20
+                "__hasPhysics": true,
+                "position": [60, 20]
             }, {
-                "__physicsEnabled": true,
-                "x": 80,
-                "y": 20
+                "__hasPhysics": true,
+                "position": [80, 20]
             }
         ],
         "Player": [
             {
-                "__physicsEnabled": true,
-                "x": 50,
-                "y": 40
+                "__hasPhysics": true,
+                "position": [50, 40]
+            }
+        ],
+        "Overlay": [
+            {
+                "__hasPhysics": false,
+                "position": [0, 0],
+                "size": [100, 75],
+                "lowerLeft": [0, 0],
+                "upperRight": [1024, 768],
+                "textureId": "assets/textures/bunOverlay.png"
             }
         ]
     }

@@ -56,8 +56,8 @@ gEngine.Core.inheritPrototype(Carrot, GameObject);
 Carrot.fromProperties = function (properties) {
     
     return new Carrot(
-            properties["x"], 
-            properties["y"]);
+            properties["position"][0], 
+            properties["position"][1]);
 };
 
 

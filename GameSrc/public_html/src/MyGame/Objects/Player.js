@@ -1,4 +1,5 @@
-/* Hero.js 
+/**
+ * Player.js 
  *
  * Defines the game player (BunBun).
  * 
@@ -46,8 +47,8 @@ gEngine.Core.inheritPrototype(Player, GameObject);
 Player.fromProperties = function (properties) {
     
     return new Player(
-            properties["x"], 
-            properties["y"]);
+            properties["position"][0], 
+            properties["position"][0]);
 };
 
 

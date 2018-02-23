@@ -23,16 +23,14 @@
  */
 function GameLevel() {
     
-    this.MINION_SPRITE    = "assets/minion_sprite.png";
-    this.PLATFORM_TEXTURE = "assets/platform.png";
-    this.WALL_TEXTURE     = "assets/wall.png";
-    this.TARGET_TEXTURE   = "assets/target.png";
-    this.LEVEL_FILE       = "assets/levels/level0.json";
+    this.LEVEL_FILE  = "assets/levels/level0.json";
+    this.OVERLAY     = "assets/textures/bunOverlay.png";
     
     //The camera to view the scene
     this.mainCamera = null;
 
     this.physicsObjectList = null;
+    this.objectList = null;
     this.collisionInfoList = [];
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
@@ -46,6 +44,8 @@ GameLevel.prototype.loadScene = function () {
     gEngine.TextFileLoader.loadTextFile(
             this.LEVEL_FILE, 
             gEngine.TextFileLoader.eTextFileType.eJSONFile);
+    
+    gEngine.Textures.loadTexture(this.OVERLAY);
 };
 
 
@@ -55,6 +55,7 @@ GameLevel.prototype.loadScene = function () {
 GameLevel.prototype.unloadScene = function () {
     
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
+    gEngine.Textures.unloadTexture(this.OVERLAY);
 };
 
 
@@ -70,11 +71,12 @@ GameLevel.prototype.initialize = function () {
         100,                     // width of camera
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
-    this.mainCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
+    this.mainCamera.setBackgroundColor([0.38, 0.78, 1.0, 1]);
     
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.physicsObjectList = new GameObjectSet();
+    this.objectList = new GameObjectSet();
     
     //Pull and parse the level data
     var levelConfig = JSON.parse(
@@ -85,7 +87,10 @@ GameLevel.prototype.initialize = function () {
             
             var properties = levelConfig["objectList"][objectName][instance];
             var newObject = window[objectName].fromProperties(properties);
-            this.physicsObjectList.addToSet(newObject);
+            
+            this.objectList.addToSet(newObject);
+            if (!!properties["__hasPhysics"])
+                this.physicsObjectList.addToSet(newObject);
         }
     }
 };
@@ -101,7 +106,7 @@ GameLevel.prototype.draw = function () {
 
     //Draw each object
     this.mainCamera.setupViewProjection();
-    this.physicsObjectList.draw(this.mainCamera);
+    this.objectList.draw(this.mainCamera);
     
     this.collisionInfoList = []; 
 };
@@ -112,7 +117,7 @@ GameLevel.prototype.draw = function () {
  */
 GameLevel.prototype.update = function () {
 
-    this.physicsObjectList.update();
+    this.objectList.update();
     
     gEngine.Physics.processCollision(
             this.physicsObjectList, 

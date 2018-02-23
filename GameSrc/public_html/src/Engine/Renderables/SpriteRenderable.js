@@ -81,6 +81,8 @@ SpriteRenderable.prototype.setElementUVCoordinate = function (left, right, botto
 SpriteRenderable.prototype.setElementPixelPositions = function (left, right, bottom, top) {
     var imageW = this.mTextureInfo.mWidth;
     var imageH = this.mTextureInfo.mHeight;
+    
+    console.log("W: " + imageW + ", H: " + imageH);
 
     this.mTexLeft = left / imageW;
     this.mTexRight = right / imageW;
