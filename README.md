@@ -36,7 +36,7 @@ name. An example is shown here where only a single object type is used, called
                 "position":     [80, 20]
             }
         ]
-	}
+    }
 }
 ```
 
@@ -74,4 +74,4 @@ keys shown below to edit the TerrainBlock objects.
 
 It is intended that after exporting the property array, that it be copied into
 the level file to overwrite the previous set of TerrainBlocks. Be very careful,
-as this editor does not editor nor export any other object type. 
+as this editor does not edit nor export any other object type. 
