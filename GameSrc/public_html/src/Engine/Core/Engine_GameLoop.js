@@ -102,6 +102,11 @@ gEngine.GameLoop = (function () {
         mIsLoopRunning = false;
     };
     
+    var getScene = function () {
+        
+        return this.mMyGame;
+    };
+    
     /**
      * Return the interval time of the GameLoop
      * @memberOf gEngine.GameLoop
@@ -114,6 +119,7 @@ gEngine.GameLoop = (function () {
     var mPublic = {
         start: start,
         stop: stop,
+        getScene: getScene,
         getUpdateIntervalInSeconds: getUpdateIntervalInSeconds
     };
     return mPublic;

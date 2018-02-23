@@ -1,7 +1,8 @@
 /**
- * Overlay.js 
+ * Editor.js 
  *
- * Defines facade over level physical geometry. This is STATIC geometry only.
+ * Provides some behavior for editing objects and viewing their properties 
+ * in the console. This can be nice for planning terrain for the world. 
  * 
  * @author  Erik W. Greif
  * @since   2018-02-22
@@ -28,7 +29,7 @@
  * @param upperRightY  The upper right Y of the texture crop box
  * @param textureAsset  The asset ID of the overlay texture
  */
-function Overlay(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
+function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
         textureAsset) {
 
     this.renderable = new SpriteRenderable(textureAsset);
@@ -43,7 +44,7 @@ function Overlay(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     
     this.setDrawRenderable(true);
 }
-gEngine.Core.inheritPrototype(Overlay, GameObject);
+gEngine.Core.inheritPrototype(Facade, GameObject);
 
 
 /**
@@ -52,9 +53,9 @@ gEngine.Core.inheritPrototype(Overlay, GameObject);
  * @param properties  The properties object to be used for construction.
  * @returns A new instance.
  */
-Overlay.fromProperties = function (properties) {
+Facade.fromProperties = function (properties) {
     
-    return new Overlay(
+    return new Facade(
             properties["position"][0], 
             properties["position"][1], 
             properties["size"][0], 
@@ -64,11 +65,4 @@ Overlay.fromProperties = function (properties) {
             properties["upperRight"][0], 
             properties["upperRight"][1],
             properties["textureId"]);
-};
-
-
-Overlay.prototype.draw = function (camera) {
-    
-    GameObject.prototype.draw.call(this, camera);
-    this.renderable.draw(camera);
 };

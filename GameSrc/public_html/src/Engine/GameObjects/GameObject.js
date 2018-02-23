@@ -24,6 +24,7 @@ function GameObject(renderableObj) {
     this.mRigidBody = null;
     this.mDrawRenderable = true;
     this.mDrawRigidShape = false; 
+    this.mDrawDepth = 0.0;
 }
 
 /**
@@ -82,6 +83,19 @@ GameObject.prototype.setRigidBody = function (r) {
     this.mRigidBody = r;
 };
 
+/**
+ * Sets how far an object is from the camera depth-wise.
+ * 
+ * @param depth  The level at which to draw the object. Higher = further away
+ */
+GameObject.prototype.setDrawDepth = function (depth) {
+    this.mDrawDepth = depth;
+};
+
+GameObject.prototype.getDrawDepth = function () {
+    return this.mDrawDepth;
+};
+
 GameObject.prototype.getRigidBody = function () { 
     return this.mRigidBody; 
 };
@@ -116,11 +130,6 @@ GameObject.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
         this.toggleDrawRigidShape();
     }
-};
-
-GameObject.prototype.printStats = function () {
-    
-    console.log("Stats: " + this.isVisible() + ", " + this.mRigidBody + ", " + this.mDrawRigidShape);
 };
 
 GameObject.prototype.draw = function (aCamera) {

@@ -91,6 +91,9 @@ GameLevel.prototype.initialize = function () {
             this.objectList.addToSet(newObject);
             if (!!properties["__hasPhysics"])
                 this.physicsObjectList.addToSet(newObject);
+            
+            if (typeof properties["__depth"] !== 'undefined')
+                newObject.setDrawDepth(properties["__depth"]);
         }
     }
 };

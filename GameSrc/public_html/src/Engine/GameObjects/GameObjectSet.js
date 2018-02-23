@@ -16,6 +16,7 @@
  * @class GameObjectSet
  */
 function GameObjectSet() {
+    
     this.mSet = [];
 }
 
@@ -24,7 +25,10 @@ function GameObjectSet() {
  * @returns {Number} count of GameObjects in set
  * @memberOf GameObjectSet
  */
-GameObjectSet.prototype.size = function () { return this.mSet.length; };
+GameObjectSet.prototype.size = function () { 
+    
+    return this.mSet.length;
+};
 
 /**
  * Return the GameObject at index
@@ -33,6 +37,7 @@ GameObjectSet.prototype.size = function () { return this.mSet.length; };
  * @memberOf GameObjectSet
  */
 GameObjectSet.prototype.getObjectAt = function (index) {
+
     return this.mSet[index];
 };
 
@@ -43,6 +48,7 @@ GameObjectSet.prototype.getObjectAt = function (index) {
  * @memberOf GameObjectSet
  */
 GameObjectSet.prototype.addToSet = function (obj) {
+
     this.mSet.push(obj);
 };
 
@@ -53,6 +59,7 @@ GameObjectSet.prototype.addToSet = function (obj) {
  * @memberOf GameObjectSet
  */
 GameObjectSet.prototype.removeFromSet = function (obj) {
+
     var index = this.mSet.indexOf(obj);
     if (index > -1)
         this.mSet.splice(index, 1);
@@ -64,10 +71,10 @@ GameObjectSet.prototype.removeFromSet = function (obj) {
  * @returns {void}
  * @memberOf GameObjectSet
  */
-GameObjectSet.prototype.moveToLast = function (obj) {
+/*GameObjectSet.prototype.moveToLast = function (obj) {
     this.removeFromSet(obj);
     this.addToSet(obj);
-};
+};*/
 
 /**
  * Update function called by GameLoop calls all GameObject's in GameObjectSet
@@ -75,9 +82,29 @@ GameObjectSet.prototype.moveToLast = function (obj) {
  * @memberOf GameObjectSet
  */
 GameObjectSet.prototype.update = function () {
+
     var i;
+    var depthLast = Number.POSITIVE_INFINITY;
+    var depthChanged = false;
+    var depth;
     for (i = 0; i < this.mSet.length; i++) {
+        
         this.mSet[i].update();
+        
+        //Determine if we need to sort the object list!
+        depth = this.mSet[i].getDrawDepth();
+        if (!depthChanged && depth > depthLast) {
+            depthChanged = true;
+        }
+        depthLast = depth;
+    }
+    
+    //If we need to sort the list, do it now
+    if (depthChanged) {
+        
+        this.mSet.sort(function(a, b){
+            return b.getDrawDepth() - a.getDrawDepth();
+        });
     }
 };
 
@@ -88,6 +115,7 @@ GameObjectSet.prototype.update = function () {
  * @memberOf GameObjectSet
  */
 GameObjectSet.prototype.draw = function (aCamera) {
+
     var i;
     for (i = 0; i < this.mSet.length; i++) {
         this.mSet[i].draw(aCamera);
