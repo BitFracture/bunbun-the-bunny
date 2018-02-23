@@ -88,9 +88,7 @@ GameLevel.prototype.initialize = function () {
             var properties = levelConfig["objectList"][objectName][instance];
             var newObject = window[objectName].fromProperties(properties);
             
-            this.objectList.addToSet(newObject);
-            if (!!properties["__hasPhysics"])
-                this.physicsObjectList.addToSet(newObject);
+            this.enrollObject(newObject, !!properties["__hasPhysics"]);
             
             if (typeof properties["__depth"] !== 'undefined')
                 newObject.setDrawDepth(properties["__depth"]);
@@ -120,9 +118,38 @@ GameLevel.prototype.draw = function () {
  */
 GameLevel.prototype.update = function () {
 
-    this.objectList.update();
+    this.objectList.update(this.mainCamera);
     
+    this.physicsObjectList.clean();
     gEngine.Physics.processCollision(
             this.physicsObjectList, 
             this.collisionInfoList);
+};
+
+
+/**
+ * Gets the set of game objects for external manipulation. Be very careful!
+ * Use case: Terrain editor
+ * 
+ * @returns The GameObjectSet for all enqueued objects. 
+ */
+GameLevel.prototype.getObjectList = function () {
+    
+    return this.objectList.getObjectList();
+};
+
+
+/**
+ * Enrolls a new object into the update list. DO NOT add duplicates! 
+ * The result is fairly predictable: double updates, double draws.
+ * 
+ * @param object  The object to enroll.
+ * @param physicsEnabled  Whether to run it through the physics engine.
+ */
+GameLevel.prototype.enrollObject = function (object, physicsEnabled) {
+    
+    this.objectList.addToSet(object);
+    
+    if (!!physicsEnabled)
+        this.physicsObjectList.addToSet(object);
 };

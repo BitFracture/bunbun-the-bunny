@@ -76,20 +76,32 @@ GameObjectSet.prototype.removeFromSet = function (obj) {
     this.addToSet(obj);
 };*/
 
+GameObjectSet.prototype.getObjectList = function () {
+    
+    return this.mSet;
+};
+
 /**
  * Update function called by GameLoop calls all GameObject's in GameObjectSet
  * @returns {void}
  * @memberOf GameObjectSet
  */
-GameObjectSet.prototype.update = function () {
+GameObjectSet.prototype.update = function (camera) {
 
-    var i;
     var depthLast = Number.POSITIVE_INFINITY;
     var depthChanged = false;
     var depth;
-    for (i = 0; i < this.mSet.length; i++) {
+    var toDelete = [];
+    
+    for (var i = 0; i < this.mSet.length; i++) {
         
-        this.mSet[i].update();
+        //Enqueue items to be deleted, and do not update them
+        if (this.mSet[i].getIsDeleted()) {
+            toDelete.push(this.mSet[i]);
+            continue;
+        }
+            
+        this.mSet[i].update(camera);
         
         //Determine if we need to sort the object list!
         depth = this.mSet[i].getDrawDepth();
@@ -99,6 +111,10 @@ GameObjectSet.prototype.update = function () {
         depthLast = depth;
     }
     
+    //If we need to delete, do so now
+    for (var index in toDelete) 
+        this.removeFromSet(toDelete[index]);
+    
     //If we need to sort the list, do it now
     if (depthChanged) {
         
@@ -106,6 +122,28 @@ GameObjectSet.prototype.update = function () {
             return b.getDrawDepth() - a.getDrawDepth();
         });
     }
+};
+
+/**
+ * Removes deleted items without calling their update. DO NOT call this with 
+ * update, it is a waste. 
+ */
+GameObjectSet.prototype.clean = function () {
+    
+    var toDelete = [];
+    
+    for (var i = 0; i < this.mSet.length; i++) {
+        
+        //Enqueue items to be deleted, and do not update them
+        if (this.mSet[i].getIsDeleted()) {
+            toDelete.push(this.mSet[i]);
+            continue;
+        }
+    }
+    
+    //If we need to delete, do so now
+    for (var index in toDelete)
+        this.removeFromSet(toDelete[index]);
 };
 
 /**

@@ -16,35 +16,33 @@
 
 
 /**
- * Creates a new player based on its location in the world.
- * Note: LOWER LEFT corner is position origin. This is easier to work with.
+ * Has no world position. Simply a logic controller. 
  * 
- * @param x  The x position
- * @param y  The Y position
- * @param w  The width in WC
- * @param h  The height in WX
- * @param lowerLeftX  The lower left X of the texture crop box
- * @param lowerLeftY  The lower left Y of the texture crop box
- * @param upperRightX  The upper right X of the texture crop box
- * @param upperRightY  The upper right Y of the texture crop box
- * @param textureAsset  The asset ID of the overlay texture
+ * @param isEnabled  Whether to enable the editor features
  */
-function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
+var editor = void(0);
+function Editor(isEnabled) {
 
-    this.renderable = new SpriteRenderable(textureAsset);
-    this.renderable.setColor([1, 1, 1, 0]);
-    this.renderable.getTransform().setPosition(x + (w / 2), y + (h / 2));
-    this.renderable.getTransform().setSize(w, h);
-    this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
+    GameObject.call(this, new Renderable());
+    this.setDrawRenderable(false);
     
-    GameObject.call(this, this.renderable);
+    this.isEnabled = isEnabled;
+    this.scene = gEngine.GameLoop.getScene();
     
-    this.setDrawRenderable(true);
+    this.highlightBox = new Renderable();
+    this.highlightBox.setColor([0.5, 1.0, 0.5, 0.15]);
+    
+    this.selectBox = new Renderable();
+    this.selectBox.setColor([1.0, 0.5, 0.5, 0.5]);
+    
+    this.defaultBox = new Renderable();
+    this.chosenTransform = null;
+    this.chosenObject = null;
+    
+    if (this.isEnabled)
+        console.log("Realtime terrain editor is enabled.");
 }
-gEngine.Core.inheritPrototype(Facade, GameObject);
+gEngine.Core.inheritPrototype(Editor, GameObject);
 
 
 /**
@@ -53,16 +51,136 @@ gEngine.Core.inheritPrototype(Facade, GameObject);
  * @param properties  The properties object to be used for construction.
  * @returns A new instance.
  */
-Facade.fromProperties = function (properties) {
+Editor.fromProperties = function (properties) {
     
-    return new Facade(
-            properties["position"][0], 
-            properties["position"][1], 
-            properties["size"][0], 
-            properties["size"][1], 
-            properties["lowerLeft"][0], 
-            properties["lowerLeft"][1], 
-            properties["upperRight"][0], 
-            properties["upperRight"][1],
-            properties["textureId"]);
+    return new Editor(
+            properties["isEnabled"]);
+};
+
+
+/**
+ * 
+ * @param camera  The camera to be drawn to.
+ */
+Editor.prototype.draw = function (camera) {
+    
+    if (!this.isEnabled)
+        return;
+    
+    this.highlightBox.draw(camera);
+    this.selectBox.draw(camera);
+};
+
+
+/**
+ * 
+ */
+Editor.prototype.update = function (camera) {
+    
+    if (!this.isEnabled)
+        return;
+    
+    //Clear the select boxes
+    this.defaultBox.getTransform().cloneTo(this.highlightBox.getTransform());
+    
+    //Edit just terrain blocks
+    var transform = null;
+    var objects = this.scene.getObjectList();
+    for (var object in objects) {
+        
+        if (!(objects[object] instanceof TerrainBlock)) 
+            continue;
+        
+        //If the mouse is in bounds, highlight it
+        transform = objects[object].getRigidBody().getTransform();
+        
+        if (transform.isPointInside([camera.mouseWCX(), camera.mouseWCY()])) {
+            
+            transform.cloneTo(this.highlightBox.getTransform());
+            
+            //If the user has clicked, select it
+            if (gEngine.Input.isButtonClicked(0)) {
+                
+                this.chosenTransform = transform;
+                this.chosenObject = objects[object];
+            }
+        }
+    }
+    
+    //Abort if nothing is selected
+    if (this.chosenTransform === null) {
+        
+    this.defaultBox.getTransform().cloneTo(this.selectBox.getTransform());
+        return;
+    }
+    
+    //Update selected box
+    this.chosenTransform.cloneTo(this.selectBox.getTransform());
+
+    var rotRate = 0.05;
+    var transRate = 0.5;
+    var minimumThickness = 0.25;
+
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Shift)) {
+
+        rotRate /= 10.0;
+        transRate /= 10.0;
+
+        //Reset rotation to 0
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.R))
+            this.chosenTransform.setRotationInRad(0);
+
+        //CLONE this transform into a new terrain object!
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.C)) {
+
+            var newObject = new TerrainBlock(
+                    this.chosenTransform.getXPos() + 2,
+                    this.chosenTransform.getYPos() + 2,
+                    this.chosenTransform.getWidth(),
+                    this.chosenTransform.getHeight(),
+                    this.chosenTransform.getRotationInRad());
+
+            this.scene.enrollObject(newObject, true);
+        }
+
+        //DELETE the selected terrain object!
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.X)) {
+
+            this.chosenObject.delete();
+            this.chosenObject = null;
+            this.chosenTransform = null;
+        }
+    }
+
+    //Rotation keys
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))
+        this.chosenTransform.incRotationByRad(rotRate);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right))
+        this.chosenTransform.incRotationByRad(-rotRate);
+
+    //Translation keys
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.T))
+        this.chosenTransform.incYPosBy(transRate);        
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.G))
+        this.chosenTransform.incYPosBy(-transRate);        
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.H))
+        this.chosenTransform.incXPosBy(transRate);        
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.F))
+        this.chosenTransform.incXPosBy(-transRate);
+
+    //Scale(ation) keys
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I))
+        this.chosenTransform.incHeightBy(transRate);        
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.K))
+        this.chosenTransform.incHeightBy(-transRate);        
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.L))
+        this.chosenTransform.incWidthBy(transRate);        
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.J))
+        this.chosenTransform.incWidthBy(-transRate);
+
+    //Scale bounds checking
+    if (this.chosenTransform.getWidth() < minimumThickness)
+        this.chosenTransform.setWidth(minimumThickness);
+    if (this.chosenTransform.getHeight() < minimumThickness)
+        this.chosenTransform.setHeight(minimumThickness);
 };

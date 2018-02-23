@@ -12,7 +12,7 @@ var RigidRectangle = function (xf, width, height) {
     this.mType = "RigidRectangle";
     this.mWidth = width;
     this.mHeight = height;
-    this.mBoundRadius = Math.sqrt(width * width + height * height) / 2;
+    this.computeBoundRadius();
     this.mVertex = [];
     this.mFaceNormal = [];
     
@@ -34,9 +34,23 @@ RigidRectangle.prototype.updateInertia = function () {
     }
 };
 
-RigidRectangle.prototype.incShapeSizeBy= function (dt) {
+RigidRectangle.prototype.incShapeSizeBy = function (dt) {
     this.mHeight += dt;
     this.mWidth += dt;
+    this.computeBoundRadius();
+};
+
+RigidRectangle.prototype.setSize = function (size) {
+    
+    this.mWidth = size[0];
+    this.mHeight = size[1];
+    this.computeBoundRadius();
+};
+
+RigidRectangle.prototype.computeBoundRadius = function () {
+  
+    this.mBoundRadius = Math.sqrt(this.mWidth * this.mWidth 
+            + this.mHeight * this.mHeight) / 2;
 };
 
 RigidRectangle.prototype.adjustPositionBy = function(v, delta) {

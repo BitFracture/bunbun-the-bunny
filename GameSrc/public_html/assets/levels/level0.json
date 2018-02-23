@@ -7,7 +7,7 @@
                 "__hasPhysics": true,
                 "position":     [40, 40],
                 "size":         [20, 2.5],
-                "angle":        -30
+                "angle":        -0.5
             }, {
                 "__hasPhysics": true,
                 "position":     [60, 30],
@@ -53,6 +53,12 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 768],
                 "textureId":  "assets/textures/bunOverlay.png"
+            }
+        ],
+        "Editor": [
+            {
+                "__depth": -1000,
+                "isEnabled": true
             }
         ]
     }
