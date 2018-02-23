@@ -86,10 +86,16 @@ Editor.prototype.update = function (camera) {
     //Edit just terrain blocks
     var transform = null;
     var objects = this.scene.getObjectList();
+    var outputCollection = [];
+    
     for (var object in objects) {
         
         if (!(objects[object] instanceof TerrainBlock)) 
             continue;
+        
+        //If the user asks to save, compile a list
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.E))
+            outputCollection.push(objects[object].toProperties());
         
         //If the mouse is in bounds, highlight it
         transform = objects[object].getRigidBody().getTransform();
@@ -105,6 +111,12 @@ Editor.prototype.update = function (camera) {
                 this.chosenObject = objects[object];
             }
         }
+    }
+    
+    //If the user asks to save, export to console now
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.E)) {
+        
+        console.log(JSON.stringify(outputCollection, null, 4));
     }
     
     //Abort if nothing is selected

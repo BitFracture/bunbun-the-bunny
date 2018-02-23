@@ -67,6 +67,24 @@ TerrainBlock.fromProperties = function (properties) {
 
 
 /**
+ * Generates a properties entry for this object. 
+ */
+TerrainBlock.prototype.toProperties = function () {
+    
+    var transform = this.getTransform();
+    
+    var properties = {
+        "__hasPhysics": true,
+        "position": [transform.getXPos(), transform.getYPos()],
+        "size":     [transform.getWidth(), transform.getHeight()],
+        "angle":    transform.getRotationInRad()
+    };
+    
+    return properties;
+};
+
+
+/**
  * Fallthrough to parent draw.
  * 
  * @param camera  The camera to draw onto, already set up for drawing
