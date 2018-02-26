@@ -42,6 +42,9 @@ function Player(x, y) {
     this.miniCameraRef = gEngine.GameLoop.getScene().getCamera("minimap");
     this.mainCameraRef.configInterpolation(.1, 1);
     
+    //Laser
+    this.laser = new LineRenderable();
+    
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -62,12 +65,12 @@ Player.fromProperties = function (properties) {
 /**
  * Take user input and update rigid body.
  */
-Player.prototype.update = function () {
+Player.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);   
-    
-    var xform = this.getTransform();
     //xform.setRotationInRad(0);
+    var xform = this.getTransform();
+    
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
         xform.incYPosBy(this.moveDelta * this.speedMultiplier);
     }
@@ -93,6 +96,8 @@ Player.prototype.update = function () {
     var myPos = this.getTransform().getPosition();
     this.mainCameraRef.setWCCenter(myPos[0], myPos[1]);
     this.miniCameraRef.setWCCenter(myPos[0], myPos[1]);    
-   
+    
+    //Fetch a list of all carrots
+    var carrotList = gEngine.GameLoop.getScene().getObjectsByClass("CarrotPickup");
 };
 

@@ -157,9 +157,29 @@ GameLevel.prototype.update = function () {
  * 
  * @returns The GameObjectSet for all enqueued objects. 
  */
-GameLevel.prototype.getObjectList = function () {
+GameLevel.prototype.getObjects = function () {
     
     return this.objectList.getObjectList();
+};
+
+
+/**
+ * Gets a list of all objects matching a given class.
+ * 
+ * @param  The class name that all fetched entities should match.
+ * @returns  The list of current objects of the given class.
+ */
+GameLevel.prototype.getObjectsByClass = function (className) {
+    
+    var fullList = this.getObjects();
+    var filteredList = [];
+    for (var obj in fullList) {
+        
+        if (window[className].prototype.isPrototypeOf(fullList[obj])) {
+            filteredList.push(obj);
+        }
+    }
+    return filteredList;
 };
 
 
