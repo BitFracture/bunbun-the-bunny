@@ -311,6 +311,12 @@
                 "__depth": -1000,
                 "isEnabled": true
             }
+        ],
+        "Spaceship": [
+            {
+                "__hasPhysics": true,
+                "position":     [60, 20]
+            }
         ]
     }
 }

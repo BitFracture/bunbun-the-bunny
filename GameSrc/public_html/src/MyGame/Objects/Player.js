@@ -44,7 +44,6 @@ function Player(x, y) {
     
     //Laser
     this.laser = new LineRenderable();
-    
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -70,13 +69,16 @@ Player.prototype.update = function (camera) {
     GameObject.prototype.update.call(this);   
     //xform.setRotationInRad(0);
     var xform = this.getTransform();
+
+    xform.setRotationInRad(0);
+
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        xform.incYPosBy(2.5);
+    }
     
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        xform.incYPosBy(this.moveDelta * this.speedMultiplier);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        xform.incYPosBy(-this.moveDelta * this.speedMultiplier);
-    }
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+//        xform.incYPosBy(-this.moveDelta);
+//    }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         xform.incXPosBy(-this.moveDelta * this.speedMultiplier);
     }
@@ -100,4 +102,3 @@ Player.prototype.update = function (camera) {
     //Fetch a list of all carrots
     var carrotList = gEngine.GameLoop.getScene().getObjectsByClass("CarrotPickup");
 };
-

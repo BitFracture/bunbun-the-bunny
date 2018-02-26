@@ -209,4 +209,3 @@ GameLevel.prototype.getCamera = function (name) {
             return this.cameraList[camera];
     return null;
 };
-

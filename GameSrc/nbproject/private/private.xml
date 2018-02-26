@@ -12,12 +12,9 @@
         </group>
         <group>
             <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/Player.js</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/index.html</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Cameras/CameraState.js</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Cameras/Camera.js</file>
             <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/GameLevel.js</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Cameras/Camera_Manipulation.js</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/CarrotPickup.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Renderables/LineRenderable.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/Editor.js</file>
             <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/assets/levels/level0.json</file>
         </group>
     </open-files>
