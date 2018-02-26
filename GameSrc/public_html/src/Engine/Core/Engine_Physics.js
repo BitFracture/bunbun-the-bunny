@@ -179,6 +179,7 @@ gEngine.Physics = (function () {
                                 positionalCorrection(objI, objJ, info);
                                 resolveCollision(objI, objJ, info);
                                 // info = new CollisionInfo();
+                                //infoSet.push(info);
                             }
                         }
                     }

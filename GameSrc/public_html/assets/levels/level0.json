@@ -1,19 +1,72 @@
 {
     "name": "Level 0",
     "description": "A BunBun beta level",
+    "cameraList": [
+        {
+            "name": "main",
+            "center": [50, 37.5],
+            "width": 100,
+            "pixelPosition": [0, 0],
+            "pixelSize": [800, 600],
+            "color": [0.38, 0.78, 1.0, 1]
+        }, {
+            "name": "minimap",
+            "center": [50, 37.5],
+            "width": 200,
+            "pixelPosition": [620, 460],
+            "pixelSize": [160, 120],
+            "color": [0.1, 0.1, 0.1, 1]
+        }
+    ],
     "objectList": {
         "TerrainBlock": [
             {
                 "__hasPhysics": true,
                 "position": [
-                    71,
-                    61
+                    48.19999694824219,
+                    24.950023651123047
                 ],
                 "size": [
-                    31,
-                    7.25
+                    0.75,
+                    30.199996948242188
                 ],
-                "angle": 0.3
+                "angle": 0
+            },
+            {
+                "__hasPhysics": true,
+                "position": [
+                    70,
+                    50
+                ],
+                "size": [
+                    20,
+                    2.799999713897705
+                ],
+                "angle": 0
+            },
+            {
+                "__hasPhysics": true,
+                "position": [
+                    74.14994812011719,
+                    39.5
+                ],
+                "size": [
+                    51.8499641418457,
+                    0.75
+                ],
+                "angle": -0.0049999999999999845
+            },
+            {
+                "__hasPhysics": true,
+                "position": [
+                    50,
+                    10
+                ],
+                "size": [
+                    100,
+                    1
+                ],
+                "angle": 0
             },
             {
                 "__hasPhysics": true,
@@ -30,48 +83,24 @@
             {
                 "__hasPhysics": true,
                 "position": [
+                    4.200031280517578,
+                    42.250003814697266
+                ],
+                "size": [
+                    9.100035667419434,
+                    15.050000190734863
+                ],
+                "angle": 0
+            },
+            {
+                "__hasPhysics": true,
+                "position": [
                     88,
                     12
                 ],
                 "size": [
                     20,
                     2.5
-                ],
-                "angle": 0
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    70,
-                    50
-                ],
-                "size": [
-                    20,
-                    2.5
-                ],
-                "angle": 0
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    29,
-                    54
-                ],
-                "size": [
-                    50.5,
-                    5.75
-                ],
-                "angle": -0.5
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    50,
-                    10
-                ],
-                "size": [
-                    100,
-                    1
                 ],
                 "angle": 0
             }
@@ -95,6 +124,13 @@
             {
                 "__depth":    50,
                 "position":   [0, 0],
+                "size":       [100, 75],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 768],
+                "textureId":  "assets/textures/bunOverlay.png"
+            },{
+                "__depth":    40,
+                "position":   [50, 0],
                 "size":       [100, 75],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 768],

@@ -71,6 +71,8 @@ keys shown below to edit the TerrainBlock objects.
  - Shift+C: Clone a TerrainBlock
  - Shift+X: Delete a TerrainBlock permanently
  - Shift+E: Export the TerrainBlock property array to the browser console
+ - Shift+R: Reset rotation to 0.0
+ - Shift: Slow down rotation, scale, and movement speed by a factor of 10
 
 It is intended that after exporting the property array, that it be copied into
 the level file to overwrite the previous set of TerrainBlocks. Be very careful,
