@@ -315,7 +315,7 @@
         "Spaceship": [
             {
                 "__hasPhysics": true,
-                "position":     [60, 20]
+                "position":     [60, 60]
             }
         ]
     }

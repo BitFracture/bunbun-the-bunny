@@ -8,7 +8,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine: false, GameObject: false, SpriteAnimateRenderable: false */
+/*global gEngine: false, GameObject: false, SpriteAnimateRenderable: false*/
 /*find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict"; 
@@ -26,14 +26,15 @@ function Spaceship(x, y) {
     this.renderable = new Renderable();
     this.renderable.setColor([1, 1, 1, 1]);
     this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(40, 4);
+    this.renderable.getTransform().setSize(25, 4);
 
     GameObject.call(this, this.renderable);
     
     //Rigid body
-    var r = new RigidRectangle(this.getTransform(), 40, 4);
+    var r = new RigidRectangle(this.getTransform(), 25, 4);
     this.setRigidBody(r);
     r.setMass(5.5);
+    r.setVelocity(1, 1);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
     
@@ -64,4 +65,16 @@ Spaceship.fromProperties = function (properties) {
 Spaceship.prototype.update = function () {
     
     GameObject.prototype.update.call(this);
+    var playerList = gEngine.GameLoop.getScene().getObjectsByClass("Player");
+    var xform = this.getTransform();
+    
+    xform.setRotationInRad(0);
+    this.getRigidBody().setAngularVelocity(0);
+    
+    if (playerList.length > 0){
+        //var playerPos = playerList[0].getTransform().getPosition();
+        //xform.setPosition(60,60);
+        //xform.setPosition(playerPos[0], playerPos[1] + 20);
+        //xform.setPosition(playerList[0].getTransform().getXPos(), playerList[0].getTransform().getYPos() + 20);
+    }
 };
