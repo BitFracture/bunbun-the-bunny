@@ -81,6 +81,10 @@ GameObject.prototype.getRenderable = function () {
     return this.mRenderComponent; 
 };
 
+GameObject.prototype.getRigidBody = function () { 
+    return this.mRigidBody; 
+};
+
 GameObject.prototype.setRigidBody = function (r) {
     this.mRigidBody = r;
 };
@@ -96,10 +100,6 @@ GameObject.prototype.setDrawDepth = function (depth) {
 
 GameObject.prototype.getDrawDepth = function () {
     return this.mDrawDepth;
-};
-
-GameObject.prototype.getRigidBody = function () { 
-    return this.mRigidBody; 
 };
 
 GameObject.prototype.setDrawRenderable = function(isDrawn) { 

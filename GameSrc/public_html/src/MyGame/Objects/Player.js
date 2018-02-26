@@ -33,7 +33,7 @@ function Player(x, y) {
     
     var r = new RigidRectangle(this.getTransform(), 3, 4);
     this.setRigidBody(r);
-    r.setMass(5.5);
+    r.setMass(0.2);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
     
@@ -71,14 +71,14 @@ Player.prototype.update = function (camera) {
     var xform = this.getTransform();
 
     xform.setRotationInRad(0);
+    this.getRigidBody().setAngularVelocity(0);
 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        xform.incYPosBy(2.5);
+        //xform.incYPosBy(this.moveDelta);
+            this.getRigidBody().setVelocity(1,25);
+        
     }
     
-//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-//        xform.incYPosBy(-this.moveDelta);
-//    }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         xform.incXPosBy(-this.moveDelta * this.speedMultiplier);
     }
