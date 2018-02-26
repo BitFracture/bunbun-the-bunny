@@ -37,6 +37,8 @@ function Player(x, y) {
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
     
+    this.jumpTimeout = 0;
+    
     //Store camera references for later
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
     this.miniCameraRef = gEngine.GameLoop.getScene().getCamera("minimap");
@@ -73,7 +75,7 @@ Player.prototype.update = function (camera) {
     xform.setRotationInRad(0);
     this.getRigidBody().setAngularVelocity(0);
 
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+    if (this.jumpTimeout <= 0 && gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
         
         //If the normal isn't zero, normalize it and determine jump speed.
         var norm = this.getCollisionInfo().getNormal();
@@ -82,19 +84,26 @@ Player.prototype.update = function (camera) {
             var max = Math.max(Math.abs(norm[0]), Math.abs(norm[1]));
             var normNorm = [norm[0] / max, norm[1] / max];
             
-            var jumpSpeed = 25 * normNorm[1];
-            this.getRigidBody().incVelocity(0, jumpSpeed);
-            console.log("Jump speed is " + jumpSpeed);
+            //If the normalized normal force is positive, jump
+            if (normNorm[1] > 0) {
+                var jumpSpeed = 25 * normNorm[1];
+                this.getRigidBody().setVelocity(this.getRigidBody().getVelocity()[0], jumpSpeed);
+
+                console.log("Jump speed is " + jumpSpeed);
+                this.jumpTimeout = 30; // Make player wait 30 cycles to jump
+            }
         }
     }
-    console.log(this.getCollisionInfo().getNormal());
+    else {
+        this.jumpTimeout--;
+    }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        //if (this.getRigidBody().getVelocity.getX() > -100)
+        if (this.getRigidBody().getVelocity()[0] > -30)
             this.getRigidBody().incVelocity(-this.moveDelta * this.speedMultiplier, 0);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        //if (this.getRigidBody().getVelocity.getX() < 100)
+        if (this.getRigidBody().getVelocity()[0] < 30)
             this.getRigidBody().incVelocity(this.moveDelta * this.speedMultiplier, 0);
     }
     
