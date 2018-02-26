@@ -28,6 +28,10 @@ function GameLevel() {
     //https://www.kisspng.com/png-carrot-png-image-65628/
     this.CARROT_PICKUP = "assets/textures/carrotPickup.png";
     
+    this.OVERLAY_ONE     = "assets/textures/OverlayOne.png";
+    this.OVERLAY_TWO     = "assets/textures/OverlayTwo.png";
+    this.OVERLAY_THREE   = "assets/textures/OverlayThree.png";
+    
     this.physicsObjectList = null;
     this.objectList = null;
     this.collisionInfoList = [];
@@ -50,6 +54,9 @@ GameLevel.prototype.loadScene = function () {
     
     gEngine.Textures.loadTexture(this.OVERLAY);
     gEngine.Textures.loadTexture(this.CARROT_PICKUP);
+    gEngine.Textures.loadTexture(this.OVERLAY_ONE);
+    gEngine.Textures.loadTexture(this.OVERLAY_TWO);
+    gEngine.Textures.loadTexture(this.OVERLAY_THREE);
 };
 
 
@@ -61,6 +68,9 @@ GameLevel.prototype.unloadScene = function () {
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
     gEngine.Textures.unloadTexture(this.OVERLAY);
     gEngine.Textures.unloadTexture(this.CARROT_PICKUP);
+    gEngine.Textures.unloadTexture(this.OVERLAY_ONE);
+    gEngine.Textures.unloadTexture(this.OVERLAY_TWO);
+    gEngine.Textures.unloadTexture(this.OVERLAY_THREE);
 };
 
 
@@ -179,3 +189,4 @@ GameLevel.prototype.getCamera = function (name) {
             return this.cameraList[camera];
     return null;
 };
+

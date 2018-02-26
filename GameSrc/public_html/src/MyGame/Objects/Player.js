@@ -23,6 +23,7 @@
 function Player(x, y) {
     
     this.moveDelta = 0.5;
+    this.speedMultiplier = 1;
 
     this.renderable = new Renderable();
     this.renderable.setColor([0, 0, 1, 1]);
@@ -32,6 +33,7 @@ function Player(x, y) {
     
     var r = new RigidRectangle(this.getTransform(), 3, 4);
     this.setRigidBody(r);
+    r.setMass(5.5);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
     
@@ -39,6 +41,7 @@ function Player(x, y) {
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
     this.miniCameraRef = gEngine.GameLoop.getScene().getCamera("minimap");
     this.mainCameraRef.configInterpolation(.1, 1);
+    
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -49,8 +52,7 @@ gEngine.Core.inheritPrototype(Player, GameObject);
  * @param properties  The properties object to be used for construction.
  * @returns A new instance.
  */
-Player.fromProperties = function (properties) {
-    
+Player.fromProperties = function (properties) {    
     return new Player(
             properties["position"][0], 
             properties["position"][1]);
@@ -62,20 +64,21 @@ Player.fromProperties = function (properties) {
  */
 Player.prototype.update = function () {
     
-    GameObject.prototype.update.call(this);
+    GameObject.prototype.update.call(this);   
     
     var xform = this.getTransform();
+    //xform.setRotationInRad(0);
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        xform.incYPosBy(this.moveDelta);
+        xform.incYPosBy(this.moveDelta * this.speedMultiplier);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        xform.incYPosBy(-this.moveDelta);
+        xform.incYPosBy(-this.moveDelta * this.speedMultiplier);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        xform.incXPosBy(-this.moveDelta);
+        xform.incXPosBy(-this.moveDelta * this.speedMultiplier);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        xform.incXPosBy(this.moveDelta);
+        xform.incXPosBy(this.moveDelta * this.speedMultiplier);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Z)) {
         xform.incRotationByDegree(1);
@@ -89,5 +92,7 @@ Player.prototype.update = function () {
     //Center both cameras on the player
     var myPos = this.getTransform().getPosition();
     this.mainCameraRef.setWCCenter(myPos[0], myPos[1]);
-    this.miniCameraRef.setWCCenter(myPos[0], myPos[1]);
+    this.miniCameraRef.setWCCenter(myPos[0], myPos[1]);    
+   
 };
+
