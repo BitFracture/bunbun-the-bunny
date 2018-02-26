@@ -1,7 +1,7 @@
 /**
  * Carrot.js 
  *
- * Defines the game carrot behavior. Rolling carrot enemies.
+ * Defines the game spaceship.
  * 
  * @author  Erik W. Greif
  * @since   2018-02-22
@@ -21,31 +21,27 @@
  * @param x  X position
  * @param y  Y position
  */
-function Carrot(x, y) {
+function Spaceship(x, y) {
     
     this.renderable = new Renderable();
-    this.renderable.setColor([1, .37, 0, 1]);
+    this.renderable.setColor([1, 1, 1, 1]);
     this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(6, 6);
+    this.renderable.getTransform().setSize(40, 4);
 
     GameObject.call(this, this.renderable);
     
     //Rigid body
-    var r = new RigidCircle(this.getTransform(), 3); 
-    
-    //Some random size and position logic
-    var vx = (Math.random() - 0.5);
-    var vy = (Math.random() - 0.5);
-    var speed = 20 + Math.random() * 10;
-    r.setVelocity(vx * speed, vy * speed);
+    var r = new RigidRectangle(this.getTransform(), 40, 4);
     this.setRigidBody(r);
-    r.setMass(0.8);
+    r.setMass(5.5);
+    this.setDrawRenderable(true);
+    this.setDrawRigidShape(true);
     
     //Visibility toggled on for now
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
 }
-gEngine.Core.inheritPrototype(Carrot, GameObject);
+gEngine.Core.inheritPrototype(Spaceship, GameObject);
 
 
 /**
@@ -54,9 +50,9 @@ gEngine.Core.inheritPrototype(Carrot, GameObject);
  * @param properties  The properties object to be used for construction.
  * @returns A new instance.
  */
-Carrot.fromProperties = function (properties) {
+Spaceship.fromProperties = function (properties) {
     
-    return new Carrot(
+    return new Spaceship(
             properties["position"][0], 
             properties["position"][1]);
 };
@@ -65,7 +61,7 @@ Carrot.fromProperties = function (properties) {
 /**
  * Update logic
  */
-Carrot.prototype.update = function () {
+Spaceship.prototype.update = function () {
     
     GameObject.prototype.update.call(this);
 };

@@ -32,8 +32,14 @@ function Player(x, y) {
     
     var r = new RigidRectangle(this.getTransform(), 3, 4);
     this.setRigidBody(r);
+    r.setMass(5.5);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
+    
+    //Store camera references for later
+    this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
+    this.miniCameraRef = gEngine.GameLoop.getScene().getCamera("minimap");
+    this.mainCameraRef.configInterpolation(.1, 1);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -48,7 +54,7 @@ Player.fromProperties = function (properties) {
     
     return new Player(
             properties["position"][0], 
-            properties["position"][0]);
+            properties["position"][1]);
 };
 
 
@@ -60,12 +66,17 @@ Player.prototype.update = function () {
     GameObject.prototype.update.call(this);
     
     var xform = this.getTransform();
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
-        xform.incYPosBy(this.moveDelta);
+    xform.setRotationInRad(0);
+
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+
+        xform.incYPosBy(2.5);
     }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
-        xform.incYPosBy(-this.moveDelta);
-    }
+    
+//    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.S)) {
+//        xform.incYPosBy(-this.moveDelta);
+//    }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         xform.incXPosBy(-this.moveDelta);
     }
@@ -80,4 +91,9 @@ Player.prototype.update = function () {
     }
     
     this.getRigidBody().userSetsState();
+    
+    //Center both cameras on the player
+    var myPos = this.getTransform().getPosition();
+    this.mainCameraRef.setWCCenter(myPos[0], myPos[1]);
+    this.miniCameraRef.setWCCenter(myPos[0], myPos[1]);
 };

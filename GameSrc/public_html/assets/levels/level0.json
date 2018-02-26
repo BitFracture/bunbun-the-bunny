@@ -1,80 +1,73 @@
 {
     "name": "Level 0",
     "description": "A BunBun beta level",
+    "cameraList": [
+        {
+            "name": "main",
+            "center": [50, 37.5],
+            "width": 100,
+            "pixelPosition": [0, 0],
+            "pixelSize": [800, 600],
+            "color": [0.38, 0.78, 1.0, 1]
+        }, {
+            "name": "minimap",
+            "center": [50, 37.5],
+            "width": 200,
+            "pixelPosition": [620, 460],
+            "pixelSize": [160, 120],
+            "color": [0.1, 0.1, 0.1, 1]
+        }
+    ],
     "objectList": {
         "TerrainBlock": [
-            {
-                "__hasPhysics": true,
-                "position": [
-                    71,
-                    61
-                ],
-                "size": [
-                    31,
-                    7.25
-                ],
-                "angle": 0.3
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    60,
-                    30
-                ],
-                "size": [
-                    20,
-                    2.749999761581421
-                ],
-                "angle": 0.39999999999999997
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    88,
-                    12
-                ],
-                "size": [
-                    20,
-                    2.5
-                ],
-                "angle": 0
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    70,
-                    50
-                ],
-                "size": [
-                    20,
-                    2.5
-                ],
-                "angle": 0
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    29,
-                    54
-                ],
-                "size": [
-                    50.5,
-                    5.75
-                ],
-                "angle": -0.5
-            },
-            {
-                "__hasPhysics": true,
-                "position": [
-                    50,
-                    10
-                ],
-                "size": [
-                    100,
-                    1
-                ],
-                "angle": 0
-            }
+        {
+            "__hasPhysics": true,
+            "position": [
+                50,
+                10
+            ],
+            "size": [
+                100,
+                1
+            ],
+            "angle": 0
+        },
+        {
+            "__hasPhysics": true,
+            "position": [
+                97.65003967285156,
+                30.099998474121094
+            ],
+            "size": [
+                39,
+                4.5
+            ],
+            "angle": -1.5800000000000012
+        },
+        {
+            "__hasPhysics": true,
+            "position": [
+                3,
+                26
+            ],
+            "size": [
+                31,
+                5.75
+            ],
+            "angle": -1.5800000000000025
+        },
+        {
+            "__hasPhysics": true,
+            "position": [
+                31,
+                39
+            ],
+            "size": [
+                49.5,
+                5.25
+            ],
+            "angle": -9.8879238130678e-17
+        }
         ],
         "Carrot": [
             {
@@ -99,12 +92,25 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 768],
                 "textureId":  "assets/textures/bunOverlay.png"
+            },{
+                "__depth":    40,
+                "position":   [50, 0],
+                "size":       [100, 75],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 768],
+                "textureId":  "assets/textures/bunOverlay.png"
             }
         ],
         "Editor": [
             {
                 "__depth": -1000,
                 "isEnabled": true
+            }
+        ],
+        "Spaceship": [
+            {
+                "__hasPhysics": true,
+                "position":     [60, 20]
             }
         ]
     }

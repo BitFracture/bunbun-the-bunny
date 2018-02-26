@@ -26,12 +26,13 @@ function GameLevel() {
     this.LEVEL_FILE  = "assets/levels/level0.json";
     this.OVERLAY     = "assets/textures/bunOverlay.png";
     
-    //The camera to view the scene
-    this.mainCamera = null;
-
     this.physicsObjectList = null;
     this.objectList = null;
     this.collisionInfoList = [];
+    
+    //The camera to view the scene
+    this.mainCamera = null;
+    this.cameraList = [];
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
 
@@ -65,14 +66,7 @@ GameLevel.prototype.unloadScene = function () {
  */
 GameLevel.prototype.initialize = function () {
     
-    //Cameras and global conditions
-    this.mainCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
-        100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
-    );
-    this.mainCamera.setBackgroundColor([0.38, 0.78, 1.0, 1]);
-    
+    //Global conditions
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
     
     this.physicsObjectList = new GameObjectSet();
@@ -82,6 +76,17 @@ GameLevel.prototype.initialize = function () {
     var levelConfig = JSON.parse(
             gEngine.ResourceMap.retrieveAsset(this.LEVEL_FILE));
     
+    //Load cameras
+    if (levelConfig["cameraList"].length <= 0)
+        console.log("ERROR: No cameras were defined in the level!");
+    
+    for (var camera in levelConfig["cameraList"]) {
+        
+        var newCamera = Camera.fromProperties(levelConfig["cameraList"][camera]);
+        this.cameraList.push(newCamera);
+    }
+    
+    //Load level objects
     for (var objectName in levelConfig["objectList"]) {
         for (var instance in levelConfig["objectList"][objectName]) {
             
@@ -105,11 +110,12 @@ GameLevel.prototype.draw = function () {
     //Clear off the canvas
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]);
 
-    //Draw each object
-    this.mainCamera.setupViewProjection();
-    this.objectList.draw(this.mainCamera);
-    
-    this.collisionInfoList = []; 
+    //Draw each object on each camera
+    for (var camera in this.cameraList) {
+        
+        this.cameraList[camera].setupViewProjection();
+        this.objectList.draw(this.cameraList[camera]);
+    }
 };
 
 
@@ -118,12 +124,16 @@ GameLevel.prototype.draw = function () {
  */
 GameLevel.prototype.update = function () {
 
-    this.objectList.update(this.mainCamera);
+    this.objectList.update(this.cameraList[0]);
     
     this.physicsObjectList.clean();
     gEngine.Physics.processCollision(
             this.physicsObjectList, 
             this.collisionInfoList);
+    
+    //Update each camera movement information
+    for (var camera in this.cameraList) 
+        this.cameraList[camera].update();
 };
 
 
@@ -152,4 +162,16 @@ GameLevel.prototype.enrollObject = function (object, physicsEnabled) {
     
     if (!!physicsEnabled)
         this.physicsObjectList.addToSet(object);
+};
+
+
+/**
+ * Allows a game object to add a game camera by 
+ */
+GameLevel.prototype.getCamera = function (name) {
+    
+    for (var camera in this.cameraList)
+        if (this.cameraList[camera].getName() === name)
+            return this.cameraList[camera];
+    return null;
 };
