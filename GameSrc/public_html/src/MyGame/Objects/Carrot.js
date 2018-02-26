@@ -39,6 +39,7 @@ function Carrot(x, y) {
     var speed = 20 + Math.random() * 10;
     r.setVelocity(vx * speed, vy * speed);
     this.setRigidBody(r);
+    r.setMass(0.8);
     
     //Visibility toggled on for now
     this.setDrawRenderable(true);

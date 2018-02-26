@@ -25,6 +25,9 @@ function GameLevel() {
     
     this.LEVEL_FILE  = "assets/levels/level0.json";
     this.OVERLAY     = "assets/textures/bunOverlay.png";
+    this.OVERLAY_ONE     = "assets/textures/OverlayOne.png";
+    this.OVERLAY_TWO     = "assets/textures/OverlayTwo.png";
+    this.OVERLAY_THREE   = "assets/textures/OverlayThree.png";
     
     this.physicsObjectList = null;
     this.objectList = null;
@@ -47,6 +50,9 @@ GameLevel.prototype.loadScene = function () {
             gEngine.TextFileLoader.eTextFileType.eJSONFile);
     
     gEngine.Textures.loadTexture(this.OVERLAY);
+    gEngine.Textures.loadTexture(this.OVERLAY_ONE);
+    gEngine.Textures.loadTexture(this.OVERLAY_TWO);
+    gEngine.Textures.loadTexture(this.OVERLAY_THREE);
 };
 
 
@@ -57,6 +63,9 @@ GameLevel.prototype.unloadScene = function () {
     
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
     gEngine.Textures.unloadTexture(this.OVERLAY);
+    gEngine.Textures.unloadTexture(this.OVERLAY_ONE);
+    gEngine.Textures.unloadTexture(this.OVERLAY_TWO);
+    gEngine.Textures.unloadTexture(this.OVERLAY_THREE);
 };
 
 
@@ -175,3 +184,4 @@ GameLevel.prototype.getCamera = function (name) {
             return this.cameraList[camera];
     return null;
 };
+
