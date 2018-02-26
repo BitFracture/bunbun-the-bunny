@@ -176,7 +176,7 @@ GameLevel.prototype.getObjectsByClass = function (className) {
     for (var obj in fullList) {
         
         if (window[className].prototype.isPrototypeOf(fullList[obj])) {
-            filteredList.push(obj);
+            filteredList.push(fullList[obj]);
         }
     }
     return filteredList;

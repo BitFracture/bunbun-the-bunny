@@ -33,14 +33,12 @@ function Spaceship(x, y) {
     //Rigid body
     var r = new RigidRectangle(this.getTransform(), 25, 4);
     this.setRigidBody(r);
-    r.setMass(5.5);
+    r.setMass(0.0);
     r.setVelocity(1, 1);
-    this.setDrawRenderable(true);
-    this.setDrawRigidShape(true);
     
     //Visibility toggled on for now
     this.setDrawRenderable(true);
-    this.setDrawRigidShape(true);
+    this.setDrawRigidShape(false);
 }
 gEngine.Core.inheritPrototype(Spaceship, GameObject);
 
@@ -71,10 +69,10 @@ Spaceship.prototype.update = function () {
     xform.setRotationInRad(0);
     this.getRigidBody().setAngularVelocity(0);
     
+    //Move towards the player if one exists
     if (playerList.length > 0){
-        //var playerPos = playerList[0].getTransform().getPosition();
-        //xform.setPosition(60,60);
-        //xform.setPosition(playerPos[0], playerPos[1] + 20);
-        //xform.setPosition(playerList[0].getTransform().getXPos(), playerList[0].getTransform().getYPos() + 20);
+        
+        var playerPos = playerList[0].getRenderable().getTransform().getPosition();
+        xform.setPosition(playerPos[0], playerPos[1] + 20);
     }
 };

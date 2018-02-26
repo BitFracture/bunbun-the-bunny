@@ -27,6 +27,7 @@ function GameObject(renderableObj) {
     this.mDrawRigidShape = false; 
     this.mDrawDepth = 0.0;
     this.mIsDeleted = false;
+    this.collisionInfo = new CollisionInfo();
 }
 
 /**
@@ -87,6 +88,11 @@ GameObject.prototype.getRigidBody = function () {
 
 GameObject.prototype.setRigidBody = function (r) {
     this.mRigidBody = r;
+};
+
+GameObject.prototype.getCollisionInfo = function () {
+    
+    return this.collisionInfo;
 };
 
 /**

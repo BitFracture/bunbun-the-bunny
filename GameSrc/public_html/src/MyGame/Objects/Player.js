@@ -73,23 +73,29 @@ Player.prototype.update = function (camera) {
     xform.setRotationInRad(0);
     this.getRigidBody().setAngularVelocity(0);
 
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
-        //xform.incYPosBy(this.moveDelta);
-            this.getRigidBody().setVelocity(1,25);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
         
+        //If the normal isn't zero, normalize it and determine jump speed.
+        var norm = this.getCollisionInfo().getNormal();
+        if (norm[0] !== 0.0 || norm[1] !== 0.0)
+        {
+            var max = Math.max(Math.abs(norm[0]), Math.abs(norm[1]));
+            var normNorm = [norm[0] / max, norm[1] / max];
+            
+            var jumpSpeed = 25 * normNorm[1];
+            this.getRigidBody().incVelocity(0, jumpSpeed);
+            console.log("Jump speed is " + jumpSpeed);
+        }
     }
+    console.log(this.getCollisionInfo().getNormal());
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        xform.incXPosBy(-this.moveDelta * this.speedMultiplier);
+        //if (this.getRigidBody().getVelocity.getX() > -100)
+            this.getRigidBody().incVelocity(-this.moveDelta * this.speedMultiplier, 0);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        xform.incXPosBy(this.moveDelta * this.speedMultiplier);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Z)) {
-        xform.incRotationByDegree(1);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.X)) {
-        xform.incRotationByDegree(-1);
+        //if (this.getRigidBody().getVelocity.getX() < 100)
+            this.getRigidBody().incVelocity(this.moveDelta * this.speedMultiplier, 0);
     }
     
     this.getRigidBody().userSetsState();
