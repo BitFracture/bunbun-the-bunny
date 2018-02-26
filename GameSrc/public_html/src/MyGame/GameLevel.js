@@ -25,6 +25,8 @@ function GameLevel() {
     
     this.LEVEL_FILE  = "assets/levels/level0.json";
     this.OVERLAY     = "assets/textures/bunOverlay.png";
+    //https://www.kisspng.com/png-carrot-png-image-65628/
+    this.CARROT_PICKUP = "assets/textures/carrotPickup.png";
     
     this.physicsObjectList = null;
     this.objectList = null;
@@ -47,6 +49,7 @@ GameLevel.prototype.loadScene = function () {
             gEngine.TextFileLoader.eTextFileType.eJSONFile);
     
     gEngine.Textures.loadTexture(this.OVERLAY);
+    gEngine.Textures.loadTexture(this.CARROT_PICKUP);
 };
 
 
@@ -57,6 +60,7 @@ GameLevel.prototype.unloadScene = function () {
     
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
     gEngine.Textures.unloadTexture(this.OVERLAY);
+    gEngine.Textures.unloadTexture(this.CARROT_PICKUP);
 };
 
 

@@ -114,6 +114,15 @@
                 "position":     [80, 20]
             }
         ],
+        "CarrotPickup": [
+            {
+                "__depth": 51,
+                "position":     [60, 42.5]
+            }, {
+                "__depth": 51,
+                "position":     [80, 42]
+            }
+        ],
         "Player": [
             {
                 "__hasPhysics": true,
@@ -130,7 +139,7 @@
                 "textureId":  "assets/textures/bunOverlay.png"
             },{
                 "__depth":    40,
-                "position":   [50, 0],
+                "position":   [100, 25],
                 "size":       [100, 75],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 768],
