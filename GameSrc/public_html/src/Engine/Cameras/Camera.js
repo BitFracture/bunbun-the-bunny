@@ -34,7 +34,7 @@ function PerRenderCache() {
  * @param {Number} bound viewport border
  * @returns {Camera} New instance of Camera
  */
-function Camera(wcCenter, wcWidth, viewportArray, bound) {
+function Camera(wcCenter, wcWidth, viewportArray, bound, name) {
     // WC and viewport position and size
     this.mCameraState = new CameraState(wcCenter, wcWidth);
     this.mCameraShake = null;
@@ -66,7 +66,35 @@ function Camera(wcCenter, wcWidth, viewportArray, bound) {
         // SHOULD NOT be used except 
         // xform operations during the rendering
         // Client game should not access this!
+    
+    this.name = name;
 }
+
+/**
+ * Constructs a new instance using the properties object.
+ * 
+ * @param properties  The properties object to be used for construction.
+ * @returns A new instance.
+ */
+Camera.fromProperties = function (properties) {
+
+    var newCam = new Camera(
+        vec2.fromValues(properties["center"][0], properties["center"][1]),
+        properties["width"], // width of camera
+        [properties["pixelPosition"][0], 
+        properties["pixelPosition"][1], 
+        properties["pixelSize"][0], 
+        properties["pixelSize"][1]], // viewport (orgX, orgY, width, height)
+        null,
+        properties["name"]
+    );
+    newCam.setBackgroundColor(properties["color"]);
+    return newCam;
+};
+
+Camera.prototype.getName = function () {
+    return this.name;
+};
 
 /**
  * Viewport enum

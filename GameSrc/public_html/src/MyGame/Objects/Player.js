@@ -34,6 +34,11 @@ function Player(x, y) {
     this.setRigidBody(r);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
+    
+    //Store camera references for later
+    this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
+    this.miniCameraRef = gEngine.GameLoop.getScene().getCamera("minimap");
+    this.mainCameraRef.configInterpolation(.1, 1);
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -48,7 +53,7 @@ Player.fromProperties = function (properties) {
     
     return new Player(
             properties["position"][0], 
-            properties["position"][0]);
+            properties["position"][1]);
 };
 
 
@@ -80,4 +85,9 @@ Player.prototype.update = function () {
     }
     
     this.getRigidBody().userSetsState();
+    
+    //Center both cameras on the player
+    var myPos = this.getTransform().getPosition();
+    this.mainCameraRef.setWCCenter(myPos[0], myPos[1]);
+    this.miniCameraRef.setWCCenter(myPos[0], myPos[1]);
 };
