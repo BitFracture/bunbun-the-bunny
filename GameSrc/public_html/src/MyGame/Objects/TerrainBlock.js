@@ -39,7 +39,7 @@ function TerrainBlock(x, y, w, h, angle) {
     var r = new RigidRectangle(tf, w, h);
     this.setRigidBody(r);
     this.setDrawRenderable(false);
-    this.setDrawRigidShape(true);
+    this.setDrawRigidShape(false);
     
     r.setMass(0);
     tf.setSize(w, h);
@@ -91,10 +91,10 @@ TerrainBlock.prototype.toProperties = function () {
  */
 TerrainBlock.prototype.draw = function (camera) {
     
-    if (camera.getName() === "main")
-        this.setDrawRigidShape(true);
-    else
-        this.setDrawRigidShape(false);
+    //if (camera.getName() === "main")
+        //this.setDrawRigidShape(true);
+    //else
+        //this.setDrawRigidShape(false);
     
     GameObject.prototype.draw.call(this, camera);
 };
@@ -107,6 +107,9 @@ TerrainBlock.prototype.update = function () {
     
     //For terrain, we can sync the rigid body with the transform
     this.getRigidBody().setSize(this.getTransform().getSize());
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.One))  
+        this.toggleDrawRigidShape();
     
     GameObject.prototype.update.call(this);
 };

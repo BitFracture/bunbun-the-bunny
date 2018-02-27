@@ -71,6 +71,8 @@ GameLevel.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.OVERLAY_ONE);
     gEngine.Textures.unloadTexture(this.OVERLAY_TWO);
     gEngine.Textures.unloadTexture(this.OVERLAY_THREE);
+    
+    gEngine.Core.startScene(new GameLevel());
 };
 
 

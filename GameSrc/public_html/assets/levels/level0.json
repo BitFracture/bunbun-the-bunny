@@ -309,13 +309,16 @@
         "Editor": [
             {
                 "__depth": -1000,
-                "isEnabled": true
+                "isEnabled": false
             }
         ],
         "Spaceship": [
             {
                 "__hasPhysics": true,
-                "position":     [60, 60]
+                "position":     [60, 80]
+            }, {
+                "__hasPhysics": true,
+                "position":     [300, 90]
             }
         ]
     }

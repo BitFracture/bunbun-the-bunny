@@ -197,6 +197,8 @@ gEngine.Physics = (function () {
                                 //if (Player.prototype.isPrototypeOf(set.getObjectAt(j)) || Player.prototype.isPrototypeOf(set.getObjectAt(i)))
                                 //    console.log(info.getNormal());
                                 secondInfo.setNormal(new vec2.fromValues(firstInfo.getNormal()[0], firstInfo.getNormal()[1]));
+                                secondInfo.setCollidedObject(set.getObjectAt(i));
+                                firstInfo.setCollidedObject(set.getObjectAt(j));
                                 
                                 //Reset collision info
                                 //info = new CollisionInfo();

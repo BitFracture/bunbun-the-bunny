@@ -42,6 +42,16 @@ CollisionInfo.prototype.reset = function () {
     this.mCollidedObject = null;
 };
 
+CollisionInfo.prototype.getCollidedObject = function () {
+    
+    return this.mCollidedObject;
+};
+
+CollisionInfo.prototype.setCollidedObject = function (obj) {
+    
+    this.mCollidedObject = obj;
+};
+
 /**
  * Set the depth of the CollisionInfo
  * @memberOf CollisionInfo

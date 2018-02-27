@@ -22,7 +22,7 @@
  */
 function Player(x, y) {
     
-    this.moveDelta = 0.5;
+    this.moveDelta = 2;
     this.speedMultiplier = 1;
 
     this.renderable = new Renderable();
