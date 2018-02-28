@@ -73,6 +73,12 @@ RigidShape.prototype.setVelocity = function(x, y) {
     this.mVelocity[0] = x;
     this.mVelocity[1] = y;
 };
+
+RigidShape.prototype.incVelocity = function(x, y) {
+    this.mVelocity[0] += x;
+    this.mVelocity[1] += y;
+};
+
 RigidShape.prototype.getVelocity = function() { return this.mVelocity;};
 RigidShape.prototype.flipVelocity = function() { 
     this.mVelocity[0] = -this.mVelocity[0];
@@ -95,7 +101,7 @@ RigidShape.prototype.travel = function() {
 
 RigidShape.prototype.adjustPositionBy = function(v, delta) {
     var p = this.mXform.getPosition();
-    vec2.scaleAndAdd(p, p, v, delta)
+    vec2.scaleAndAdd(p, p, v, delta);
 };
 
 var kRigidShapeDelta = 0.01;

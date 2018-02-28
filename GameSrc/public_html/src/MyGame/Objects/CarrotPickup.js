@@ -21,31 +21,19 @@
  * @param x  X position
  * @param y  Y position
  */
-function Carrot(x, y) {
+function CarrotPickup(x, y) {
     
-    this.renderable = new Renderable();
-    this.renderable.setColor([1, .37, 0, 1]);
+    this.renderable = new TextureRenderable("assets/textures/carrotPickup.png");
+    //this.renderable.setColor([1, .37, 0, 1]);
     this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(6, 6);
+    this.renderable.getTransform().setSize(2, 8);
 
     GameObject.call(this, this.renderable);
     
-    //Rigid body
-    var r = new RigidCircle(this.getTransform(), 3); 
-    
-    //Some random size and position logic
-    var vx = (Math.random() - 0.5);
-    var vy = (Math.random() - 0.5);
-    var speed = 20 + Math.random() * 10;
-    r.setVelocity(vx * speed, vy * speed);
-    this.setRigidBody(r);
-    r.setMass(0.8);
-    
-    //Visibility toggled on for now
+    //Visibility toggled on
     this.setDrawRenderable(true);
-    this.setDrawRigidShape(true);
 }
-gEngine.Core.inheritPrototype(Carrot, GameObject);
+gEngine.Core.inheritPrototype(CarrotPickup, GameObject);
 
 
 /**
@@ -54,9 +42,9 @@ gEngine.Core.inheritPrototype(Carrot, GameObject);
  * @param properties  The properties object to be used for construction.
  * @returns A new instance.
  */
-Carrot.fromProperties = function (properties) {
+CarrotPickup.fromProperties = function (properties) {
     
-    return new Carrot(
+    return new CarrotPickup(
             properties["position"][0], 
             properties["position"][1]);
 };
@@ -65,7 +53,7 @@ Carrot.fromProperties = function (properties) {
 /**
  * Update logic
  */
-Carrot.prototype.update = function () {
+CarrotPickup.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
 };

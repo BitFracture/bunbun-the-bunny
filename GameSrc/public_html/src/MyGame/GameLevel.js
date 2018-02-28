@@ -25,6 +25,12 @@ function GameLevel() {
     
     this.LEVEL_FILE  = "assets/levels/level0.json";
     this.OVERLAY     = "assets/textures/bunOverlay.png";
+    //https://www.kisspng.com/png-carrot-png-image-65628/
+    this.CARROT_PICKUP = "assets/textures/carrotPickup.png";
+    
+    this.OVERLAY_ONE     = "assets/textures/OverlayOne.png";
+    this.OVERLAY_TWO     = "assets/textures/OverlayTwo.png";
+    this.OVERLAY_THREE   = "assets/textures/OverlayThree.png";
     
     this.physicsObjectList = null;
     this.objectList = null;
@@ -47,6 +53,10 @@ GameLevel.prototype.loadScene = function () {
             gEngine.TextFileLoader.eTextFileType.eJSONFile);
     
     gEngine.Textures.loadTexture(this.OVERLAY);
+    gEngine.Textures.loadTexture(this.CARROT_PICKUP);
+    gEngine.Textures.loadTexture(this.OVERLAY_ONE);
+    gEngine.Textures.loadTexture(this.OVERLAY_TWO);
+    gEngine.Textures.loadTexture(this.OVERLAY_THREE);
 };
 
 
@@ -57,6 +67,12 @@ GameLevel.prototype.unloadScene = function () {
     
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
     gEngine.Textures.unloadTexture(this.OVERLAY);
+    gEngine.Textures.unloadTexture(this.CARROT_PICKUP);
+    gEngine.Textures.unloadTexture(this.OVERLAY_ONE);
+    gEngine.Textures.unloadTexture(this.OVERLAY_TWO);
+    gEngine.Textures.unloadTexture(this.OVERLAY_THREE);
+    
+    gEngine.Core.startScene(new GameLevel());
 };
 
 
@@ -143,9 +159,29 @@ GameLevel.prototype.update = function () {
  * 
  * @returns The GameObjectSet for all enqueued objects. 
  */
-GameLevel.prototype.getObjectList = function () {
+GameLevel.prototype.getObjects = function () {
     
     return this.objectList.getObjectList();
+};
+
+
+/**
+ * Gets a list of all objects matching a given class.
+ * 
+ * @param  The class name that all fetched entities should match.
+ * @returns  The list of current objects of the given class.
+ */
+GameLevel.prototype.getObjectsByClass = function (className) {
+    
+    var fullList = this.getObjects();
+    var filteredList = [];
+    for (var obj in fullList) {
+        
+        if (window[className].prototype.isPrototypeOf(fullList[obj])) {
+            filteredList.push(fullList[obj]);
+        }
+    }
+    return filteredList;
 };
 
 

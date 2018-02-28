@@ -27,6 +27,7 @@ function GameObject(renderableObj) {
     this.mDrawRigidShape = false; 
     this.mDrawDepth = 0.0;
     this.mIsDeleted = false;
+    this.collisionInfo = new CollisionInfo();
 }
 
 /**
@@ -81,8 +82,17 @@ GameObject.prototype.getRenderable = function () {
     return this.mRenderComponent; 
 };
 
+GameObject.prototype.getRigidBody = function () { 
+    return this.mRigidBody; 
+};
+
 GameObject.prototype.setRigidBody = function (r) {
     this.mRigidBody = r;
+};
+
+GameObject.prototype.getCollisionInfo = function () {
+    
+    return this.collisionInfo;
 };
 
 /**
@@ -96,10 +106,6 @@ GameObject.prototype.setDrawDepth = function (depth) {
 
 GameObject.prototype.getDrawDepth = function () {
     return this.mDrawDepth;
-};
-
-GameObject.prototype.getRigidBody = function () { 
-    return this.mRigidBody; 
 };
 
 GameObject.prototype.setDrawRenderable = function(isDrawn) { 

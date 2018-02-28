@@ -85,7 +85,7 @@ Editor.prototype.update = function (camera) {
     
     //Edit just terrain blocks
     var transform = null;
-    var objects = this.scene.getObjectList();
+    var objects = this.scene.getObjects();
     var outputCollection = [];
     
     for (var object in objects) {

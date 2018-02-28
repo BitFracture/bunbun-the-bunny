@@ -19,11 +19,38 @@ function CollisionInfo() {
     this.mStart = vec2.fromValues(0, 0);
     this.mEnd = vec2.fromValues(0, 0);
     
+    this.mCollidedObject = null;
+    
     this.mLine = new LineRenderable();
     this.mLine.setColor([1, 0, 1, 1]);
     this.mLine.setDrawVertices(true);
     this.mLine.setPointSize(5);
 }
+
+/**
+ * Resets the collision info
+ * 
+ * @returns {void}
+ */
+CollisionInfo.prototype.reset = function () {
+    
+    this.mDepth = 0;
+    this.mNormal = vec2.fromValues(0, 0);
+    this.mStart = vec2.fromValues(0, 0);
+    this.mEnd = vec2.fromValues(0, 0);
+    
+    this.mCollidedObject = null;
+};
+
+CollisionInfo.prototype.getCollidedObject = function () {
+    
+    return this.mCollidedObject;
+};
+
+CollisionInfo.prototype.setCollidedObject = function (obj) {
+    
+    this.mCollidedObject = obj;
+};
 
 /**
  * Set the depth of the CollisionInfo

@@ -162,7 +162,15 @@ gEngine.Physics = (function () {
     var processCollision = function(set, infoSet) {
         var i = 0, j = 0, r = 0;
         var iToj = [0, 0];
-        var info = new CollisionInfo();
+        var numChecks = 0;
+        var firstInfo = null;
+        var secondInfo = null;
+        
+        //Erase collision infos
+        for (i = 0; i<set.size(); i++) 
+            set.getObjectAt(i).getCollisionInfo().reset();
+        
+        //var info = new CollisionInfo();
         for (r= 0; r<mRelaxationCount; r++) {
             for (i = 0; i<set.size(); i++) {
                 var objI = set.getObjectAt(i).getRigidBody();
@@ -170,22 +178,37 @@ gEngine.Physics = (function () {
                     var objJ = set.getObjectAt(j).getRigidBody();
                     if ( (objI.getInvMass() !== 0) || (objJ.getInvMass() !== 0) ) {
                         if (objI.boundTest(objJ)) {
-                            if (objI.collisionTest(objJ, info)) {
+                            
+                            firstInfo  = set.getObjectAt(i).getCollisionInfo();
+                            secondInfo = set.getObjectAt(j).getCollisionInfo();
+                            
+                            if (objI.collisionTest(objJ, firstInfo)) {
                                 // make sure info is always from i towards j
                                 vec2.subtract(iToj, objJ.getCenter(), objI.getCenter());
-                                if (vec2.dot(iToj, info.getNormal()) < 0)
-                                    info.changeDir();
+                                if (vec2.dot(iToj, firstInfo.getNormal()) < 0)
+                                    firstInfo.changeDir();
                                 // infoSet.push(info);
-                                positionalCorrection(objI, objJ, info);
-                                resolveCollision(objI, objJ, info);
+                                positionalCorrection(objI, objJ, firstInfo);
+                                resolveCollision(objI, objJ, firstInfo);
                                 // info = new CollisionInfo();
-                                //infoSet.push(info);
+                                //infoSet.push(firstInfo);
+                                numChecks++;
+                                
+                                //if (Player.prototype.isPrototypeOf(set.getObjectAt(j)) || Player.prototype.isPrototypeOf(set.getObjectAt(i)))
+                                //    console.log(info.getNormal());
+                                secondInfo.setNormal(new vec2.fromValues(firstInfo.getNormal()[0], firstInfo.getNormal()[1]));
+                                secondInfo.setCollidedObject(set.getObjectAt(i));
+                                firstInfo.setCollidedObject(set.getObjectAt(j));
+                                
+                                //Reset collision info
+                                //info = new CollisionInfo();
                             }
                         }
                     }
                 }
             }
         }
+        //console.log("Collision count: " + numChecks);
     };
     
     var mPublic = {
