@@ -36,6 +36,7 @@ function Editor(isEnabled) {
     this.selectBox.setColor([1.0, 0.5, 0.5, 0.5]);
     
     this.defaultBox = new Renderable();
+    this.defaultBox.getTransform().setSize(0, 0);
     this.chosenTransform = null;
     this.chosenObject = null;
     
@@ -66,9 +67,11 @@ Editor.prototype.draw = function (camera) {
     
     if (!this.isEnabled)
         return;
-    
+     
+    if (this.chosenTransform !== null) {
+        this.selectBox.draw(camera);
+    }
     this.highlightBox.draw(camera);
-    this.selectBox.draw(camera);
 };
 
 
@@ -122,7 +125,7 @@ Editor.prototype.update = function (camera) {
     //Abort if nothing is selected
     if (this.chosenTransform === null) {
         
-    this.defaultBox.getTransform().cloneTo(this.selectBox.getTransform());
+        this.defaultBox.getTransform().cloneTo(this.selectBox.getTransform());
         return;
     }
     
