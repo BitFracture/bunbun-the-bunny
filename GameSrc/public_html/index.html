@@ -107,13 +107,11 @@
     </head>
 
     <body onload="
-        var thisGame = new GameLevel();
+        var thisGame = new GameLevel('assets/levels/level0.json');
         gEngine.Core.initializeEngineCore('GLCanvas', thisGame);
     ">
         <canvas id="GLCanvas" width="800" height="600">
-            <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
             Your browser does not support the HTML5 canvas.
-            <!-- this message will show only if WebGL clearing failed -->
         </canvas>
     </body>
 </html>

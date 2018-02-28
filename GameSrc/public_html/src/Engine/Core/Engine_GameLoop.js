@@ -59,8 +59,11 @@ gEngine.GameLoop = (function () {
             // Step D: now let's draw
             this.draw();    // Call Scene.draw()
         } else {
-            // this scene is done, unload it!
+            //Yhis scene is done, unload it!
             mMyGame.unloadScene();
+            
+            //Load the next scene!
+            gEngine.Core.startScene();
         }
     };
 

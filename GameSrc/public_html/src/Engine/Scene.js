@@ -28,6 +28,17 @@ Scene.prototype.loadScene = function () {
 };
 
 /**
+ * Begin Scene: must load all resources required in order to load scene
+ * contents. Ex: a level file that contains resource names.
+ * 
+ * @memberOf Scene
+ * @returns {void}
+ */
+Scene.prototype.preLoadScene = function () {
+    // override to load scene specific contents
+};
+
+/**
  * Performs all initialization functions.<p>
  *   => Should call gEngine.GameLoop.start(this)!
  *   @memberOf Scene
@@ -52,7 +63,9 @@ Scene.prototype.update = function () {
  * @memberOf Scene
  * @returns {void}
  */
-Scene.prototype.draw = function () {};
+Scene.prototype.draw = function () {
+    
+};
 
 /**
  * Must unload all resources.

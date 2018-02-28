@@ -1,6 +1,25 @@
 {
     "name": "Level 0",
     "description": "A BunBun beta level",
+    "assetList": [
+        {
+            "name": "assets/textures/bunOverlay.png",
+            "type": "texture"
+        }, {
+            "source": "https://www.kisspng.com/png-carrot-png-image-65628/",
+            "name":   "assets/textures/carrotPickup.png",
+            "type":   "texture"
+        }, {
+            "name": "assets/textures/OverlayOne.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/OverlayTwo.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/OverlayThree.png",
+            "type": "texture"
+        }
+    ],
     "cameraList": [
         {
             "name": "main",
@@ -309,7 +328,7 @@
         "Editor": [
             {
                 "__depth": -1000,
-                "isEnabled": false
+                "isEnabled": true
             }
         ],
         "Spaceship": [

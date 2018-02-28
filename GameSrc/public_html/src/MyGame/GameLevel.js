@@ -20,27 +20,34 @@
 
 /**
  * Constructs a game level (scene) that parses and controls a JSON level.
+ * 
+ * @param levelAsset  The asset path for a JSON level file.
  */
-function GameLevel() {
+function GameLevel(levelAsset) {
     
-    this.LEVEL_FILE  = "assets/levels/level0.json";
-    this.OVERLAY     = "assets/textures/bunOverlay.png";
-    //https://www.kisspng.com/png-carrot-png-image-65628/
-    this.CARROT_PICKUP = "assets/textures/carrotPickup.png";
-    
-    this.OVERLAY_ONE     = "assets/textures/OverlayOne.png";
-    this.OVERLAY_TWO     = "assets/textures/OverlayTwo.png";
-    this.OVERLAY_THREE   = "assets/textures/OverlayThree.png";
+    this.LEVEL_FILE  = levelAsset;
+    this.LEVEL = null;
     
     this.physicsObjectList = null;
     this.objectList = null;
     this.collisionInfoList = [];
     
     //The camera to view the scene
-    this.mainCamera = null;
     this.cameraList = [];
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
+
+
+/**
+ * Load the level file so we can determine assets to load.
+ */
+GameLevel.prototype.preLoadScene = function () {
+    
+    //Load the level file
+    gEngine.TextFileLoader.loadTextFile(
+            this.LEVEL_FILE, 
+            gEngine.TextFileLoader.eTextFileType.eJSONFile);
+};
 
 
 /**
@@ -48,15 +55,24 @@ gEngine.Core.inheritPrototype(GameLevel, Scene);
  */
 GameLevel.prototype.loadScene = function () {
     
-    gEngine.TextFileLoader.loadTextFile(
-            this.LEVEL_FILE, 
-            gEngine.TextFileLoader.eTextFileType.eJSONFile);
-    
-    gEngine.Textures.loadTexture(this.OVERLAY);
-    gEngine.Textures.loadTexture(this.CARROT_PICKUP);
-    gEngine.Textures.loadTexture(this.OVERLAY_ONE);
-    gEngine.Textures.loadTexture(this.OVERLAY_TWO);
-    gEngine.Textures.loadTexture(this.OVERLAY_THREE);
+    //Parse and save the level configuration
+    this.LEVEL = JSON.parse(gEngine.ResourceMap.retrieveAsset(this.LEVEL_FILE));
+
+    //Load up the assets
+    for (var assetId in this.LEVEL["assetList"]) {
+        
+        var asset = this.LEVEL["assetList"][assetId];
+        
+        //Load a texture
+        if (asset.type === "texture")
+            gEngine.Textures.loadTexture(asset.name);
+        //Load a text file
+        else if (asset.type === "text")
+            gEngine.TextFileLoader.loadTextFile(asset.name);
+        //Toss a warning
+        else
+            console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
+    }
 };
 
 
@@ -65,14 +81,21 @@ GameLevel.prototype.loadScene = function () {
  */
 GameLevel.prototype.unloadScene = function () {
     
+    //Remove the level file asset
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
-    gEngine.Textures.unloadTexture(this.OVERLAY);
-    gEngine.Textures.unloadTexture(this.CARROT_PICKUP);
-    gEngine.Textures.unloadTexture(this.OVERLAY_ONE);
-    gEngine.Textures.unloadTexture(this.OVERLAY_TWO);
-    gEngine.Textures.unloadTexture(this.OVERLAY_THREE);
     
-    gEngine.Core.startScene(new GameLevel());
+    //Unload the dynamic assets
+    for (var assetId in this.LEVEL["assetList"]) {
+        
+        var asset = this.LEVEL["assetList"][assetId];
+        
+        //Unload a texture
+        if (asset.type === "texture")
+            gEngine.Textures.unloadTexture(asset.name);
+        //Unload a text file
+        else if (asset.type === "text")
+            gEngine.TextFileLoader.unloadTextFile(asset.name);
+    }
 };
 
 
@@ -88,14 +111,13 @@ GameLevel.prototype.initialize = function () {
     this.physicsObjectList = new GameObjectSet();
     this.objectList = new GameObjectSet();
     
-    //Pull and parse the level data
-    var levelConfig = JSON.parse(
-            gEngine.ResourceMap.retrieveAsset(this.LEVEL_FILE));
+    var levelConfig = this.LEVEL;
     
     //Load cameras
     if (levelConfig["cameraList"].length <= 0)
         console.log("ERROR: No cameras were defined in the level!");
     
+    this.cameraList = [];
     for (var camera in levelConfig["cameraList"]) {
         
         var newCamera = Camera.fromProperties(levelConfig["cameraList"][camera]);

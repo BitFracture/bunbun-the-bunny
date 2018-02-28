@@ -161,6 +161,9 @@ Editor.prototype.update = function (camera) {
             this.chosenObject.delete();
             this.chosenObject = null;
             this.chosenTransform = null;
+            
+            //Prevent checks below from erroring
+            return;
         }
     }
 
