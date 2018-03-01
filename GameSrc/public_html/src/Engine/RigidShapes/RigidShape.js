@@ -23,11 +23,23 @@ function RigidShape(xf) {
     this.mBoundRadius = 0;
     
     this.mDrawBounds = false;
+    
+    this.mDragConstant = 0.0;
 }
 
 RigidShape.prototype.getTransform = function () {
     
     return this.mXform;
+};
+
+RigidShape.prototype.setDragConstant = function (drag) {
+    
+    this.mDragConstant = drag;
+};
+
+RigidShape.prototype.getDragConstant = function () {
+    
+    return this.mDragConstant;
 };
 
 RigidShape.prototype.getInvMass = function() { return this.mInvMass; };
@@ -53,6 +65,11 @@ RigidShape.prototype.setFriction = function(f) { this.mFriction = f; };
 RigidShape.prototype.setRestitution = function(r) { this.mRestitution = r; };
 RigidShape.prototype.setAngularVelocity = function(w) { this.mAngularVelocity = w; };
 RigidShape.prototype.setAngularVelocityDelta = function(dw) { this.mAngularVelocity += dw; };
+
+RigidShape.prototype.setAcceleration = function (newAccel) {
+    
+    this.mAcceleration = newAccel;
+};
 
 RigidShape.prototype.toggleDrawBound = function() {
     this.mDrawBounds = !this.mDrawBounds;
@@ -95,6 +112,19 @@ RigidShape.prototype.travel = function() {
      // linear motion
     var p = this.mXform.getPosition();
     vec2.scaleAndAdd(p, p, this.mVelocity, dt);
+    
+    //Slowdown factor (drag)
+    if (this.mVelocity[0] > 0) {
+        
+        this.mVelocity[0] -= this.mDragConstant;
+        if (this.mVelocity[0] < 0)
+            this.mVelocity[0] = 0;
+    } else {
+        
+        this.mVelocity[0] += this.mDragConstant;
+        if (this.mVelocity[0] > 0)
+            this.mVelocity[0] = 0;
+    }
     
     this.mXform.incRotationByRad(this.mAngularVelocity * dt);
 };

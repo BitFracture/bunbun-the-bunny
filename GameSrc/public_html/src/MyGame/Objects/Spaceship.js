@@ -125,6 +125,7 @@ Spaceship.prototype.update = function () {
         //Move y position towards camera in a constant way
         idealVelocity[1] = playerPos[1] - (xform.getPosition()[1] - offset);
         if (idealVelocity[1] !== 0.0) {
+        
             idealVelocity[1] = idealVelocity[1] / Math.abs(idealVelocity[1]);
             this.velocity[1] = idealVelocity[1] / 10;
         } else {
@@ -133,8 +134,10 @@ Spaceship.prototype.update = function () {
         }
         
         //Tractor beam control
-        if (this.tractorBeam && Math.abs(distanceInX) < 6)
-            playerList[0].getRigidBody().incVelocity(0, 0.5);
+        if (this.tractorBeam && Math.abs(distanceInX) < 6) {
+            if (playerList[0].getRigidBody().getVelocity()[1] < 15)
+                playerList[0].getRigidBody().incVelocity(0, 2);
+        }
     }
     
     xform.incXPosBy(this.velocity[0]);

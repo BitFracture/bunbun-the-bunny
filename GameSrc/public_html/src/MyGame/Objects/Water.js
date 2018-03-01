@@ -15,14 +15,12 @@
  * @param x  The x position
  * @param y  The y position
  */
-function Water(x, y) {
+function Water(waterLevel, waterSpeed) {
     
-    this.riseRate = 0.05;
-    this.waterLevel = y;
+    this.riseRate = waterSpeed;
+    this.waterLevel = waterLevel;
     this.renderable = new Renderable();
-    this.renderable.setColor([0.25, 0.5, 1, 0.2]);
-    this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(220, 200);    
+    this.renderable.setColor([0.25, 0.5, 1, 0.2]);  
     
     GameObject.call(this, this.renderable);
     
@@ -30,10 +28,11 @@ function Water(x, y) {
     this.setDrawRenderable(true);
     
     //Store camera references for later
-    this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
-    this.mainCameraRef.configInterpolation(.1, 1);
+    //this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
+    //this.mainCameraRef.configInterpolation(.1, 1);
 }
 gEngine.Core.inheritPrototype(Water, GameObject);
+
 
 /**
  * Constructs a new instance using the properties object.
@@ -43,31 +42,51 @@ gEngine.Core.inheritPrototype(Water, GameObject);
  */
 Water.fromProperties = function (properties) {    
     return new Water(
-            properties["position"][0], 
-            properties["position"][1]);
+            properties["waterLevel"], 
+            properties["waterSpeed"]);
 };
+
 
 /**
  * Update logic
  */
 Water.prototype.update = function () {
     
-    GameObject.prototype.update.call(this);
-    
-    var xform = this.getTransform();    
+    GameObject.prototype.update.call(this);  
     this.waterLevel += this.riseRate;
-    xform.setYPos(this.waterLevel);
-    if (xform.getYPos() >= this.mainCameraRef.getWCCenter()[1]) {
-        xform.setYPos(this.mainCameraRef.getWCCenter()[1]);
-    }    
-    var center = this.mainCameraRef.getWCCenter();
-    xform.setXPos(center[0]);
+};
+
+
+/**
+ * NOTE: This updates the renderable state. This is OK because the renderable
+ * state is ONLY used in drawing. Notice we do not change water level. 
+ */
+Water.prototype.draw = function (camera) {
     
-    if (this.waterLevel >= this.mainCameraRef.getWCCenter()[1] - 100) {
-        // player is slowed
-        // change Player's this.speedMultiplier to < 1
-    } else {
-        // reset this.speedMultiplier to 1
-    }
+    var xform = this.getTransform();  
+    var camCenter = camera.getWCCenter();
+    var camSize = [
+        camera.getWCWidth(), 
+        camera.getWCHeight()
+    ];
     
+    var cameraBottom = camCenter[1] - (camSize[1] / 2);
+    var waterHeight = this.waterLevel - cameraBottom;
+    
+    var waterPos = cameraBottom + (waterHeight / 2);
+    
+    xform.setYPos(waterPos);
+    xform.setXPos(camCenter[0]);
+    xform.setSize(camSize[0], waterHeight);
+    
+    GameObject.prototype.draw.call(this, camera);
+};
+
+
+/**
+ * Get the level of the water in WC
+ */
+Water.prototype.getWaterLevel = function () {
+  
+    return this.waterLevel;
 };

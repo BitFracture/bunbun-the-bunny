@@ -24,6 +24,7 @@ var gEngine = gEngine || { };
  */
 gEngine.Core = (function () {
     // instance variables
+    var mNextScene = null;
     // The graphical context to draw to
     var mGL = null;
     // initialize the WebGL, the vertex buffer and compile the shaders
@@ -68,9 +69,33 @@ gEngine.Core = (function () {
      * @param {Scene} scene  to load
      * @returns {void}
      */
-    var startScene = function (scene) {
-        scene.loadScene.call(scene); // Called in this way to keep correct context
-        gEngine.GameLoop.start(scene); // will wait until async loading is done and call scene.initialize()
+    var startScene = function () {
+        
+        //Determine which scene to run (restart current if null)
+        var scene = mNextScene;
+        mNextScene = null;
+        if (scene === null)
+            scene = gEngine.GameLoop.getScene();
+        
+        //Called in this way to keep correct context
+        scene.preLoadScene.call(scene); 
+        
+        //Once pre-loads are done, start loads, and then start the game
+        gEngine.ResourceMap.setLoadCompleteCallback(
+            function () {
+                scene.loadScene.call(scene); // Called in this way to keep correct context
+                gEngine.GameLoop.start(scene); // will wait until async loading is done and call scene.initialize()
+            }
+        );
+    };
+    
+    /**
+     * Sets the scene that will be loaded next. Note that this is why the 
+     * constructor CANNOT init any data or loading!
+     */
+    var setNextScene = function (scene) {
+        
+        mNextScene = scene;
     };
 
     /**
@@ -89,7 +114,10 @@ gEngine.Core = (function () {
         gEngine.LayerManager.initialize();
 
         // Inits DefaultResources, when done, invoke the anonymous function to call startScene(myGame).
-        gEngine.DefaultResources.initialize(function () { startScene(myGame); });
+        gEngine.DefaultResources.initialize(function () { 
+            setNextScene(myGame);
+            startScene(); 
+        });
     };
 
     /**
@@ -133,8 +161,9 @@ gEngine.Core = (function () {
         initializeEngineCore: initializeEngineCore,
         clearCanvas: clearCanvas,
         inheritPrototype: inheritPrototype,
+        cleanUp: cleanUp,
         startScene: startScene,
-        cleanUp: cleanUp
+        setNextScene: setNextScene
     };
 
     return mPublic;

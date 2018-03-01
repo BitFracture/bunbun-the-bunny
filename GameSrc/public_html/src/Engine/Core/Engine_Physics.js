@@ -26,14 +26,20 @@ var gEngine = gEngine || { };
  */
 gEngine.Physics = (function () {
 
-    var mSystemtAcceleration = [0, -20];        // system-wide default acceleration
+    var mSystemAcceleration = [0, -90];        // system-wide default acceleration
     var mPosCorrectionRate = 0.8;               // percentage of separation to project objects
     var mRelaxationCount = 15;                  // number of relaxation iteration
     
     var mCorrectPosition  = true;
     var mHasMotion = true;
     
-    var getSystemtAcceleration = function() { return mSystemtAcceleration; };
+    var getSystemAcceleration = function() { 
+        return mSystemAcceleration; 
+    };
+    
+    var setSystemAcceleration = function(accelPair) {
+        mSystemAcceleration = accelPair;
+    };
     
     var togglePositionalCorrection = function() {
         mCorrectPosition = !mCorrectPosition;
@@ -52,6 +58,9 @@ gEngine.Physics = (function () {
     };
     var getRelaxationCount = function() {
         return mRelaxationCount;
+    };
+    var setRelaxationCount = function(rCount) {
+        mRelaxationCount = rCount;
     };
     
     var positionalCorrection = function (s1, s2, collisionInfo) {
@@ -212,11 +221,13 @@ gEngine.Physics = (function () {
     };
     
     var mPublic = {
-        getSystemAcceleration: getSystemtAcceleration,
+        getSystemAcceleration: getSystemAcceleration,
+        setSystemAcceleration: setSystemAcceleration,
         processCollision: processCollision,
         togglePositionalCorrection: togglePositionalCorrection,
         getPositionalCorrection: getPositionalCorrection,
         incRelaxationCount: incRelaxationCount,
+        setRelaxationCount: setRelaxationCount,
         getRelaxationCount: getRelaxationCount,
         getHasMotion: getHasMotion,
         toggleHasMotion: toggleHasMotion

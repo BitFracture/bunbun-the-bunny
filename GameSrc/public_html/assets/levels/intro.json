@@ -1,0 +1,45 @@
+{
+    "name": "Intro",
+    "description": "An introductory scene for logos and copyrights",
+    "cameraList": [
+        {
+            "name": "main",
+            "center": [50, 37.5],
+            "width": 100,
+            "pixelPosition": [0, 0],
+            "pixelSize": [800, 600],
+            "color": [0.38, 0.78, 1.0, 1]
+        }, {
+            "name": "minimap",
+            "center": [50, 37.5],
+            "width": 200,
+            "pixelPosition": [620, 460],
+            "pixelSize": [160, 120],
+            "color": [0.1, 0.1, 0.1, 1]
+        }
+    ],
+    "objectList": {
+        "CarrotPickup": [
+            {
+                "__depth": 51,
+                "position":     [55, 41.5]
+            }, {
+                "__depth": 51,
+                "position":     [60, 41.5]
+            }, {
+                "__depth": 51,
+                "position":     [70, 41.5]
+            }
+        ],
+        "Facade": [
+            {
+                "__depth":    50,
+                "position":   [0, -25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [512, 512],
+                "textureId":  "assets/textures/OverlayOne.png"
+            }
+        ]
+    }
+}
