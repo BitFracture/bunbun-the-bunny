@@ -40,6 +40,7 @@ function TerrainBlock(x, y, w, h, angle) {
     this.setRigidBody(r);
     this.setDrawRenderable(false);
     this.setDrawRigidShape(false);
+    r.setFriction(0);
     
     r.setMass(0);
     tf.setSize(w, h);
@@ -97,6 +98,7 @@ TerrainBlock.prototype.draw = function (camera) {
         //this.setDrawRigidShape(false);
     
     GameObject.prototype.draw.call(this, camera);
+    this.getCollisionInfo().draw(camera);
 };
 
 

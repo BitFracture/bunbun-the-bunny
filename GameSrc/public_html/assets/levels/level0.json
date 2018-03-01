@@ -334,10 +334,10 @@
         "Spaceship": [
             {
                 "__hasPhysics": true,
-                "position":     [60, 80]
+                "position":     [-6000, 80]
             }, {
                 "__hasPhysics": true,
-                "position":     [300, 90]
+                "position":     [-30000, 90]
             }
         ]
     }

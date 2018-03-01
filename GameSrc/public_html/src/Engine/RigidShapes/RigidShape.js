@@ -54,6 +54,11 @@ RigidShape.prototype.setRestitution = function(r) { this.mRestitution = r; };
 RigidShape.prototype.setAngularVelocity = function(w) { this.mAngularVelocity = w; };
 RigidShape.prototype.setAngularVelocityDelta = function(dw) { this.mAngularVelocity += dw; };
 
+RigidShape.prototype.setAcceleration = function (newAccel) {
+    
+    this.mAcceleration = newAccel;
+};
+
 RigidShape.prototype.toggleDrawBound = function() {
     this.mDrawBounds = !this.mDrawBounds;
 };
