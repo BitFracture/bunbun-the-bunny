@@ -133,8 +133,10 @@ Spaceship.prototype.update = function () {
         }
         
         //Tractor beam control
-        if (this.tractorBeam && Math.abs(distanceInX) < 6)
-            playerList[0].getRigidBody().incVelocity(0, 0.5);
+        if (this.tractorBeam && Math.abs(distanceInX) < 6) {
+            if (playerList[0].getRigidBody().getVelocity()[1] < 15)
+                playerList[0].getRigidBody().incVelocity(0, 2);
+        }
     }
     
     xform.incXPosBy(this.velocity[0]);

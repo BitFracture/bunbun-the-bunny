@@ -15,14 +15,12 @@
  * @param x  The x position
  * @param y  The y position
  */
-function Water(x, y) {
+function Water(waterLevel, waterSpeed) {
     
-    this.riseRate = 0.05;
-    this.waterLevel = y;
+    this.riseRate = waterSpeed;
+    this.waterLevel = waterLevel;
     this.renderable = new Renderable();
-    this.renderable.setColor([0.25, 0.5, 1, 0.2]);
-    this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(220, 200);    
+    this.renderable.setColor([0.25, 0.5, 1, 0.2]);  
     
     GameObject.call(this, this.renderable);
     
@@ -30,8 +28,8 @@ function Water(x, y) {
     this.setDrawRenderable(true);
     
     //Store camera references for later
-    this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
-    this.mainCameraRef.configInterpolation(.1, 1);
+    //this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
+    //this.mainCameraRef.configInterpolation(.1, 1);
 }
 gEngine.Core.inheritPrototype(Water, GameObject);
 
@@ -44,8 +42,8 @@ gEngine.Core.inheritPrototype(Water, GameObject);
  */
 Water.fromProperties = function (properties) {    
     return new Water(
-            properties["position"][0], 
-            properties["position"][1]);
+            properties["waterLevel"], 
+            properties["waterSpeed"]);
 };
 
 

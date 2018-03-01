@@ -297,8 +297,10 @@
         ],
         "Water": [
             {
+                "__depth":      -100,
                 "__hasPhysics": false,
-                "position":     [150, -100]
+                "waterSpeed":   0.05,
+                "waterLevel":   -10
             }
         ],
         "Facade": [
@@ -334,10 +336,10 @@
         "Spaceship": [
             {
                 "__hasPhysics": true,
-                "position":     [-6000, 80]
+                "position":     [60, 80]
             }, {
                 "__hasPhysics": true,
-                "position":     [-30000, 90]
+                "position":     [300, 90]
             }
         ]
     }
