@@ -36,6 +36,7 @@ function Player(x, y) {
     var r = new RigidCircle(this.getTransform(), 2);
     this.setRigidBody(r);
     r.setMass(0.2);
+    r.setDragConstant(.1);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
     
@@ -129,9 +130,6 @@ Player.prototype.update = function (camera) {
     //The player's jump timeout is controlled by this timer
     if (this.jumpTimeout > 0)
         this.jumpTimeout--;
-    
-    //What does this even do?
-    this.getRigidBody().userSetsState();
     
     //Center both cameras on the player
     var myPos = this.getTransform().getPosition();

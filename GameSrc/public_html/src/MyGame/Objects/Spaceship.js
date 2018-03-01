@@ -125,6 +125,7 @@ Spaceship.prototype.update = function () {
         //Move y position towards camera in a constant way
         idealVelocity[1] = playerPos[1] - (xform.getPosition()[1] - offset);
         if (idealVelocity[1] !== 0.0) {
+        
             idealVelocity[1] = idealVelocity[1] / Math.abs(idealVelocity[1]);
             this.velocity[1] = idealVelocity[1] / 10;
         } else {
