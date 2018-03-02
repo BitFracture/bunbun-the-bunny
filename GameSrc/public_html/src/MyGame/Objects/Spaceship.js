@@ -26,7 +26,7 @@ function Spaceship(x, y) {
     this.renderable = new Renderable();
     this.renderable.setColor([1, 1, 1, 1]);
     this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(25, 4);
+    this.renderable.getTransform().setSize(20, 4);
 
     GameObject.call(this, this.renderable);
     
@@ -43,9 +43,16 @@ function Spaceship(x, y) {
     this.velocity = [0, 0];
     this.tractorBeam = false;
     
+    //Tractor beam
     this.tractorRenderable = new Renderable();
     this.tractorRenderable.setColor([1, 0, 0, .125]);
     this.tractorRenderable.getTransform().setSize(12, 48);
+    
+    //Zapper
+    this.zapperRenderable = new LineRenderable(0, 0, 1, 1);
+    this.zapperRenderable.setColor([1, 1, 0, 1]);
+    this.pickupTarget = null;
+    this.pickupCountdown = 0;
 }
 gEngine.Core.inheritPrototype(Spaceship, GameObject);
 
@@ -68,8 +75,19 @@ Spaceship.prototype.draw = function (camera) {
     
     GameObject.prototype.draw.call(this, camera);
     
+    //Draw tractor beam path
     if (this.tractorBeam)
         this.tractorRenderable.draw(camera);
+    
+    //Draw zapper of carrot pickup
+    if (this.pickupTarget !== null) {
+        
+        var myPos = this.getTransform().getPosition();
+        var carrotPos = this.pickupTarget.getTransform().getPosition();
+        this.zapperRenderable.setFirstVertex(myPos[0] + 10, myPos[1]);
+        this.zapperRenderable.setSecondVertex(carrotPos[0], carrotPos[1]);
+        this.zapperRenderable.draw(camera);
+    }
 };
 
 
@@ -79,6 +97,63 @@ Spaceship.prototype.draw = function (camera) {
 Spaceship.prototype.update = function () {
     
     GameObject.prototype.update.call(this);
+    
+    this.updatePickupFinder();
+    this.updatePlayerFinder();
+};
+
+
+/**
+ * Updates the logic that finds pickup and targets it to become big carrots
+ */
+Spaceship.prototype.updatePickupFinder = function () {
+    
+    //If we already have a carrot chosen, make it go boom
+    if (this.pickupTarget !== null) {
+        
+        if (this.pickupCountdown > 0) {
+            this.pickupCountdown--;
+        } else {
+            var carrotPos = this.pickupTarget.getTransform().getPosition();
+
+            this.pickupTarget.delete();
+            var newCarrot = new Carrot(carrotPos[0], carrotPos[1]);
+            gEngine.GameLoop.getScene().enrollObject(newCarrot, true);
+            this.pickupTarget = null;
+        }
+        
+        return;
+    }
+    
+    //Fetch a list of all carrots
+    var carrotList = gEngine.GameLoop.getScene().getObjectsByClass("CarrotPickup");
+    var thisPos = this.getTransform().getPosition();
+    thisPos = [thisPos[0] + 10, thisPos[1]];
+    
+    for (var carrotId in carrotList) {
+        
+        var carrot = carrotList[carrotId];
+        var carrotPos = carrot.getTransform().getPosition();
+        
+        //How far are we from the carrot?
+        var distVect = [thisPos[0] - carrotPos[0], thisPos[1] - carrotPos[1]];
+        var distance = (distVect[0] * distVect[0]) + (distVect[1] * distVect[1]);
+        distance = Math.sqrt(distance);
+        
+        //With a random (unlikely) chance, strike this carrot
+        if (distance < 25 && Math.floor(Math.random() * 300) === 10) {
+            
+            this.pickupTarget = carrot;
+            this.pickupCountdown = 60;
+        }
+    }
+};
+
+
+/**
+ * Updates the logic that locates and pursues the player through the world.
+ */
+Spaceship.prototype.updatePlayerFinder = function () {
     
     var playerList = gEngine.GameLoop.getScene().getObjectsByClass("Player");
     var xform = this.getTransform();

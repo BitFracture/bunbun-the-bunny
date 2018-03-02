@@ -22,7 +22,7 @@
  */
 function Player(x, y) {
     
-    gEngine.Physics.setRelaxationCount(5);
+    gEngine.Physics.setRelaxationCount(30);
     
     this.moveDelta = 2;
     this.speedMultiplier = 1;
@@ -39,6 +39,7 @@ function Player(x, y) {
     r.setDragConstant(.1);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(true);
+    r.setFriction(0);
     
     this.jumpTimeout = 0;
     
@@ -132,10 +133,15 @@ Player.prototype.update = function (camera) {
         this.jumpTimeout--;
     
     //Center both cameras on the player
+    var panThresh = [10, 2];
     var myPos = this.getTransform().getPosition();
-    this.mainCameraRef.setWCCenter(myPos[0], myPos[1]);
-    this.miniCameraRef.setWCCenter(myPos[0], myPos[1]);    
-    
-    //Fetch a list of all carrots
-    var carrotList = gEngine.GameLoop.getScene().getObjectsByClass("CarrotPickup");
+    var camPos = this.mainCameraRef.getWCCenter();
+    if (camPos[0] < myPos[0] - panThresh[0])
+        camPos[0] = myPos[0] - panThresh[0];
+    if (camPos[0] > myPos[0] + panThresh[0])
+        camPos[0] = myPos[0] + panThresh[0];
+    if (camPos[1] < myPos[1] - panThresh[1])
+        camPos[1] = myPos[1] - panThresh[1];
+    if (camPos[1] > myPos[1] + panThresh[1])
+        camPos[1] = myPos[1] + panThresh[1]; 
 };
