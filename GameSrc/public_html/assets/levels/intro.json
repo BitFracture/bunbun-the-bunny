@@ -7,7 +7,7 @@
             "name":   "assets/textures/carrotPickup.png",
             "type":   "texture"
         }, {
-            "name": "assets/textures/OverlayOne.png",
+            "name": "assets/textures/Overlay4.png",
             "type": "texture"
         }
     ],
@@ -41,7 +41,7 @@
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [512, 512],
-                "textureId":  "assets/textures/OverlayOne.png"
+                "textureId":  "assets/textures/Overlay4.png"
             }
         ]
     }
