@@ -18,6 +18,15 @@
         }, {
             "name": "assets/textures/OverlayThree.png",
             "type": "texture"
+        }, {
+            "name": "assets/sounds/Bun_Jump.wav",
+            "type": "sound"
+        }, {
+            "name": "assets/sounds/Bun_Land.wav",
+            "type": "sound"
+        }, {
+            "name": "assets/sounds/Bun_Pain.wav",
+            "type": "sound"
         }
     ],
     "cameraList": [
