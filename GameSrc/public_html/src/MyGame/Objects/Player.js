@@ -49,6 +49,12 @@ function Player(x, y) {
     
     //Laser
     this.laser = new LineRenderable();
+    
+    //Bun sounds
+    // [0]: jump
+    // [1]: land
+    // [2]: pain
+    this.bunSounds = gEngine.GameLoop.getScene().getSounds();
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -68,6 +74,8 @@ Player.fromProperties = function (properties) {
 
 /**
  * Take user input and update rigid body.
+ * 
+ * @param camera 
  */
 Player.prototype.update = function (camera) {
     
@@ -104,6 +112,7 @@ Player.prototype.update = function (camera) {
         if (normNorm[1] > 0) {
             
             if (this.jumpTimeout <= 0 && gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+                gEngine.AudioClips.playACue(this.bunSounds[0]);
                 var jumpSpeed = 50 * normNorm[1] * speedMultiplier;
                 this.getRigidBody().setVelocity(this.getRigidBody().getVelocity()[0], jumpSpeed);
 
