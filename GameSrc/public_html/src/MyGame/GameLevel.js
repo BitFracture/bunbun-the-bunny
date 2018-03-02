@@ -183,7 +183,14 @@ GameLevel.prototype.update = function () {
  */
 GameLevel.prototype.getObjects = function () {
     
-    return this.objectList.getObjectList();
+    var objects = this.objectList.getObjectList();
+    var reduced = [];
+    for (var objectId in objects) {
+        
+        if (!objects[objectId].getIsDeleted())
+            reduced.push(objects[objectId]);
+    }
+    return reduced;
 };
 
 

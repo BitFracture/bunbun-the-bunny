@@ -83,6 +83,15 @@ Editor.prototype.update = function (camera) {
     if (!this.isEnabled)
         return;
     
+    //Help editors find coordinates
+    if (gEngine.Input.isButtonClicked(0)) {
+        
+        console.log("Mouse is at (" 
+                + camera.mouseWCX() 
+                + ", " 
+                + camera.mouseWCY() + ")");
+    }
+    
     //Clear the select boxes
     this.defaultBox.getTransform().cloneTo(this.highlightBox.getTransform());
     
