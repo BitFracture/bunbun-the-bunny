@@ -50,6 +50,9 @@ function Player(x, y) {
     
     //Laser
     this.laser = new LineRenderable();
+    this.laser.setColor([1, 0, 0, 1]);
+    this.laserEnabled = false;
+    this.laserDistance = 35;
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -68,12 +71,51 @@ Player.fromProperties = function (properties) {
 
 
 /**
+ * Draw the laser and draw the parent.
+ */
+Player.prototype.draw = function (camera) {
+    
+    GameObject.prototype.draw.call(this, camera);
+    if (this.laserEnabled)
+        this.laser.draw(camera);
+};
+
+
+/**
  * Take user input and update rigid body.
  */
 Player.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
     var xform = this.getTransform();
+
+    //Laser usage
+    this.laserEnabled = false;
+    if (gEngine.Input.isButtonPressed(0)) {
+        
+        //Get our pos and the mouse pos
+        var myPos = this.getTransform().getPosition();
+        var toPos = [
+                camera.mouseWCX(),
+                camera.mouseWCY()];
+        
+        //Correct the laser based on the ideal length
+        toPos[0] = toPos[0] - myPos[0];
+        toPos[1] = toPos[1] - myPos[1];
+        var distance = (toPos[0] * toPos[0]) + (toPos[1] * toPos[1]);
+        distance = Math.sqrt(distance);
+        var correction = this.laserDistance / distance;
+        toPos[0] *= correction;
+        toPos[1] *= correction;
+        
+        toPos[0] = myPos[0] + toPos[0];
+        toPos[1] = myPos[1] + toPos[1];
+        
+        //Set the renderable state
+        this.laserEnabled = true;
+        this.laser.setFirstVertex(myPos[0], myPos[1]);
+        this.laser.setSecondVertex(toPos[0], toPos[1]);
+    }
 
     //Kill any engine rotation
     xform.setRotationInRad(0);
