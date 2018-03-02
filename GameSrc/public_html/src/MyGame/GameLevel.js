@@ -69,6 +69,9 @@ GameLevel.prototype.loadScene = function () {
         //Load a text file
         else if (asset.type === "text")
             gEngine.TextFileLoader.loadTextFile(asset.name);
+        //Load a sound file
+        else if (asset.type === "sound")
+            gEngine.AudioClips.loadAudio(asset.name);
         //Toss a warning
         else
             console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
@@ -95,6 +98,9 @@ GameLevel.prototype.unloadScene = function () {
         //Unload a text file
         else if (asset.type === "text")
             gEngine.TextFileLoader.unloadTextFile(asset.name);
+        //Unload a sound file
+        else if (asset.type === "sound")
+            gEngine.AudioClips.unloadAudio(asset.name);
     }
 };
 
@@ -197,7 +203,7 @@ GameLevel.prototype.getObjects = function () {
 /**
  * Gets a list of all objects matching a given class.
  * 
- * @param  The class name that all fetched entities should match.
+ * @param  className The class name that all fetched entities should match.
  * @returns  The list of current objects of the given class.
  */
 GameLevel.prototype.getObjectsByClass = function (className) {
@@ -232,6 +238,8 @@ GameLevel.prototype.enrollObject = function (object, physicsEnabled) {
 
 /**
  * Allows a game object to add a game camera by 
+ * 
+ * @param name
  */
 GameLevel.prototype.getCamera = function (name) {
     
