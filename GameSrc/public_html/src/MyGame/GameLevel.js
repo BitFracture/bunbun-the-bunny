@@ -34,6 +34,9 @@ function GameLevel(levelAsset) {
     
     //The camera to view the scene
     this.cameraList = [];
+    
+    // List of sound clips to use in the scene
+    this.soundList = [];
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
 
@@ -69,6 +72,11 @@ GameLevel.prototype.loadScene = function () {
         //Load a text file
         else if (asset.type === "text")
             gEngine.TextFileLoader.loadTextFile(asset.name);
+        // Load a sound file
+        else if (asset.type === "sound") {
+            gEngine.AudioClips.loadAudio(asset.name);
+            this.soundList.push(asset.name);
+        }
         //Toss a warning
         else
             console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
@@ -95,6 +103,8 @@ GameLevel.prototype.unloadScene = function () {
         //Unload a text file
         else if (asset.type === "text")
             gEngine.TextFileLoader.unloadTextFile(asset.name);
+        else if (asset.type === "sound")
+            gEngine.AudioClips.unloadAudio(asset.name);
     }
 };
 
@@ -186,11 +196,20 @@ GameLevel.prototype.getObjects = function () {
     return this.objectList.getObjectList();
 };
 
+/**
+ * Gets the set of sounds
+ * 
+ * @returns The list of all loaded sounds 
+ */
+GameLevel.prototype.getSounds = function () {    
+    return this.soundList;
+};
+
 
 /**
  * Gets a list of all objects matching a given class.
  * 
- * @param  The class name that all fetched entities should match.
+ * @param  className The class name that all fetched entities should match.
  * @returns  The list of current objects of the given class.
  */
 GameLevel.prototype.getObjectsByClass = function (className) {
@@ -225,6 +244,8 @@ GameLevel.prototype.enrollObject = function (object, physicsEnabled) {
 
 /**
  * Allows a game object to add a game camera by 
+ * 
+ * @param name
  */
 GameLevel.prototype.getCamera = function (name) {
     
