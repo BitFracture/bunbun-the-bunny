@@ -240,3 +240,8 @@ GameLevel.prototype.getCamera = function (name) {
             return this.cameraList[camera];
     return null;
 };
+
+
+GameLevel.prototype.notReallyAThing = function () {
+	
+};
