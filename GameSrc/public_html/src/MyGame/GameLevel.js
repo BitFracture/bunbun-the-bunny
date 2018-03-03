@@ -126,16 +126,17 @@ GameLevel.prototype.initialize = function () {
     
     //Load level objects
     for (var objectName in levelConfig["objectList"]) {
-        for (var instance in levelConfig["objectList"][objectName]) {
-            
-            var properties = levelConfig["objectList"][objectName][instance];
-            var newObject = window[objectName].fromProperties(properties);
-            
-            this.enrollObject(newObject, !!properties["__hasPhysics"]);
-            
-            if (typeof properties["__depth"] !== 'undefined')
-                newObject.setDrawDepth(properties["__depth"]);
-        }
+        sdkjfbskfbsjfhbsfs
+		sadfasd
+		fasd
+		fas
+		fasd
+		fa
+		sfas
+		fassetghtrhrehtert h4ye4 
+		yey
+		b
+		e46yv
     }
 };
 
