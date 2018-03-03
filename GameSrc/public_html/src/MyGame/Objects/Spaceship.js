@@ -8,7 +8,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine: false, GameObject: false, SpriteAnimateRenderable: false*/
+/*global gEngine: false, GameObject: false, SpriteAnimateRenderable, Player: false*/
 /*find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict"; 
@@ -98,8 +98,8 @@ Spaceship.prototype.update = function () {
     
     GameObject.prototype.update.call(this);
     
-    this.updatePickupFinder();
-    this.updatePlayerFinder();
+    //this.updatePickupFinder();
+    //this.updatePlayerFinder();
 };
 
 
@@ -165,7 +165,7 @@ Spaceship.prototype.updatePlayerFinder = function () {
     //Collided with player?
     var colObject = this.getCollisionInfo().getCollidedObject();
     if (colObject !== null && Player.prototype.isPrototypeOf(colObject)) {
-        
+        gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
         gEngine.GameLoop.stop();
     }
     
