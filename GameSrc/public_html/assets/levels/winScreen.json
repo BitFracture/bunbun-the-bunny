@@ -1,9 +1,9 @@
 {
-    "name": "Intro",
-    "description": "An introductory scene for logos and copyrights",
+    "name": "WinScreen",
+    "description": "A screen that is displayed after the player wins the level",
     "assetList": [
         {
-            "name": "assets/textures/Bun_TitleScreen.png",
+            "name": "assets/textures/winScreen.png",
             "type": "texture"
         }
     ],
@@ -25,7 +25,7 @@
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Bun_TitleScreen.png"
+                "textureId":  "assets/textures/winScreen.png"
             }
         ]
     }
