@@ -28,7 +28,9 @@ gEngine.Input = (function () {
      */
     var kKeys = {
         
+        Enter: 13,
         Shift: 16,
+        Esc: 27,
         
         // arrows
         Left: 37,
