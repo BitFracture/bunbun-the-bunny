@@ -126,17 +126,13 @@ GameLevel.prototype.initialize = function () {
     
     //Load level objects
     for (var objectName in levelConfig["objectList"]) {
-        sdkjfbskfbsjfhbsfs
-		sadfasd
-		fasd
-		fas
-		fasd
-		fa
-		sfas
-		fassetghtrhrehtert h4ye4 
-		yey
-		b
-		e46yv
+        34r
+		345
+		35
+		333545555555554
+		3534
+		5345343
+		4334
     }
 };
 
