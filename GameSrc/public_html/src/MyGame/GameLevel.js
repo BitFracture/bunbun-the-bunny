@@ -145,6 +145,12 @@ GameLevel.prototype.initialize = function () {
                 newObject.setDrawDepth(properties["__depth"]);
         }
     }      
+    
+    if (this.LEVEL["name"] === "Level 0") {
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1.mp3");
+    } else {
+        gEngine.AudioClips.stopBackgroundAudio();
+    }
 };
 
 
