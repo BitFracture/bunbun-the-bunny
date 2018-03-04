@@ -39,6 +39,9 @@
         }, {
             "name": "assets/sounds/Bun_Pain.wav",
             "type": "sound"
+        }, {
+            "name": "assets/sounds/BunBun_Level_1.mp3",
+            "type": "sound"
         }
     ],
     "cameraList": [
@@ -649,7 +652,7 @@
         "Editor": [
             {
                 "__depth": -1000,
-                "isEnabled": false
+                "isEnabled": true                
             }
         ],
         "Spaceship": [
@@ -661,5 +664,6 @@
                 "position":     [100, 110]
             }
         ]
-    }
+    },
+    "finishLine": 590
 }
