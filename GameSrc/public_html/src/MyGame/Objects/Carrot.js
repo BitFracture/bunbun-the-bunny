@@ -48,6 +48,11 @@ function Carrot(x, y) {
     //Visibility toggled on for now
     this.setDrawRenderable(true);
     this.setDrawRigidShape(false);
+    
+    //Map indicator
+    this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");
+    this.mapRenderable.setColor([1, .37, 0, 1]);
+    this.mapRenderable.getTransform().setSize(7, 7);
 }
 gEngine.Core.inheritPrototype(Carrot, GameObject);
 
@@ -76,4 +81,20 @@ Carrot.prototype.update = function () {
     this.currentSize += .2 * (this.idealSize - this.currentSize);
     this.renderable.getTransform().setSize(this.currentSize, this.currentSize);
     this.getRigidBody().setShapeSize(this.currentSize / 2);
+};
+
+
+/**
+ * Draw the carrot or its status indicator
+ */
+Carrot.prototype.draw = function (camera) {
+    
+    if (camera.getName() === "minimap") {
+
+        var myPos = this.renderable.getTransform().getPosition();
+        this.mapRenderable.getTransform().setPosition(myPos[0], myPos[1]);
+        this.mapRenderable.draw(camera);
+    }
+    else
+        GameObject.prototype.draw.call(this, camera);
 };

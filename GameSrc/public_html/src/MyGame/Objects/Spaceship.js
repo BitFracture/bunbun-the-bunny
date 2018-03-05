@@ -20,20 +20,20 @@
  * 
  * @param x  X position
  * @param y  Y position
- * @param lowerLeftX  The lower left X of the texture crop box
- * @param lowerLeftY  The lower left Y of the texture crop box
- * @param upperRightX  The upper right X of the texture crop box
- * @param upperRightY  The upper right Y of the texture crop box
  */
-function Spaceship(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY) {
+function Spaceship(x, y) {
+    
+    //Texture crop box
+    var lowerLeft = [15, 150];
+    var upperRight = [475, 315];
     
     this.renderable = new SpriteRenderable("assets/textures/Spaceship.png");
     this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(27.6, 9.9);
     this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
+            lowerLeft[0], upperRight[0],
+            lowerLeft[1], upperRight[1]);
 
     GameObject.call(this, this.renderable);
     
@@ -82,11 +82,7 @@ Spaceship.fromProperties = function (properties) {
     
     return new Spaceship(
             properties["position"][0], 
-            properties["position"][1],
-            properties["lowerLeft"][0], 
-            properties["lowerLeft"][1], 
-            properties["upperRight"][0], 
-            properties["upperRight"][1]);
+            properties["position"][1]);
 };
 
 

@@ -57,3 +57,10 @@ CarrotPickup.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
 };
+
+
+CarrotPickup.prototype.draw = function (camera) {
+    
+    if (camera.getName() !== "minimap")
+        GameObject.prototype.draw.call(this, camera);
+};
