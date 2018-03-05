@@ -210,11 +210,12 @@ Spaceship.prototype.updatePlayerFinder = function () {
         
         //Tractor beam control
         if (this.tractorBeam && Math.abs(distanceInX) < 6) {
-            if (playerList[0].getRigidBody().getVelocity()[1] < 15)
+            if (playerList[0].getRigidBody().getVelocity()[1] < 15
+                    && (playerPos[1] + 48) >=  xform.getPosition()[1])
                 playerList[0].getRigidBody().incVelocity(0, 2);
         }
     }
     
-    xform.incXPosBy(this.velocity[0]);
-    xform.incYPosBy(this.velocity[1]);
+        xform.incXPosBy(this.velocity[0]);
+        xform.incYPosBy(this.velocity[1]);
 };
