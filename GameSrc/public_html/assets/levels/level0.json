@@ -617,9 +617,7 @@
             {
                 "__hasPhysics": true,
                 "__depth":      -2,
-                "position":     [50, 40],
-                "lowerLeft":    [23, 23],
-                "upperRight":   [489, 489]
+                "position":     [50, 40]
             }
         ],
         "Water": [

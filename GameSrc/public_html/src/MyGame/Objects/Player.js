@@ -19,25 +19,25 @@
  * 
  * @param x  The x position
  * @param y  The Y position
- * @param lowerLeftX  The lower left X of the texture crop box
- * @param lowerLeftY  The lower left Y of the texture crop box
- * @param upperRightX  The upper right X of the texture crop box
- * @param upperRightY  The upper right Y of the texture crop box
  */
-function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY) {
+function Player(x, y) {
     
     gEngine.Physics.setRelaxationCount(30);
     
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
+    //Texture crop box
+    var lowerLeft = [23, 23];
+    var upperRight = [489, 489];
+
     this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
     this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
     this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
+            lowerLeft[0], upperRight[0],
+            lowerLeft[1], upperRight[1]);
     GameObject.call(this, this.renderable);
     
     var r = new RigidCircle(this.getTransform(), 2);
@@ -95,11 +95,7 @@ gEngine.Core.inheritPrototype(Player, GameObject);
 Player.fromProperties = function (properties) {    
     return new Player(
             properties["position"][0], 
-            properties["position"][1],
-            properties["lowerLeft"][0], 
-            properties["lowerLeft"][1], 
-            properties["upperRight"][0], 
-            properties["upperRight"][1]);
+            properties["position"][1]);
 };
 
 
