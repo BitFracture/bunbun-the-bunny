@@ -169,7 +169,8 @@ Player.prototype.update = function (camera) {
     if (camPos[1] < myPos[1] - panThresh[1])
         camPos[1] = myPos[1] - panThresh[1];
     if (camPos[1] > myPos[1] + panThresh[1])
-        camPos[1] = myPos[1] + panThresh[1]; 
+        camPos[1] = myPos[1] + panThresh[1];
+    this.miniCameraRef.setWCCenter(camPos[0], camPos[1]);
 };
 
 
