@@ -8,7 +8,7 @@
  */
 
 /*jslint node: true, vars: true */
-/*global gEngine, GameObject, SpriteRenderable, WASDObj */
+/*global gEngine, GameObject, SpriteRenderable, SpriteAnimateRenderable, WASDObj */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
@@ -19,18 +19,27 @@
  * 
  * @param x  The x position
  * @param y  The Y position
+ * @param lowerLeftX  The lower left X of the texture crop box
+ * @param lowerLeftY  The lower left Y of the texture crop box
+ * @param upperRightX  The upper right X of the texture crop box
+ * @param upperRightY  The upper right Y of the texture crop box
+ * @param textureAsset  The asset ID of the overlay texture
  */
-function Player(x, y) {
+function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
+        textureAsset) {
     
     gEngine.Physics.setRelaxationCount(30);
     
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
-    this.renderable = new Renderable();
-    this.renderable.setColor([0, 0, 1, 1]);
+    this.renderable = new SpriteRenderable(textureAsset);
+    this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
+    this.renderable.setElementPixelPositions(
+            lowerLeftX, upperRightX,
+            lowerLeftY, upperRightY);
     GameObject.call(this, this.renderable);
     
     var r = new RigidCircle(this.getTransform(), 2);
@@ -84,12 +93,18 @@ gEngine.Core.inheritPrototype(Player, GameObject);
 Player.fromProperties = function (properties) {    
     return new Player(
             properties["position"][0], 
-            properties["position"][1]);
+            properties["position"][1],
+            properties["lowerLeft"][0], 
+            properties["lowerLeft"][1], 
+            properties["upperRight"][0], 
+            properties["upperRight"][1],
+            properties["textureId"]);
 };
 
 
 /**
  * Draw the laser and draw the parent.
+ *  @param camera
  */
 Player.prototype.draw = function (camera) {
     
