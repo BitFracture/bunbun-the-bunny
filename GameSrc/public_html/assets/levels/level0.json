@@ -31,6 +31,9 @@
             "name": "assets/textures/carrotSlice.png",
             "type": "texture"
         }, {
+            "name": "assets/textures/flareStrip.png",
+            "type": "texture"
+        }, {
             "name": "assets/sounds/Bun_Jump.wav",
             "type": "sound"
         }, {
