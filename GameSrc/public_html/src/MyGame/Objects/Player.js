@@ -50,6 +50,9 @@ function Player(x, y) {
     
     //Laser
     this.laser = new LineRenderable();
+    this.laser.setColor([1, 0, 0, 1]);
+    this.laserEnabled = false;
+    this.laserDistance = 65;
     
     //Sounds
     this.jumpSound = "assets/sounds/Bun_Jump.wav";
@@ -73,6 +76,19 @@ Player.fromProperties = function (properties) {
 
 
 /**
+ * Draw the laser and draw the parent.
+ */
+Player.prototype.draw = function (camera) {
+    
+    GameObject.prototype.draw.call(this, camera);
+    
+    if (camera.getName() === "main")
+        if (this.laserEnabled)
+            this.laser.draw(camera);
+};
+
+
+/**
  * Take user input and update rigid body.
  * 
  * @param camera
@@ -81,6 +97,8 @@ Player.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
     var xform = this.getTransform();
+
+    this.updateLaser(camera);
 
     //Kill any engine rotation
     xform.setRotationInRad(0);
@@ -151,5 +169,62 @@ Player.prototype.update = function (camera) {
     if (camPos[1] < myPos[1] - panThresh[1])
         camPos[1] = myPos[1] - panThresh[1];
     if (camPos[1] > myPos[1] + panThresh[1])
-        camPos[1] = myPos[1] + panThresh[1]; 
+        camPos[1] = myPos[1] + panThresh[1];
+    this.miniCameraRef.setWCCenter(camPos[0], camPos[1]);
+};
+
+
+/**
+ * Handles all player laser control logic. 
+ * 
+ * @param camera  The main camera (first camera loaded)
+ */
+Player.prototype.updateLaser = function (camera) {
+    
+    //Laser usage
+    this.laserEnabled = false;
+    if (gEngine.Input.isButtonPressed(0)) {
+        
+        //Get our pos and the mouse pos
+        var myPos = this.getTransform().getPosition();
+        var toPos = [
+                camera.mouseWCX(),
+                camera.mouseWCY()];
+        
+        //Correct the laser based on the ideal max length
+        toPos[0] = toPos[0] - myPos[0];
+        toPos[1] = toPos[1] - myPos[1];
+        var distance = (toPos[0] * toPos[0]) + (toPos[1] * toPos[1]);
+        distance = Math.sqrt(distance);
+        var correction = this.laserDistance / distance;
+        toPos[0] *= correction;
+        toPos[1] *= correction;
+        
+        toPos[0] = myPos[0] + toPos[0];
+        toPos[1] = myPos[1] + toPos[1];
+        
+        //Get all solids
+        var terrain = 
+                gEngine.GameLoop.getScene().getObjectsByClass("TerrainBlock");
+        
+        //Find the nearest collision point with all sollids
+        for (var blockId in terrain) {
+            
+            var block = terrain[blockId];
+            //For each of the four bounding lines...
+            var vertices = block.getRigidBody().getVertices();
+            for (var i = 0; i < 4; i++) {
+                var j = (i + 1) % 4;
+                
+                
+            }
+        }
+        
+        //If one was found, shorten the line
+        
+        //Set the renderable state
+        this.laserEnabled = true;
+        this.laser.setFirstVertex(myPos[0], myPos[1]);
+        this.laser.setSecondVertex(toPos[0], toPos[1]);
+    }
 };

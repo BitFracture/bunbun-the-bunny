@@ -91,6 +91,11 @@ RigidRectangle.prototype.rotateVertices = function () {
     this.computeFaceNormals();
 };
 
+RigidRectangle.prototype.getVertices = function () {
+    
+    return this.mVertex;
+};
+
 RigidRectangle.prototype.drawAnEdge = function (i1, i2, aCamera) {
     this.mLine.setFirstVertex(this.mVertex[i1][0], this.mVertex[i1][1]);  
     this.mLine.setSecondVertex(this.mVertex[i2][0], this.mVertex[i2][1]); 
