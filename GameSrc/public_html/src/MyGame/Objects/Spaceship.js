@@ -98,8 +98,8 @@ Spaceship.prototype.update = function () {
     
     GameObject.prototype.update.call(this);
     
-    //this.updatePickupFinder();
-    //this.updatePlayerFinder();
+    this.updatePickupFinder();
+    this.updatePlayerFinder();
 };
 
 
