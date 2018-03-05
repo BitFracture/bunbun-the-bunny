@@ -24,12 +24,10 @@
  * @param lowerLeftY  The lower left Y of the texture crop box
  * @param upperRightX  The upper right X of the texture crop box
  * @param upperRightY  The upper right Y of the texture crop box
- * @param textureAsset  The asset ID of the overlay texture
  */
-function Spaceship(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
+function Spaceship(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY) {
     
-    this.renderable = new SpriteRenderable(textureAsset);
+    this.renderable = new SpriteRenderable("assets/textures/Spaceship.png");
     this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(27.6, 9.9);
@@ -39,8 +37,13 @@ function Spaceship(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
 
     GameObject.call(this, this.renderable);
     
+    //Map indicator
+    this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");
+    this.mapRenderable.setColor([1, 1, 0, 1]);
+    this.mapRenderable.getTransform().setSize(7, 7);
+    
     //Rigid body
-    var r = new RigidRectangle(this.getTransform(), 27.6, 9.9);
+    var r = new RigidRectangle(this.getTransform(), 27.6, 2);
     this.setRigidBody(r);
     r.setMass(0.0);
     r.setVelocity(1, 1);
@@ -64,6 +67,7 @@ function Spaceship(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     this.pickupCountdown = 0;
     
     this.laserCollided = false;
+    this.controlsLevelChange = false;
 }
 gEngine.Core.inheritPrototype(Spaceship, GameObject);
 
@@ -82,27 +86,34 @@ Spaceship.fromProperties = function (properties) {
             properties["lowerLeft"][0], 
             properties["lowerLeft"][1], 
             properties["upperRight"][0], 
-            properties["upperRight"][1],
-            properties["textureId"]);
+            properties["upperRight"][1]);
 };
 
 
 Spaceship.prototype.draw = function (camera) {
     
-    GameObject.prototype.draw.call(this, camera);
-    
-    //Draw tractor beam path
-    if (this.tractorBeam)
-        this.tractorRenderable.draw(camera);
-    
-    //Draw zapper of carrot pickup
-    if (this.pickupTarget !== null) {
+    if (camera.getName() === "minimap") {
         
-        var myPos = this.getTransform().getPosition();
-        var carrotPos = this.pickupTarget.getTransform().getPosition();
-        this.zapperRenderable.setFirstVertex(myPos[0] + 10, myPos[1]);
-        this.zapperRenderable.setSecondVertex(carrotPos[0], carrotPos[1]);
-        this.zapperRenderable.draw(camera);
+        var myPos = this.renderable.getTransform().getPosition();
+        this.mapRenderable.getTransform().setPosition(myPos[0], myPos[1]);
+        this.mapRenderable.draw(camera);
+    } 
+    else {
+        GameObject.prototype.draw.call(this, camera);
+
+        //Draw tractor beam path
+        if (this.tractorBeam)
+            this.tractorRenderable.draw(camera);
+
+        //Draw zapper of carrot pickup
+        if (this.pickupTarget !== null) {
+
+            var myPos = this.getTransform().getPosition();
+            var carrotPos = this.pickupTarget.getTransform().getPosition();
+            this.zapperRenderable.setFirstVertex(myPos[0] + 10, myPos[1]);
+            this.zapperRenderable.setSecondVertex(carrotPos[0], carrotPos[1]);
+            this.zapperRenderable.draw(camera);
+        }
     }
 };
 
@@ -110,12 +121,12 @@ Spaceship.prototype.draw = function (camera) {
 /**
  * Update logic
  */
-Spaceship.prototype.update = function () {
+Spaceship.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
     
     this.updatePickupFinder();
-    this.updatePlayerFinder();
+    this.updatePlayerFinder(camera);
     
     this.laserCollided = false;
 };
@@ -171,7 +182,7 @@ Spaceship.prototype.updatePickupFinder = function () {
 /**
  * Updates the logic that locates and pursues the player through the world.
  */
-Spaceship.prototype.updatePlayerFinder = function () {
+Spaceship.prototype.updatePlayerFinder = function (camera) {
     
     var playerList = gEngine.GameLoop.getScene().getObjectsByClass("Player");
     var xform = this.getTransform();
@@ -183,12 +194,13 @@ Spaceship.prototype.updatePlayerFinder = function () {
     //Collided with player?
     var colObject = this.getCollisionInfo().getCollidedObject();
     if (colObject !== null && Player.prototype.isPrototypeOf(colObject)) {
-        gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
-        gEngine.GameLoop.stop();
+        
+        colObject.delete();
+        this.controlsLevelChange = true;
     }
     
     //Move towards the player if one exists
-    if (playerList.length > 0){
+    if (playerList.length > 0) {
         
         var playerPos = playerList[0].getRenderable().getTransform().getPosition();
         var idealVelocity = [0, 0];
@@ -232,6 +244,19 @@ Spaceship.prototype.updatePlayerFinder = function () {
         if (this.tractorBeam && Math.abs(distanceInX) < 6) {
             if (playerList[0].getRigidBody().getVelocity()[1] < 15)
                 playerList[0].getRigidBody().incVelocity(0, 2);
+        }
+    }
+    
+    //Move up and away if we don't have a player
+    else {
+        
+        this.velocity[1] += .01;
+        
+        //Player was abducted successfully
+        if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
+            
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+            gEngine.GameLoop.stop();
         }
     }
     

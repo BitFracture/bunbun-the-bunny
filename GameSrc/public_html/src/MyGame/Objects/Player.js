@@ -23,17 +23,15 @@
  * @param lowerLeftY  The lower left Y of the texture crop box
  * @param upperRightX  The upper right X of the texture crop box
  * @param upperRightY  The upper right Y of the texture crop box
- * @param textureAsset  The asset ID of the overlay texture
  */
-function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
+function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY) {
     
     gEngine.Physics.setRelaxationCount(30);
     
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
-    this.renderable = new SpriteRenderable(textureAsset);
+    this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
     this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
@@ -47,7 +45,7 @@ function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     r.setMass(0.2);
     r.setDragConstant(.1);
     this.setDrawRenderable(true);
-    this.setDrawRigidShape(true);
+    this.setDrawRigidShape(false);
     r.setFriction(0);
     
     this.jumpTimeout = 0;
@@ -67,7 +65,7 @@ function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     this.laserHit = new SpriteAnimateRenderable("assets/textures/flareStrip.png");
     this.laserHit.setColor([0, 0, 0, 0.0]);
     this.laserHit.setSpriteSequence(
-            108, 0,    //Offset from top, left
+            108, 0,   //Offset from top, left
             108, 108, //Size
             7,        //Number of elements in sequence
             0);       //Padding
@@ -75,6 +73,10 @@ function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     this.laserHit.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.laserHit.setAnimationSpeed(1);
     
+    //Map indicator
+    this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");
+    this.mapRenderable.setColor([0, 1, 0, 1]);
+    this.mapRenderable.getTransform().setSize(7, 7);
     
     //Sounds
     this.jumpSound = "assets/sounds/Bun_Jump.wav";
@@ -97,8 +99,7 @@ Player.fromProperties = function (properties) {
             properties["lowerLeft"][0], 
             properties["lowerLeft"][1], 
             properties["upperRight"][0], 
-            properties["upperRight"][1],
-            properties["textureId"]);
+            properties["upperRight"][1]);
 };
 
 
@@ -108,13 +109,20 @@ Player.fromProperties = function (properties) {
  */
 Player.prototype.draw = function (camera) {
     
-    GameObject.prototype.draw.call(this, camera);
+    if (camera.getName() === "minimap") {
+        
+        var myPos = this.renderable.getTransform().getPosition();
+        this.mapRenderable.getTransform().setPosition(myPos[0], myPos[1]);
+        this.mapRenderable.draw(camera);
+    }
     
-    if (camera.getName() === "main") {
+    else {
+        GameObject.prototype.draw.call(this, camera);
+
         if (this.laserEnabled) {
-            
+
             this.laser.draw(camera);
-            
+
             if (this.laserHitEnable)
                 this.laserHit.draw(camera);
         }
@@ -140,10 +148,11 @@ Player.prototype.update = function (camera) {
 
     //Determine if we are under water
     var underWater = false;
-    var waterObject = gEngine.GameLoop.getScene().getObjectsByClass("Water")[0];
+    var waterObjects = gEngine.GameLoop.getScene().getObjectsByClass("Water");
     
-    if (waterObject.getWaterLevel() > xform.getYPos())
-        underWater = true;
+    if (waterObjects.length > 0)
+        if (waterObjects[0].getWaterLevel() > xform.getYPos())
+            underWater = true;
     
     var speedMultiplier = 1;
     if (underWater)
@@ -223,6 +232,7 @@ Player.prototype.updateLaser = function (camera) {
         
         //Get our pos and the mouse pos
         var myPos = this.getTransform().getPosition();
+        myPos = [myPos[0] + 1.3, myPos[1]];
         var toPos = [
                 camera.mouseWCX(),
                 camera.mouseWCY()];
@@ -240,8 +250,7 @@ Player.prototype.updateLaser = function (camera) {
         toPos[1] = myPos[1] + toPos[1];
         
         //Get all solids
-        var terrain = 
-                gEngine.GameLoop.getScene().getPhysicsObjects();
+        var terrain = gEngine.GameLoop.getScene().getPhysicsObjects();
         
         //Find the nearest collision point with all sollids
         var collision = null;

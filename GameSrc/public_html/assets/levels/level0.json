@@ -40,6 +40,9 @@
             "name": "assets/textures/Spaceship.png",
             "type": "texture"
         }, {
+            "name": "assets/textures/indicator.png",
+            "type": "texture"
+        }, {
             "name": "assets/sounds/Bun_Jump.wav",
             "type": "sound"
         }, {
@@ -601,10 +604,10 @@
         "Player": [
             {
                 "__hasPhysics": true,
+                "__depth":      -2,
                 "position":     [50, 40],
                 "lowerLeft":    [23, 23],
-                "upperRight":   [489, 489],
-                "textureId":    "assets/textures/BunSprite1.png"
+                "upperRight":   [489, 489]
             }
         ],
         "Water": [
@@ -670,16 +673,16 @@
         "Spaceship": [
              {
                 "__hasPhysics": true,
+                "__depth":      -1,
                 "position":     [300, 110],
                 "lowerLeft":    [15, 150],
-                "upperRight":   [475, 315],
-                "textureId":    "assets/textures/Spaceship.png"
+                "upperRight":   [475, 315]
             }, {
                 "__hasPhysics": true,
+                "__depth":      -1,
                 "position":     [100, 110],
                 "lowerLeft":    [15, 150],
-                "upperRight":   [475, 315],
-                "textureId":    "assets/textures/Spaceship.png"
+                "upperRight":   [475, 315]
             }
         ]
     },
