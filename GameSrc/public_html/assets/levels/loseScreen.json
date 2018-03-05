@@ -5,6 +5,9 @@
         {
             "name": "assets/textures/loseScreen.png",
             "type": "texture"
+        }, {
+            "name": "assets/sounds/Game_Over.wav",
+            "type": "sound"
         }
     ],
     "cameraList": [

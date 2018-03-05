@@ -5,6 +5,9 @@
         {
             "name": "assets/textures/Bun_TitleScreen.png",
             "type": "texture"
+        }, {
+            "name": "assets/sounds/BunBun_Level_1.mp3",
+            "type": "sound"
         }
     ],
     "cameraList": [
