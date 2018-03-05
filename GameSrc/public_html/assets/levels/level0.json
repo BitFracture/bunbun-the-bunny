@@ -688,7 +688,7 @@
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [100, 110]
+                "position":     [15, 75]
             }
         ]
     },
