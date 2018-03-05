@@ -8,6 +8,9 @@
         }, {
             "name": "assets/sounds/BunBun_Level_1.mp3",
             "type": "sound"
+        }, {
+            "name": "assets/textures/Bun_jump_animation.png",
+            "type": "texture"
         }
     ],
     "cameraList": [
@@ -29,6 +32,19 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Bun_TitleScreen.png"
+            }
+        ],
+        "BunAnimation": [
+            {
+                "__depth":      51,
+                "position":     [50, 39.5],
+                "size":         [5, 13.2],
+                "offset":       [264, 0],
+                "dimensions":   [100, 264],
+                "elements":     10,
+                "padding":      0,
+                "speed":        4,
+                "textureId":  "assets/textures/Bun_jump_animation.png"
             }
         ]
     }
