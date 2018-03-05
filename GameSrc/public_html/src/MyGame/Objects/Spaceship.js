@@ -1,5 +1,5 @@
 /**
- * Carrot.js 
+ * Spaceship.js 
  *
  * Defines the game spaceship.
  * 
@@ -20,18 +20,27 @@
  * 
  * @param x  X position
  * @param y  Y position
+ * @param lowerLeftX  The lower left X of the texture crop box
+ * @param lowerLeftY  The lower left Y of the texture crop box
+ * @param upperRightX  The upper right X of the texture crop box
+ * @param upperRightY  The upper right Y of the texture crop box
+ * @param textureAsset  The asset ID of the overlay texture
  */
-function Spaceship(x, y) {
+function Spaceship(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
+        textureAsset) {
     
-    this.renderable = new Renderable();
-    this.renderable.setColor([1, 1, 1, 1]);
+    this.renderable = new SpriteRenderable(textureAsset);
+    this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(20, 4);
+    this.renderable.getTransform().setSize(27.6, 9.9);
+    this.renderable.setElementPixelPositions(
+            lowerLeftX, upperRightX,
+            lowerLeftY, upperRightY);
 
     GameObject.call(this, this.renderable);
     
     //Rigid body
-    var r = new RigidRectangle(this.getTransform(), 20, 4);
+    var r = new RigidRectangle(this.getTransform(), 27.6, 9.9);
     this.setRigidBody(r);
     r.setMass(0.0);
     r.setVelocity(1, 1);
@@ -70,7 +79,12 @@ Spaceship.fromProperties = function (properties) {
     
     return new Spaceship(
             properties["position"][0], 
-            properties["position"][1]);
+            properties["position"][1],
+            properties["lowerLeft"][0], 
+            properties["lowerLeft"][1], 
+            properties["upperRight"][0], 
+            properties["upperRight"][1],
+            properties["textureId"]);
 };
 
 
