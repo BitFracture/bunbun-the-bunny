@@ -147,11 +147,19 @@ GameLevel.prototype.initialize = function () {
     }      
     
     if (this.LEVEL["name"] === "Level 0") {
-        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1.mp3");
-    } else {
         gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_NoIntro.mp3");
+    } else if (this.LEVEL["name"] === "Intro") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1.mp3");
+    } else if (this.LEVEL["name"] === "LoseScreen") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playACue("assets/sounds/Game_Over.wav");
+    } else if (this.LEVEL["name"] === "WinScreen") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playACue("assets/sounds/Game_Win.wav");
     }
-};
+};  
 
 
 /**
