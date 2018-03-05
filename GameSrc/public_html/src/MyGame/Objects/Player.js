@@ -54,6 +54,19 @@ function Player(x, y) {
     this.laserEnabled = false;
     this.laserDistance = 65;
     
+    this.laserHitEnable = false;
+    this.laserHit = new SpriteAnimateRenderable("assets/textures/flareStrip.png");
+    this.laserHit.setColor([0, 0, 0, 0.0]);
+    this.laserHit.setSpriteSequence(
+            108, 0,    //Offset from top, left
+            108, 108, //Size
+            7,        //Number of elements in sequence
+            0);       //Padding
+    this.laserHit.getTransform().setSize(4, 4);
+    this.laserHit.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.laserHit.setAnimationSpeed(1);
+    
+    
     //Sounds
     this.jumpSound = "assets/sounds/Bun_Jump.wav";
     this.landSound = "assets/sounds/Bun_Land.wav";
@@ -82,9 +95,15 @@ Player.prototype.draw = function (camera) {
     
     GameObject.prototype.draw.call(this, camera);
     
-    if (camera.getName() === "main")
-        if (this.laserEnabled)
+    if (camera.getName() === "main") {
+        if (this.laserEnabled) {
+            
             this.laser.draw(camera);
+            
+            if (this.laserHitEnable)
+                this.laserHit.draw(camera);
+        }
+    }
 };
 
 
@@ -134,7 +153,6 @@ Player.prototype.update = function (camera) {
                 var jumpSpeed = 50 * normNorm[1] * speedMultiplier;
                 this.getRigidBody().setVelocity(this.getRigidBody().getVelocity()[0], jumpSpeed);
 
-                console.log("Jump speed is " + jumpSpeed);
                 this.jumpTimeout = 30; // Make player wait 30 cycles to jump
             }
         }
@@ -181,6 +199,9 @@ Player.prototype.update = function (camera) {
  */
 Player.prototype.updateLaser = function (camera) {
     
+    this.laserHit.updateAnimation();
+    this.laserHit.getTransform().setRotationInRad(Math.random() * 20);
+    
     //Laser usage
     this.laserEnabled = false;
     if (gEngine.Input.isButtonPressed(0)) {
@@ -205,22 +226,52 @@ Player.prototype.updateLaser = function (camera) {
         
         //Get all solids
         var terrain = 
-                gEngine.GameLoop.getScene().getObjectsByClass("TerrainBlock");
+                gEngine.GameLoop.getScene().getPhysicsObjects();
         
         //Find the nearest collision point with all sollids
+        var collision = null;
+        var thisCollision = null;
         for (var blockId in terrain) {
             
             var block = terrain[blockId];
-            //For each of the four bounding lines...
+            if (block === this)
+                continue;
             var vertices = block.getRigidBody().getVertices();
-            for (var i = 0; i < 4; i++) {
-                var j = (i + 1) % 4;
+            
+            //For each of the bounding lines...
+            for (var i = 0; i < vertices.length; i++) {
+                var j = (i + 1) % vertices.length;
                 
-                
+                //Check if they intersect BunBun's laser, and where
+                thisCollision = intersects(myPos, toPos, vertices[i], vertices[j]);
+                if (thisCollision !== null) {
+                    
+                    if (collision === null) {
+                        thisCollision['object'] = block;
+                        collision = thisCollision;
+                    }
+                    else if (thisCollision.distance[0] < collision.distance[0]) {
+                        thisCollision['object'] = block;
+                        collision = thisCollision;
+                    }
+                }
             }
         }
         
         //If one was found, shorten the line
+        if (collision !== null) {
+            
+            toPos[0] = ((toPos[0]-myPos[0]) * collision.distance[0]) + myPos[0];
+            toPos[1] = ((toPos[1]-myPos[1]) * collision.distance[0]) + myPos[1];
+            
+            this.laserHitEnable = true;
+            this.laserHit.getTransform().setPosition(toPos[0], toPos[1]);
+            collision['object']['laserCollided'] = true;
+            
+        } else {
+            
+            this.laserHitEnable = false;
+        }
         
         //Set the renderable state
         this.laserEnabled = true;
@@ -228,3 +279,50 @@ Player.prototype.updateLaser = function (camera) {
         this.laser.setSecondVertex(toPos[0], toPos[1]);
     }
 };
+
+/**
+ * returns true iff the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
+ * 
+ * @param firstLineStart  Starting point of first line segment
+ * @param firstLineEnd  Ending point of second line segment
+ * @param secondLineStart  Starting point of first line segment
+ * @param secondLineEnd  Ending point of second line segment
+ * @returns  {
+ *     "point": [x, y], The point of collision
+ *     "distance": [delta, gamma] From start point along each line
+ * }
+ * Null if a collision did not occur.
+ * @source https://stackoverflow.com/a/24392281/1708977
+ */
+function intersects(firstLineStart, firstLineEnd, secondLineStart, secondLineEnd) {
+    
+    var a = firstLineStart[0];
+    var b = firstLineStart[1];
+    var c = firstLineEnd[0];
+    var d = firstLineEnd[1];
+    
+    var p = secondLineStart[0];
+    var q = secondLineStart[1];
+    var r = secondLineEnd[0];
+    var s = secondLineEnd[1];
+    
+    var det, gamma, lambda;
+    det = (c - a) * (s - q) - (r - p) * (d - b);
+    
+    if (det === 0)
+        return null;
+    else {
+        
+        lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
+        gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
+        if ((0 < lambda && lambda < 1) && (0 < gamma && gamma < 1)) {
+            return {
+                "distance": [lambda, gamma],
+                "point": [0, 0]
+            };
+        } else {
+            return null;
+        }
+    }
+};
+

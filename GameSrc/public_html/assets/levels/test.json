@@ -21,6 +21,21 @@
         }, {
             "name": "assets/textures/carrotSlice.png",
             "type": "texture"
+        }, {
+            "name": "assets/textures/flareStrip.png",
+            "type": "texture"
+        }, {
+            "name": "assets/sounds/Bun_Jump.wav",
+            "type": "sound"
+        }, {
+            "name": "assets/sounds/Bun_Land.wav",
+            "type": "sound"
+        }, {
+            "name": "assets/sounds/Bun_Pain.wav",
+            "type": "sound"
+        }, {
+            "name": "assets/sounds/BunBun_Level_1_NoIntro.mp3",
+            "type": "sound"
         }
     ],
     "cameraList": [

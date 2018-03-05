@@ -64,3 +64,25 @@ RigidCircle.prototype.draw = function (aCamera) {
 RigidCircle.prototype.update = function () {
     RigidShape.prototype.update.call(this);
 };
+
+RigidCircle.prototype.getVertices = function () {
+    
+    var pos = this.mXform.getPosition();    
+    var prevPoint = vec2.clone(pos);
+    var deltaTheta = (Math.PI * 2.0) / RigidShape.kNumCircleSides;
+    var theta = deltaTheta;
+    var vertices = [];
+    prevPoint[0] += this.mRadius;
+    var i, x, y;
+    for (i = 1; i <= RigidShape.kNumCircleSides; i++) {
+        x = pos[0] + this.mRadius * Math.cos(theta);
+        y = pos[1] + this.mRadius * Math.sin(theta);
+        
+        vertices.push([prevPoint[0], prevPoint[1]]);
+        
+        theta = theta + deltaTheta;
+        prevPoint[0] = x;
+        prevPoint[1] = y;
+    }
+    return vertices;
+};

@@ -266,6 +266,24 @@ GameLevel.prototype.getObjectsByClass = function (className) {
 
 
 /**
+ * Gets the set of physics objects for external manipulation. Be very careful!
+ * 
+ * @returns The list of for all enqueued physics objects. 
+ */
+GameLevel.prototype.getPhysicsObjects = function () {
+    
+    var objects = this.physicsObjectList.getObjectList();
+    var reduced = [];
+    for (var objectId in objects) {
+        
+        if (!objects[objectId].getIsDeleted())
+            reduced.push(objects[objectId]);
+    }
+    return reduced;
+};
+
+
+/**
  * Enrolls a new object into the update list. DO NOT add duplicates! 
  * The result is fairly predictable: double updates, double draws.
  * 
