@@ -53,6 +53,8 @@ function Spaceship(x, y) {
     this.zapperRenderable.setColor([1, 1, 0, 1]);
     this.pickupTarget = null;
     this.pickupCountdown = 0;
+    
+    this.laserCollided = false;
 }
 gEngine.Core.inheritPrototype(Spaceship, GameObject);
 
@@ -100,6 +102,8 @@ Spaceship.prototype.update = function () {
     
     this.updatePickupFinder();
     this.updatePlayerFinder();
+    
+    this.laserCollided = false;
 };
 
 
@@ -197,16 +201,18 @@ Spaceship.prototype.updatePlayerFinder = function () {
             this.tractorRenderable.getTransform().setPosition(xform.getXPos(), xform.getYPos() - 24);
         }
         
-        //Move y position towards camera in a constant way
+        //Move y position towards camera in a constant way if not being shot
         idealVelocity[1] = playerPos[1] - (xform.getPosition()[1] - offset);
         if (idealVelocity[1] !== 0.0) {
-        
+
             idealVelocity[1] = idealVelocity[1] / Math.abs(idealVelocity[1]);
             this.velocity[1] = idealVelocity[1] / 10;
         } else {
-            
+
             this.velocity[1] = 0.0;
         }
+        if (this.laserCollided)// && this.velocity[1] < 0.0)
+            this.velocity[1] += 0.2;
         
         //Tractor beam control
         if (this.tractorBeam && Math.abs(distanceInX) < 6) {
