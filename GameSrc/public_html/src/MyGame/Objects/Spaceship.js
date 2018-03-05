@@ -54,7 +54,6 @@ function Spaceship(x, y) {
     
     this.velocity = [0, 0];
     this.tractorBeam = false;
-    this.playerVisible = true;
     
     //Tractor beam
     this.tractorRenderable = new Renderable();
@@ -196,21 +195,16 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         this.controlsLevelChange = true;
     }
     
-    var playerPos = playerList[0].getRenderable().getTransform().getPosition();
-    var idealVelocity = [0, 0];
-
-    var distanceInX = playerPos[0] - xform.getPosition()[0];
-    //var distanceInY = playerPos[1] - xform.getPosition()[1];
-    
-    // Detects if BunBun is in range
-    if (Math.abs(distanceInX) <= 67){
-        this.playerVisible = true;
-    }
-    
-    // If BunBun is in range then check the rest
-    if (this.playerVisible){
-        //Move towards the player if one exists
-        if (playerList.length > 0){
+    //Move towards the player if one exists
+    if (playerList.length > 0) {
+        
+        var playerPos = playerList[0].getRenderable().getTransform().getPosition();
+        var idealVelocity = [0, 0];
+        
+        var distanceInX = playerPos[0] - xform.getPosition()[0];
+        var distanceInY = playerPos[1] - xform.getPosition()[1];
+        
+        if (Math.abs(distanceInX) < 70) {
 
             //Move x position towards the camera in a smooth way
             idealVelocity[0] = distanceInX;
@@ -229,7 +223,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
             if (Math.abs(distanceInX) < 10 && playerPos[1] < xform.getPosition()[1]) {
                 offset = 0;
                 this.tractorBeam = true;
-                this.tractorRenderable.getTransform().setPosition(xform.getXPos(), xform.getYPos() - 24);
+                this.tractorRenderable.getTransform().setPosition(xform.getXPos(), xform.getYPos() - 28);
             }
 
             //Move y position towards camera in a constant way if not being shot
@@ -246,33 +240,29 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
                 this.velocity[1] += 0.2;
 
             //Tractor beam control
-            if (this.tractorBeam && Math.abs(distanceInX) < 6) {
-                if (playerList[0].getRigidBody().getVelocity()[1] < 15
-                        && (playerPos[1] + 48) >=  xform.getPosition()[1])
+            if (this.tractorBeam && Math.abs(distanceInX) < 6 &&
+                    distanceInY < 0 && distanceInY > -52) {
+                if (playerList[0].getRigidBody().getVelocity()[1] < 15)
                     playerList[0].getRigidBody().incVelocity(0, 2);
             }
+        } else {
+            
+            this.velocity[0] = 0;
+            this.velocity[1] = 0;
         }
+    }
+    
+    //Move up and away if we don't have a player
+    if (playerList.length <= 0) {
         
-        //Move up and away if we don't have a player
-        else {
-
-            this.velocity[1] += .01;
-
-            //Player was abducted successfully
-            if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
-
-                gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
-                gEngine.GameLoop.stop();
-            }
+        this.velocity[1] += .01;
+        
+        //Player was abducted successfully
+        if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
+            
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+            gEngine.GameLoop.stop();
         }
-        
-        //Out of range detector
-        if (Math.abs(distanceInX) >= 67){
-            this.playerVisible = false;
-        }
-        
-        xform.incXPosBy(this.velocity[0]);
-        xform.incYPosBy(this.velocity[1]);    
     }
     
     xform.incXPosBy(this.velocity[0]);
