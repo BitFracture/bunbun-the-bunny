@@ -3,12 +3,11 @@
     "description": "An introductory scene for logos and copyrights",
     "assetList": [
         {
-            "source": "https://www.kisspng.com/png-carrot-png-image-65628/",
-            "name":   "assets/textures/carrotPickup.png",
-            "type":   "texture"
-        }, {
-            "name": "assets/textures/Overlay4.png",
+            "name": "assets/textures/Bun_TitleScreen.png",
             "type": "texture"
+        }, {
+            "name": "assets/sounds/BunBun_Level_1.mp3",
+            "type": "sound"
         }
     ],
     "cameraList": [
@@ -22,26 +21,14 @@
         }
     ],
     "objectList": {
-        "CarrotPickup": [
-            {
-                "__depth": 51,
-                "position":     [55, 41.5]
-            }, {
-                "__depth": 51,
-                "position":     [60, 41.5]
-            }, {
-                "__depth": 51,
-                "position":     [70, 41.5]
-            }
-        ],
         "Facade": [
             {
                 "__depth":    50,
                 "position":   [0, -25],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
-                "textureId":  "assets/textures/Overlay4.png"
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Bun_TitleScreen.png"
             }
         ]
     }

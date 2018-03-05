@@ -39,6 +39,9 @@
         }, {
             "name": "assets/sounds/Bun_Pain.wav",
             "type": "sound"
+        }, {
+            "name": "assets/sounds/BunBun_Level_1_NoIntro.mp3",
+            "type": "sound"
         }
     ],
     "cameraList": [
@@ -606,42 +609,42 @@
                 "position":   [0, -25],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
+                "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Overlay4.png"
             }, {
                 "__depth":    50,
                 "position":   [100, 0],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
+                "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Overlay5.png"
             }, {
                 "__depth":    50,
                 "position":   [200, 25],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
+                "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Overlay6.png"
             }, {
                 "__depth":    50,
                 "position":   [300, 50],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
+                "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Overlay1.png"
             }, {
                 "__depth":    50,
                 "position":   [400, 75],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
+                "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Overlay2.png"
             }, {
                 "__depth":    50,
                 "position":   [500, 100],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
-                "upperRight": [512, 512],
+                "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Overlay3.png"
             }
             
@@ -649,7 +652,7 @@
         "Editor": [
             {
                 "__depth": -1000,
-                "isEnabled": false
+                "isEnabled": true                
             }
         ],
         "Spaceship": [
@@ -661,5 +664,6 @@
                 "position":     [100, 110]
             }
         ]
-    }
+    },
+    "finishLine": 590
 }

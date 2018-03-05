@@ -34,6 +34,8 @@ function GameLevel(levelAsset) {
     
     //The camera to view the scene
     this.cameraList = [];
+    
+    this.finishLine = null;
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
 
@@ -142,8 +144,22 @@ GameLevel.prototype.initialize = function () {
             if (typeof properties["__depth"] !== 'undefined')
                 newObject.setDrawDepth(properties["__depth"]);
         }
+    }      
+    
+    if (this.LEVEL["name"] === "Level 0") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_NoIntro.mp3");
+    } else if (this.LEVEL["name"] === "Intro") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1.mp3");
+    } else if (this.LEVEL["name"] === "LoseScreen") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playACue("assets/sounds/Game_Over.wav");
+    } else if (this.LEVEL["name"] === "WinScreen") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playACue("assets/sounds/Game_Win.wav");
     }
-};
+};  
 
 
 /**
@@ -168,6 +184,35 @@ GameLevel.prototype.draw = function () {
  */
 GameLevel.prototype.update = function () {
 
+    // Transition from Intro to Level 0
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {  
+        if (this.LEVEL["name"] === "Intro"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/level0.json"));
+            gEngine.GameLoop.stop();
+        }
+        else if (this.LEVEL["name"] === "WinScreen"
+              || this.LEVEL["name"] === "LoseScreen"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
+            gEngine.GameLoop.stop();
+        }
+    }
+    
+    // For testing: press 1 to show win screen
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {  
+        //if (this.LEVEL["name"] === "Intro"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
+            gEngine.GameLoop.stop();
+        //}
+    }
+    
+    // For testing: press 2 to show game over screen
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {  
+        //if (this.LEVEL["name"] === "Intro"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+            gEngine.GameLoop.stop();
+        //}
+    }
+    
     this.objectList.update(this.cameraList[0]);
     
     this.physicsObjectList.clean();
@@ -177,7 +222,7 @@ GameLevel.prototype.update = function () {
     
     //Update each camera movement information
     for (var camera in this.cameraList) 
-        this.cameraList[camera].update();
+        this.cameraList[camera].update();           
 };
 
 
@@ -248,3 +293,4 @@ GameLevel.prototype.getCamera = function (name) {
             return this.cameraList[camera];
     return null;
 };
+
