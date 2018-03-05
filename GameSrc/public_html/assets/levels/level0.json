@@ -676,7 +676,7 @@
                 "textureId":    "assets/textures/Spaceship.png"
             }, {
                 "__hasPhysics": true,
-                "position":     [100, 110],
+                "position":     [15, 75],
                 "lowerLeft":    [15, 150],
                 "upperRight":   [475, 315],
                 "textureId":    "assets/textures/Spaceship.png"
