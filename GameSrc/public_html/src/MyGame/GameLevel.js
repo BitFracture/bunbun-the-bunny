@@ -34,6 +34,8 @@ function GameLevel(levelAsset) {
     
     //The camera to view the scene
     this.cameraList = [];
+    
+    this.finishLine = null;
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
 
@@ -69,6 +71,9 @@ GameLevel.prototype.loadScene = function () {
         //Load a text file
         else if (asset.type === "text")
             gEngine.TextFileLoader.loadTextFile(asset.name);
+        //Load a sound file
+        else if (asset.type === "sound")
+            gEngine.AudioClips.loadAudio(asset.name);
         //Toss a warning
         else
             console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
@@ -95,6 +100,9 @@ GameLevel.prototype.unloadScene = function () {
         //Unload a text file
         else if (asset.type === "text")
             gEngine.TextFileLoader.unloadTextFile(asset.name);
+        //Unload a sound file
+        else if (asset.type === "sound")
+            gEngine.AudioClips.unloadAudio(asset.name);
     }
 };
 
@@ -136,8 +144,22 @@ GameLevel.prototype.initialize = function () {
             if (typeof properties["__depth"] !== 'undefined')
                 newObject.setDrawDepth(properties["__depth"]);
         }
+    }      
+    
+    if (this.LEVEL["name"] === "Level 0") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_NoIntro.mp3");
+    } else if (this.LEVEL["name"] === "Intro") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1.mp3");
+    } else if (this.LEVEL["name"] === "LoseScreen") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playACue("assets/sounds/Game_Over.wav");
+    } else if (this.LEVEL["name"] === "WinScreen") {
+        gEngine.AudioClips.stopBackgroundAudio();
+        gEngine.AudioClips.playACue("assets/sounds/Game_Win.wav");
     }
-};
+};  
 
 
 /**
@@ -162,6 +184,35 @@ GameLevel.prototype.draw = function () {
  */
 GameLevel.prototype.update = function () {
 
+    // Transition from Intro to Level 0
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {  
+        if (this.LEVEL["name"] === "Intro"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/level0.json"));
+            gEngine.GameLoop.stop();
+        }
+        else if (this.LEVEL["name"] === "WinScreen"
+              || this.LEVEL["name"] === "LoseScreen"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
+            gEngine.GameLoop.stop();
+        }
+    }
+    
+    // For testing: press 1 to show win screen
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {  
+        //if (this.LEVEL["name"] === "Intro"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
+            gEngine.GameLoop.stop();
+        //}
+    }
+    
+    // For testing: press 2 to show game over screen
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {  
+        //if (this.LEVEL["name"] === "Intro"){
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+            gEngine.GameLoop.stop();
+        //}
+    }
+    
     this.objectList.update(this.cameraList[0]);
     
     this.physicsObjectList.clean();
@@ -171,7 +222,7 @@ GameLevel.prototype.update = function () {
     
     //Update each camera movement information
     for (var camera in this.cameraList) 
-        this.cameraList[camera].update();
+        this.cameraList[camera].update();           
 };
 
 
@@ -197,7 +248,7 @@ GameLevel.prototype.getObjects = function () {
 /**
  * Gets a list of all objects matching a given class.
  * 
- * @param  The class name that all fetched entities should match.
+ * @param  className The class name that all fetched entities should match.
  * @returns  The list of current objects of the given class.
  */
 GameLevel.prototype.getObjectsByClass = function (className) {
@@ -232,6 +283,8 @@ GameLevel.prototype.enrollObject = function (object, physicsEnabled) {
 
 /**
  * Allows a game object to add a game camera by 
+ * 
+ * @param name
  */
 GameLevel.prototype.getCamera = function (name) {
     
@@ -240,3 +293,4 @@ GameLevel.prototype.getCamera = function (name) {
             return this.cameraList[camera];
     return null;
 };
+

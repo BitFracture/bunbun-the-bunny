@@ -1,0 +1,35 @@
+{
+    "name": "WinScreen",
+    "description": "A screen that is displayed after the player wins the level",
+    "assetList": [
+        {
+            "name": "assets/textures/winScreen.png",
+            "type": "texture"
+        }, {
+            "name": "assets/sounds/Game_Win.wav",
+            "type": "sound"
+        }
+    ],
+    "cameraList": [
+        {
+            "name": "main",
+            "center": [50, 37.5],
+            "width": 100,
+            "pixelPosition": [0, 0],
+            "pixelSize": [800, 600],
+            "color": [0.38, 0.78, 1.0, 1]
+        }
+    ],
+    "objectList": {
+        "Facade": [
+            {
+                "__depth":    50,
+                "position":   [0, -25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/winScreen.png"
+            }
+        ]
+    }
+}

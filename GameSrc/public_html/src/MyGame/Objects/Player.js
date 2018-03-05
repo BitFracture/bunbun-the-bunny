@@ -53,6 +53,11 @@ function Player(x, y) {
     this.laser.setColor([1, 0, 0, 1]);
     this.laserEnabled = false;
     this.laserDistance = 65;
+    
+    //Sounds
+    this.jumpSound = "assets/sounds/Bun_Jump.wav";
+    this.landSound = "assets/sounds/Bun_Land.wav";
+    this.painSound = "assets/sounds/Bun_Pain.wav";
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -85,6 +90,8 @@ Player.prototype.draw = function (camera) {
 
 /**
  * Take user input and update rigid body.
+ * 
+ * @param camera
  */
 Player.prototype.update = function (camera) {
     
@@ -123,6 +130,7 @@ Player.prototype.update = function (camera) {
         if (normNorm[1] > 0) {
             
             if (this.jumpTimeout <= 0 && gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+                gEngine.AudioClips.playACue(this.jumpSound);
                 var jumpSpeed = 50 * normNorm[1] * speedMultiplier;
                 this.getRigidBody().setVelocity(this.getRigidBody().getVelocity()[0], jumpSpeed);
 
