@@ -31,7 +31,7 @@ function Spaceship(x, y) {
     GameObject.call(this, this.renderable);
     
     //Rigid body
-    var r = new RigidRectangle(this.getTransform(), 25, 4);
+    var r = new RigidRectangle(this.getTransform(), 20, 4);
     this.setRigidBody(r);
     r.setMass(0.0);
     r.setVelocity(1, 1);

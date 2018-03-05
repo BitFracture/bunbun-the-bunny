@@ -1,0 +1,162 @@
+{
+    "name": "Level 0",
+    "description": "A BunBun beta level",
+    "assetList": [
+        {
+            "name": "assets/textures/bunOverlay.png",
+            "type": "texture"
+        }, {
+            "source": "https://www.kisspng.com/png-carrot-png-image-65628/",
+            "name":   "assets/textures/carrotPickup.png",
+            "type":   "texture"
+        }, {
+            "name": "assets/textures/OverlayOne.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/OverlayTwo.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/OverlayThree.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/carrotSlice.png",
+            "type": "texture"
+        }
+    ],
+    "cameraList": [
+        {
+            "name": "main",
+            "center": [50, 37.5],
+            "width": 100,
+            "pixelPosition": [0, 0],
+            "pixelSize": [800, 600],
+            "color": [0.38, 0.78, 1.0, 1]
+        }, {
+            "name": "minimap",
+            "center": [50, 37.5],
+            "width": 200,
+            "pixelPosition": [620, 460],
+            "pixelSize": [160, 120],
+            "color": [0.1, 0.1, 0.1, 1]
+        }
+    ],
+    "objectList": {
+        "TerrainBlock": [
+            {
+                 "__hasPhysics": true,
+                 "position": [
+                     45,
+                     -10
+                 ],
+                 "size": [
+                     50,
+                     5
+                 ],
+                 "angle": 0
+            }
+        ],
+        "CarrotPickup": [
+            {
+                "__depth": 51,
+                "position":     [55, 41.5]
+            }, {
+                "__depth": 51,
+                "position":     [60, 41.5]
+            }, {
+                "__depth": 51,
+                "position":     [70, 41.5]
+            }, {
+                "__depth": 51,
+                "position":     [83.77497100830078, 51.07074737548828]
+            }, {
+                "__depth": 51,
+                "position":     [90.77497100830078, 51.07074737548828]
+            }, {
+                "__depth": 51,
+                "position":     [97.89997100830078, 50.94574737548828]
+            }, {
+                "__depth": 51,
+                "position":     [106.39997100830078, 51.19574737548828]
+            }, {
+                "__depth": 51,
+                "position":     [130.40984344482422, 41.82074737548828]
+            }, {
+                "__depth": 51,
+                "position":     [138.78484344482422, 41.94574737548828]
+            }, {
+                "__depth": 51,
+                "position":     [122.90984344482422, 67.69574737548828]
+            }, {
+                "__depth": 51,
+                "position":     [137.90984344482422, 67.57074737548828]
+            }, {
+                "__depth": 51,
+                "position":     [130.28484344482422, 67.69574737548828]
+            }, {
+                "__depth": 51,
+                "position":     [146.03484344482422, 67.69574737548828]
+            }, {
+                "__depth": 51,
+                "position":     [151.39300537109375, 67.24161529541016]
+            }, {
+                "__depth": 51,
+                "position":     [161.64300537109375, 67.36661529541016]
+            }, {
+                "__depth": 51,
+                "position":     [173.64300537109375, 67.24161529541016]
+            }, {
+                "__depth": 51,
+                "position":     [158.01800537109375, 29.491615295410156]
+            }, {
+                "__depth": 51,
+                "position":     [146.26800537109375, 29.491615295410156]
+            }
+        ],
+        "Player": [
+            {
+                "__hasPhysics": true,
+                "position":     [50, 40]
+            }
+        ],
+        "Water": [
+            {
+                "__depth":      -100,
+                "__hasPhysics": false,
+                "waterSpeed":   0.05,
+                "waterLevel":   -100000
+            }
+        ],
+        "Facade": [
+            {
+                "__depth":    50,
+                "position":   [0, -25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [512, 512],
+                "textureId":  "assets/textures/OverlayOne.png"
+            }, {
+                "__depth":    50,
+                "position":   [100, 0],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [512, 512],
+                "textureId":  "assets/textures/OverlayTwo.png"
+            }, {
+                "__depth":    50,
+                "position":   [200, 25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [512, 512],
+                "textureId":  "assets/textures/OverlayThree.png"
+            }
+        ],
+        "Editor": [
+            {
+                "__depth": -1000,
+                "isEnabled": true
+            }
+        ],
+        "Spaceship": [
+        ]
+    }
+}
