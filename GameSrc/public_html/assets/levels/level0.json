@@ -664,7 +664,7 @@
                 "position":     [300, 110]
             }, {
                 "__hasPhysics": true,
-                "position":     [100, 110]
+                "position":     [15, 75]
             }
         ]
     },
