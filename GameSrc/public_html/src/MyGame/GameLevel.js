@@ -74,6 +74,9 @@ GameLevel.prototype.loadScene = function () {
         //Load a sound file
         else if (asset.type === "sound")
             gEngine.AudioClips.loadAudio(asset.name);
+        //Load a font
+        else if (asset.type === "font")
+            gEngine.Fonts.loadFont(asset.name);
         //Toss a warning
         else
             console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
@@ -103,6 +106,9 @@ GameLevel.prototype.unloadScene = function () {
         //Unload a sound file
         else if (asset.type === "sound")
             gEngine.AudioClips.unloadAudio(asset.name);
+        //Unload a font
+        else if (asset.type === "font")
+            gEngine.Fonts.unloadFont(asset.name);
     }
 };
 
