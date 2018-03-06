@@ -82,6 +82,10 @@ function Player(x, y) {
     this.jumpSound = "assets/sounds/Bun_Jump.wav";
     this.landSound = "assets/sounds/Bun_Land.wav";
     this.painSound = "assets/sounds/Bun_Pain.wav";
+    
+    //Statistics
+    this.carrotPoints = 20;
+    this.oxygenLevel = 100;
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -146,9 +150,20 @@ Player.prototype.update = function (camera) {
     var underWater = false;
     var waterObjects = gEngine.GameLoop.getScene().getObjectsByClass("Water");
     
-    if (waterObjects.length > 0)
-        if (waterObjects[0].getWaterLevel() > xform.getYPos())
+    if (waterObjects.length > 0) {
+        if (waterObjects[0].getWaterLevel() > xform.getYPos()) {
+            
             underWater = true;
+            this.oxygenLevel -= .15;
+            
+            //Drown the character
+            if (this.oxygenLevel <= 0) {
+                
+                gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+                gEngine.GameLoop.stop();
+            }
+        }
+    }
     
     var speedMultiplier = 1;
     if (underWater)
@@ -245,34 +260,46 @@ Player.prototype.updateLaser = function (camera) {
         toPos[0] = myPos[0] + toPos[0];
         toPos[1] = myPos[1] + toPos[1];
         
-        //Get all solids
-        var terrain = gEngine.GameLoop.getScene().getPhysicsObjects();
+        //Get all objects we will collide with
+        var lists = [
+            gEngine.GameLoop.getScene().getPhysicsObjects(),
+            gEngine.GameLoop.getScene().getObjectsByClass("CarrotPickup")
+        ];
         
         //Find the nearest collision point with all sollids
         var collision = null;
         var thisCollision = null;
-        for (var blockId in terrain) {
+        
+        //For each list of objects
+        for (var listId in lists) {
+            var terrain = lists[listId];
             
-            var block = terrain[blockId];
-            if (block === this)
-                continue;
-            var vertices = block.getRigidBody().getVertices();
-            
-            //For each of the bounding lines...
-            for (var i = 0; i < vertices.length; i++) {
-                var j = (i + 1) % vertices.length;
-                
-                //Check if they intersect BunBun's laser, and where
-                thisCollision = intersects(myPos, toPos, vertices[i], vertices[j]);
-                if (thisCollision !== null) {
-                    
-                    if (collision === null) {
-                        thisCollision['object'] = block;
-                        collision = thisCollision;
-                    }
-                    else if (thisCollision.distance[0] < collision.distance[0]) {
-                        thisCollision['object'] = block;
-                        collision = thisCollision;
+            //For each object in the list
+            for (var blockId in terrain) {
+
+                var block = terrain[blockId];
+                if (block === this)
+                    continue;
+                if ( block.getRigidBody() === null)
+                    continue;
+                var vertices = block.getRigidBody().getVertices();
+
+                //For each of the bounding lines...
+                for (var i = 0; i < vertices.length; i++) {
+                    var j = (i + 1) % vertices.length;
+
+                    //Check if they intersect BunBun's laser, and where
+                    thisCollision = intersects(myPos, toPos, vertices[i], vertices[j]);
+                    if (thisCollision !== null) {
+
+                        if (collision === null) {
+                            thisCollision['object'] = block;
+                            collision = thisCollision;
+                        }
+                        else if (thisCollision.distance[0] < collision.distance[0]) {
+                            thisCollision['object'] = block;
+                            collision = thisCollision;
+                        }
                     }
                 }
             }

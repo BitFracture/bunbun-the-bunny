@@ -681,7 +681,7 @@
             }
         ],
         "Spaceship": [
-             {
+            {
                 "__hasPhysics": true,
                 "__depth":      -1,
                 "position":     [300, 110]
@@ -690,7 +690,11 @@
                 "__depth":      -1,
                 "position":     [15, 75]
             }
+        ],
+        "WinPoint": [
+            {
+                "boundary": 590
+            }
         ]
-    },
-    "finishLine": 590
+    }
 }

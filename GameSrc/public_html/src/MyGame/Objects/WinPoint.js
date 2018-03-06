@@ -1,5 +1,5 @@
 /**
- * HeadsUpDisplay.js 
+ * WinPoint.js 
  * 
  * @author  Erik W. Greif
  * @since   2018-02-22
@@ -13,29 +13,17 @@
 
 
 /**
- * Creates a new player based on its location in the world.
+ * Creates a new win point (boundary)  based on its location in the world.
  * 
- * @param x  The x position
- * @param y  The Y position
- * @param lowerLeftX  The lower left X of the texture crop box
- * @param lowerLeftY  The lower left Y of the texture crop box
- * @param upperRightX  The upper right X of the texture crop box
- * @param upperRightY  The upper right Y of the texture crop box
- * @param textureAsset  The asset ID of the overlay texture
+ * @param boundary  The x position
  */
-function WinPoint(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY) {
+function WinPoint(boundary) {
     
-    this.moveDelta = 2;
-    this.speedMultiplier = 1;
-
-    this.renderable = new Renderable(a);
-    this.renderable.setColor([1, 1, 1, 0]);
-    this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
+    this.renderable = new LineRenderable(boundary, -10000, boundary, 10000);
+    this.renderable.setColor([0, 1, 0, 1]);
     GameObject.call(this, this.renderable);
+    
+    this.boundary = boundary;
 }
 gEngine.Core.inheritPrototype(WinPoint, GameObject);
 
@@ -47,14 +35,8 @@ gEngine.Core.inheritPrototype(WinPoint, GameObject);
  * @returns A new instance.
  */
 WinPoint.fromProperties = function (properties) {    
-    return new HeadsUpDisplay(
-            properties["position"][0], 
-            properties["position"][1],
-            properties["lowerLeft"][0], 
-            properties["lowerLeft"][1], 
-            properties["upperRight"][0], 
-            properties["upperRight"][1],
-            properties["textureId"]);
+    return new WinPoint(
+            properties["boundary"]);
 };
 
 
@@ -64,7 +46,8 @@ WinPoint.fromProperties = function (properties) {
  */
 WinPoint.prototype.draw = function (camera) {
     
-    GameObject.prototype.draw.call(this, camera);
+    //if (camera.getName() === "main")
+    //    GameObject.prototype.draw.call(this, camera);
 };
 
 
@@ -76,5 +59,16 @@ WinPoint.prototype.draw = function (camera) {
 WinPoint.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this, camera);
+    
+    var players = gEngine.GameLoop.getScene().getObjectsByClass("Player");
+    if (players.length > 0) {
+        
+        if (players[0].getTransform().getPosition()[0] > this.boundary) {
+            
+            //Game win!
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
+            gEngine.GameLoop.stop();
+        }
+    }
 };
 
