@@ -119,7 +119,13 @@ gEngine.GameLoop = (function () {
         return kFrameTime;
     };
     
+    var setFps = function (fps) {
+      
+        kFPS = fps;
+    };
+    
     var mPublic = {
+        setFps: setFps,
         start: start,
         stop: stop,
         getScene: getScene,

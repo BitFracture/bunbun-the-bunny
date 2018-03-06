@@ -77,13 +77,25 @@ gEngine.Textures = (function () {
     };
 
     /**
+     * Standardized load function
+     * 
+     * @param {type} fileName
+     * @param {type} callback
+     * @returns {void}
+     */
+    var load = function (fileName, callback) {
+        
+        return loadTexture(fileName, callback);
+    };
+
+    /**
      * Loads an texture so that it can be drawn.<p>
      * If already in the map, will do nothing.
      * @memberOf gEngine.Textures
      * @param {String} textureName Texture to load from ResourceMap
      * @returns {void}
      */
-    var loadTexture = function (textureName) {
+    var loadTexture = function (textureName, callback) {
         if (!(gEngine.ResourceMap.isAssetLoaded(textureName))) {
             // Create new Texture object.
             var img = new Image();
@@ -95,6 +107,8 @@ gEngine.Textures = (function () {
             // it back into the mTextureMap.
             img.onload = function () {
                 _processLoadedImage(textureName, img);
+                if (typeof callback !== 'undefined' && callback !== null)
+                    callback();
             };
             img.src = textureName;
         } else {
@@ -218,6 +232,7 @@ gEngine.Textures = (function () {
     // Public interface for this object. Anything not in here will
     // not be accessable.
     var mPublic = {
+        load: load,
         loadTexture: loadTexture,
         unloadTexture: unloadTexture,
         activateTexture: activateTexture,
