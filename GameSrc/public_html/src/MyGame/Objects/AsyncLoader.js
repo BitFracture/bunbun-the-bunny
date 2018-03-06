@@ -27,7 +27,7 @@ function AsyncLoader(asyncResources, nextLevelResource) {
     this.nextLevel = nextLevelResource;
     this.loaded = 0;
     this.total = 0;
-    gEngine.GameLoop.setFps(20);
+    gEngine.GameLoop.setFps(15);
 
     GameObject.call(this, this.renderable);
     
@@ -35,15 +35,15 @@ function AsyncLoader(asyncResources, nextLevelResource) {
     var scene = gEngine.GameLoop.getScene();
     for (var assetId in asyncResources) {
         asyncResources[assetId]["isLoaded"] = false;
+        
         var self = this;
         scene.loadAsset(asyncResources[assetId], function() {
             self.loaded += 1;
-            console.log("There are " + self.loaded + " loaded assets");
+            console.log("Loaded " + self.loaded + "/" + self.total + " assets");
         });
+        
         this.total += 1;
     }
-    
-    this.frames = 0;
 }
 gEngine.Core.inheritPrototype(AsyncLoader, GameObject);
 
@@ -74,12 +74,16 @@ AsyncLoader.prototype.draw = function (camera) {
     var transform = this.renderable.getTransform();
     transform.setSize(barSize[0] + 1, barSize[1] + 1);
     transform.setPosition(barPosition[0], barPosition[1]);
+    this.renderable.setColor([8, 8, 8, 1]);
     this.renderable.draw(camera);
     
     //Second, draw the loading bar itself
-    
-    
-    this.frames += 1;
+    transform.setSize(barSize[0] * progress, barSize[1]);
+    transform.setPosition(
+            barPosition[0] + ((barSize[0] * progress) / 2) - (barSize[0] / 2), 
+            barPosition[1]);
+    this.renderable.setColor([1, 1, 1, 1]);
+    this.renderable.draw(camera);
 };
 
 
