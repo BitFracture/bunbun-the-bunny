@@ -304,6 +304,23 @@ Camera.prototype.collideWCBound = function (aXform, zone) {
     return cameraBound.boundCollideStatus(bbox);
 };
 
+Camera.prototype.isTransformInside = function (transform) {
+
+    var transLeft   = transform.getXPos() - (transform.getWidth()  / 2);
+    var transTop    = transform.getYPos() + (transform.getHeight() / 2);
+    var transRight  = transform.getXPos() + (transform.getWidth()  / 2);
+    var transBottom = transform.getYPos() - (transform.getHeight() / 2);
+    
+    var camCenter = this.getWCCenter();
+    var left   = camCenter[0] - (this.getWCWidth()  / 2);
+    var top    = camCenter[1] + (this.getWCHeight() / 2);
+    var right  = camCenter[0] + (this.getWCWidth()  / 2);
+    var bottom = camCenter[1] - (this.getWCHeight() / 2);
+    
+    return (!(transBottom > top || transTop < bottom || 
+            transLeft > right || transRight < left));
+};
+
 /**
  * prevents the xform from moving outside of the WC boundary<p>
  * by clamping the aXfrom at the boundary of WC

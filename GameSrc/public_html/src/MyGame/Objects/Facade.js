@@ -65,3 +65,17 @@ Facade.fromProperties = function (properties) {
             properties["upperRight"][1],
             properties["textureId"]);
 };
+
+
+/**
+ * Draws facade objects. If on the mini camera, will overlay in white.
+ */
+Facade.prototype.draw = function (camera) {
+    
+    if (camera.getName() === "minimap")
+        this.renderable.setColor([.5, .5, .5, 1]);
+    else
+        this.renderable.setColor([.5, .5, .5, 0]);
+    
+    GameObject.prototype.draw.call(this, camera);
+};

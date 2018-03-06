@@ -19,27 +19,25 @@
  * 
  * @param x  The x position
  * @param y  The Y position
- * @param lowerLeftX  The lower left X of the texture crop box
- * @param lowerLeftY  The lower left Y of the texture crop box
- * @param upperRightX  The upper right X of the texture crop box
- * @param upperRightY  The upper right Y of the texture crop box
- * @param textureAsset  The asset ID of the overlay texture
  */
-function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
+function Player(x, y) {
     
     gEngine.Physics.setRelaxationCount(30);
     
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
-    this.renderable = new SpriteRenderable(textureAsset);
+    //Texture crop box
+    var lowerLeft = [23, 23];
+    var upperRight = [489, 489];
+
+    this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
     this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
     this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
+            lowerLeft[0], upperRight[0],
+            lowerLeft[1], upperRight[1]);
     GameObject.call(this, this.renderable);
     
     var r = new RigidCircle(this.getTransform(), 2);
@@ -47,7 +45,7 @@ function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     r.setMass(0.2);
     r.setDragConstant(.1);
     this.setDrawRenderable(true);
-    this.setDrawRigidShape(true);
+    this.setDrawRigidShape(false);
     r.setFriction(0);
     
     this.jumpTimeout = 0;
@@ -67,7 +65,7 @@ function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     this.laserHit = new SpriteAnimateRenderable("assets/textures/flareStrip.png");
     this.laserHit.setColor([0, 0, 0, 0.0]);
     this.laserHit.setSpriteSequence(
-            108, 0,    //Offset from top, left
+            108, 0,   //Offset from top, left
             108, 108, //Size
             7,        //Number of elements in sequence
             0);       //Padding
@@ -75,11 +73,19 @@ function Player(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     this.laserHit.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.laserHit.setAnimationSpeed(1);
     
+    //Map indicator
+    this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");
+    this.mapRenderable.setColor([0, 1, 0, 1]);
+    this.mapRenderable.getTransform().setSize(7, 7);
     
     //Sounds
     this.jumpSound = "assets/sounds/Bun_Jump.wav";
     this.landSound = "assets/sounds/Bun_Land.wav";
     this.painSound = "assets/sounds/Bun_Pain.wav";
+    
+    //Statistics
+    this.carrotPoints = 20;
+    this.oxygenLevel = 100;
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -93,12 +99,7 @@ gEngine.Core.inheritPrototype(Player, GameObject);
 Player.fromProperties = function (properties) {    
     return new Player(
             properties["position"][0], 
-            properties["position"][1],
-            properties["lowerLeft"][0], 
-            properties["lowerLeft"][1], 
-            properties["upperRight"][0], 
-            properties["upperRight"][1],
-            properties["textureId"]);
+            properties["position"][1]);
 };
 
 
@@ -108,13 +109,20 @@ Player.fromProperties = function (properties) {
  */
 Player.prototype.draw = function (camera) {
     
-    GameObject.prototype.draw.call(this, camera);
+    if (camera.getName() === "minimap") {
+        
+        var myPos = this.renderable.getTransform().getPosition();
+        this.mapRenderable.getTransform().setPosition(myPos[0], myPos[1]);
+        this.mapRenderable.draw(camera);
+    }
     
-    if (camera.getName() === "main") {
+    else {
+        GameObject.prototype.draw.call(this, camera);
+
         if (this.laserEnabled) {
-            
+
             this.laser.draw(camera);
-            
+
             if (this.laserHitEnable)
                 this.laserHit.draw(camera);
         }
@@ -140,10 +148,22 @@ Player.prototype.update = function (camera) {
 
     //Determine if we are under water
     var underWater = false;
-    var waterObject = gEngine.GameLoop.getScene().getObjectsByClass("Water")[0];
+    var waterObjects = gEngine.GameLoop.getScene().getObjectsByClass("Water");
     
-    if (waterObject.getWaterLevel() > xform.getYPos())
-        underWater = true;
+    if (waterObjects.length > 0) {
+        if (waterObjects[0].getWaterLevel() > xform.getYPos()) {
+            
+            underWater = true;
+            this.oxygenLevel -= .15;
+            
+            //Drown the character
+            if (this.oxygenLevel <= 0) {
+                
+                gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+                gEngine.GameLoop.stop();
+            }
+        }
+    }
     
     var speedMultiplier = 1;
     if (underWater)
@@ -221,8 +241,14 @@ Player.prototype.updateLaser = function (camera) {
     this.laserEnabled = false;
     if (gEngine.Input.isButtonPressed(0)) {
         
+        //Use up carrot points, abort if none left
+        this.carrotPoints -= .03;
+        if (this.carrotPoints <= 0)
+            return;
+        
         //Get our pos and the mouse pos
         var myPos = this.getTransform().getPosition();
+        myPos = [myPos[0] + 1.3, myPos[1]];
         var toPos = [
                 camera.mouseWCX(),
                 camera.mouseWCY()];
@@ -239,35 +265,46 @@ Player.prototype.updateLaser = function (camera) {
         toPos[0] = myPos[0] + toPos[0];
         toPos[1] = myPos[1] + toPos[1];
         
-        //Get all solids
-        var terrain = 
-                gEngine.GameLoop.getScene().getPhysicsObjects();
+        //Get all objects we will collide with
+        var lists = [
+            gEngine.GameLoop.getScene().getPhysicsObjects(),
+            gEngine.GameLoop.getScene().getObjectsByClass("CarrotPickup")
+        ];
         
         //Find the nearest collision point with all sollids
         var collision = null;
         var thisCollision = null;
-        for (var blockId in terrain) {
+        
+        //For each list of objects
+        for (var listId in lists) {
+            var terrain = lists[listId];
             
-            var block = terrain[blockId];
-            if (block === this)
-                continue;
-            var vertices = block.getRigidBody().getVertices();
-            
-            //For each of the bounding lines...
-            for (var i = 0; i < vertices.length; i++) {
-                var j = (i + 1) % vertices.length;
-                
-                //Check if they intersect BunBun's laser, and where
-                thisCollision = intersects(myPos, toPos, vertices[i], vertices[j]);
-                if (thisCollision !== null) {
-                    
-                    if (collision === null) {
-                        thisCollision['object'] = block;
-                        collision = thisCollision;
-                    }
-                    else if (thisCollision.distance[0] < collision.distance[0]) {
-                        thisCollision['object'] = block;
-                        collision = thisCollision;
+            //For each object in the list
+            for (var blockId in terrain) {
+
+                var block = terrain[blockId];
+                if (block === this)
+                    continue;
+                if ( block.getRigidBody() === null)
+                    continue;
+                var vertices = block.getRigidBody().getVertices();
+
+                //For each of the bounding lines...
+                for (var i = 0; i < vertices.length; i++) {
+                    var j = (i + 1) % vertices.length;
+
+                    //Check if they intersect BunBun's laser, and where
+                    thisCollision = intersects(myPos, toPos, vertices[i], vertices[j]);
+                    if (thisCollision !== null) {
+
+                        if (collision === null) {
+                            thisCollision['object'] = block;
+                            collision = thisCollision;
+                        }
+                        else if (thisCollision.distance[0] < collision.distance[0]) {
+                            thisCollision['object'] = block;
+                            collision = thisCollision;
+                        }
                     }
                 }
             }

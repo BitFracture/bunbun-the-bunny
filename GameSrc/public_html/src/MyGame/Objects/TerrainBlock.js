@@ -91,13 +91,7 @@ TerrainBlock.prototype.toProperties = function () {
  */
 TerrainBlock.prototype.draw = function (camera) {
     
-    //if (camera.getName() === "main")
-        //this.setDrawRigidShape(true);
-    //else
-        //this.setDrawRigidShape(false);
-    
     GameObject.prototype.draw.call(this, camera);
-    this.getCollisionInfo().draw(camera);
 };
 
 
