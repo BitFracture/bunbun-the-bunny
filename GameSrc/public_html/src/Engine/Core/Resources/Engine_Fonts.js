@@ -55,6 +55,18 @@ gEngine.Fonts = (function () {
         fontInfo.FontImage = fontName + ".png";
         gEngine.ResourceMap.asyncLoadCompleted(fontName, fontInfo); // to store the actual font info
     };
+    
+    /**
+     * Standardized load function
+     * 
+     * @param {type} fileName
+     * @param {type} callback
+     * @returns {void}
+     */
+    var load = function (fileName, callback) {
+        
+        return loadFont(fileName, callback);
+    };
 
     /**
      * Load font into resource map
@@ -62,7 +74,7 @@ gEngine.Fonts = (function () {
      * @param {String} fontName
      * @return {void}
      */
-    var loadFont = function (fontName) {
+    var loadFont = function (fontName, callback) {
         if (!(gEngine.ResourceMap.isAssetLoaded(fontName))) {
             var fontInfoSourceString = fontName + ".fnt";
             var textureSourceString = fontName + ".png";
@@ -71,7 +83,11 @@ gEngine.Fonts = (function () {
 
             gEngine.Textures.loadTexture(textureSourceString);
             gEngine.TextFileLoader.loadTextFile(fontInfoSourceString,
-                            gEngine.TextFileLoader.eTextFileType.eXMLFile, _storeLoadedFont);
+                    gEngine.TextFileLoader.eTextFileType.eXMLFile, function(fontInfoSourceString) {
+                        _storeLoadedFont(fontInfoSourceString);
+                        if (typeof callback !== 'undefined' && callback !== null)
+                            callback();
+                    });
         } else {
             gEngine.ResourceMap.incAssetRefCount(fontName);
         }
@@ -148,6 +164,7 @@ gEngine.Fonts = (function () {
     // Public interface for this object. Anything not in here will
     // not be accessable.
     var mPublic = {
+        load: load,
         loadFont: loadFont,
         unloadFont: unloadFont,
         getCharInfo: getCharInfo

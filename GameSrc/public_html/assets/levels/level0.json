@@ -43,18 +43,6 @@
             "name": "assets/textures/indicator.png",
             "type": "texture"
         }, {
-            "name": "assets/sounds/Bun_Jump.wav",
-            "type": "sound"
-        }, {
-            "name": "assets/sounds/Bun_Land.wav",
-            "type": "sound"
-        }, {
-            "name": "assets/sounds/Bun_Pain.wav",
-            "type": "sound"
-        }, {
-            "name": "assets/sounds/BunBun_Level_1_NoIntro.mp3",
-            "type": "sound"
-        }, {
             "name": "assets/fonts/Consolas-32",
             "type": "font"
         }

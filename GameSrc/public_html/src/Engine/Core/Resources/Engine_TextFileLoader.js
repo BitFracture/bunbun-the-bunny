@@ -34,6 +34,18 @@ gEngine.TextFileLoader = (function () {
     });
 
     /**
+     * Standardized load function
+     * 
+     * @param {type} fileName
+     * @param {type} callback
+     * @returns {void}
+     */
+    var load = function (fileName, callback) {
+        
+        return loadTextFile(fileName, null, callback);
+    };
+
+    /**
      * Load text file if fileType is a eTextFileType
      * @memberOf gEngine.TextFileLoader
      * @param {String} fileName File Path name
@@ -92,6 +104,7 @@ gEngine.TextFileLoader = (function () {
     // Public interface for this object. Anything not in here will
     // not be accessable.
     var mPublic = {
+        load: load,
         loadTextFile: loadTextFile,
         unloadTextFile: unloadTextFile,
         eTextFileType: eTextFileType

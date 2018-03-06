@@ -5,9 +5,6 @@
         {
             "name": "assets/textures/winScreen.png",
             "type": "texture"
-        }, {
-            "name": "assets/sounds/Game_Win.wav",
-            "type": "sound"
         }
     ],
     "cameraList": [

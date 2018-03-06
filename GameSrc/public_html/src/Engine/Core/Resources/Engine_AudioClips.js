@@ -36,6 +36,18 @@ gEngine.AudioClips = (function () {
             mAudioContext = new AudioContext();
         } catch (e) {alert("Web Audio Is not supported."); }
     };
+    
+    /**
+     * Standardized load function
+     * 
+     * @param {type} fileName
+     * @param {type} callback
+     * @returns {void}
+     */
+    var load = function (fileName, callback) {
+        
+        return loadAudio(fileName, callback);
+    };
 
     /**
      * Load Audio Source into the resource map
@@ -43,7 +55,7 @@ gEngine.AudioClips = (function () {
      * @param {String} clipName
      * @returns {void}
      */
-    var loadAudio = function (clipName) {
+    var loadAudio = function (clipName, callback) {
         if (!(gEngine.ResourceMap.isAssetLoaded(clipName))) {
             // Update resources in load counter.
             gEngine.ResourceMap.asyncLoadRequested(clipName);
@@ -65,8 +77,10 @@ gEngine.AudioClips = (function () {
                 mAudioContext.decodeAudioData(req.response,
                     function (buffer) {
                         gEngine.ResourceMap.asyncLoadCompleted(clipName, buffer);
-                    }
-                    );
+                    } );
+                if (typeof callback !== 'undefined' && callback !== null) {
+                    callback();
+                }
             };
             req.send();
         } else {
@@ -147,6 +161,7 @@ gEngine.AudioClips = (function () {
     // Public interface for this object. Anything not in here will
     // not be accessable.
     var mPublic = {
+        load: load,
         initAudioContext: initAudioContext,
         loadAudio: loadAudio,
         unloadAudio: unloadAudio,

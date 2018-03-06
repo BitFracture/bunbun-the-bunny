@@ -61,26 +61,8 @@ GameLevel.prototype.loadScene = function () {
     this.LEVEL = JSON.parse(gEngine.ResourceMap.retrieveAsset(this.LEVEL_FILE));
 
     //Load up the assets
-    for (var assetId in this.LEVEL["assetList"]) {
-        
-        var asset = this.LEVEL["assetList"][assetId];
-        
-        //Load a texture
-        if (asset.type === "texture")
-            gEngine.Textures.loadTexture(asset.name);
-        //Load a text file
-        else if (asset.type === "text")
-            gEngine.TextFileLoader.loadTextFile(asset.name);
-        //Load a sound file
-        else if (asset.type === "sound")
-            gEngine.AudioClips.loadAudio(asset.name);
-        //Load a font
-        else if (asset.type === "font")
-            gEngine.Fonts.loadFont(asset.name);
-        //Toss a warning
-        else
-            console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
-    }
+    for (var assetId in this.LEVEL["assetList"])
+        this.loadAsset(this.LEVEL["assetList"][assetId]);
 };
 
 
@@ -93,23 +75,55 @@ GameLevel.prototype.unloadScene = function () {
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
     
     //Unload the dynamic assets
-    for (var assetId in this.LEVEL["assetList"]) {
-        
-        var asset = this.LEVEL["assetList"][assetId];
-        
-        //Unload a texture
-        if (asset.type === "texture")
-            gEngine.Textures.unloadTexture(asset.name);
-        //Unload a text file
-        else if (asset.type === "text")
-            gEngine.TextFileLoader.unloadTextFile(asset.name);
-        //Unload a sound file
-        else if (asset.type === "sound")
-            gEngine.AudioClips.unloadAudio(asset.name);
-        //Unload a font
-        else if (asset.type === "font")
-            gEngine.Fonts.unloadFont(asset.name);
-    }
+    for (var assetId in this.LEVEL["assetList"])
+        this.unloadAsset(this.LEVEL["assetList"][assetId]);
+};
+
+
+/**
+ * Loads an asset from its definition object.
+ * 
+ * @param asset  The asset properties object defining type and name/path
+ */
+GameLevel.prototype.loadAsset = function (asset, callback) {
+    
+    //Load a texture
+    if (asset.type === "texture")
+        gEngine.Textures.load(asset.name, callback);
+    //Load a text file
+    else if (asset.type === "text")
+        gEngine.TextFileLoader.load(asset.name, callback);
+    //Load a sound file
+    else if (asset.type === "sound")
+        gEngine.AudioClips.load(asset.name, callback);
+    //Load a font
+    else if (asset.type === "font")
+        gEngine.Fonts.load(asset.name, callback);
+    //Toss a warning
+    else
+        console.log("Asset \"" + asset.name + "\" had unknown type: " + asset.type);
+};
+
+
+/**
+ * Unloads an asset from its definition object.
+ * 
+ * @param asset  The asset properties object used to load this asset.
+ */
+GameLevel.prototype.unloadAsset = function (asset) {
+    
+    //Unload a texture
+    if (asset.type === "texture")
+        gEngine.Textures.unloadTexture(asset.name);
+    //Unload a text file
+    else if (asset.type === "text")
+        gEngine.TextFileLoader.unloadTextFile(asset.name);
+    //Unload a sound file
+    else if (asset.type === "sound")
+        gEngine.AudioClips.unloadAudio(asset.name);
+    //Unload a font
+    else if (asset.type === "font")
+        gEngine.Fonts.unloadFont(asset.name);
 };
 
 
@@ -150,8 +164,9 @@ GameLevel.prototype.initialize = function () {
             if (typeof properties["__depth"] !== 'undefined')
                 newObject.setDrawDepth(properties["__depth"]);
         }
-    }      
+    }
     
+    //This needs to get pushed to objects
     if (this.LEVEL["name"] === "Level 0") {
         gEngine.AudioClips.stopBackgroundAudio();
         gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_NoIntro.mp3");
