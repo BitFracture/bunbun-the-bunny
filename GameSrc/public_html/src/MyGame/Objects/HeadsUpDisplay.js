@@ -13,29 +13,12 @@
 
 
 /**
- * Creates a new player based on its location in the world.
- * 
- * @param x  The x position
- * @param y  The Y position
- * @param lowerLeftX  The lower left X of the texture crop box
- * @param lowerLeftY  The lower left Y of the texture crop box
- * @param upperRightX  The upper right X of the texture crop box
- * @param upperRightY  The upper right Y of the texture crop box
- * @param textureAsset  The asset ID of the overlay texture
+ * Creates a new HUD in the world.
  */
-function HeadsUpDisplay(x, y, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
+function HeadsUpDisplay() {
     
-    this.moveDelta = 2;
-    this.speedMultiplier = 1;
+    this.renderable = new Renderable();
 
-    this.renderable = new SpriteRenderable(textureAsset);
-    this.renderable.setColor([1, 1, 1, 0]);
-    this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
     GameObject.call(this, this.renderable);
 }
 gEngine.Core.inheritPrototype(HeadsUpDisplay, GameObject);
@@ -48,14 +31,7 @@ gEngine.Core.inheritPrototype(HeadsUpDisplay, GameObject);
  * @returns A new instance.
  */
 HeadsUpDisplay.fromProperties = function (properties) {    
-    return new HeadsUpDisplay(
-            properties["position"][0], 
-            properties["position"][1],
-            properties["lowerLeft"][0], 
-            properties["lowerLeft"][1], 
-            properties["upperRight"][0], 
-            properties["upperRight"][1],
-            properties["textureId"]);
+    return new HeadsUpDisplay();
 };
 
 
