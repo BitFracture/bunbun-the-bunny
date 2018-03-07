@@ -28,29 +28,33 @@
  * @param speed animation speed
  * @param textureAsset  The asset ID of the overlay texture
  */
-function BunAnimation(x, y, w, h, topPixel, leftPixel, elmWidthInPixel, 
-        elmHeightInPixel, numElements, wPaddingInPixel, speed, textureAsset) {
+function BunAnimation(x, y) {
     
-    this.renderable = new SpriteAnimateRenderable(textureAsset);
+    //Texture crop box
+    var lowerLeft = [23, 23];
+    var upperRight = [489, 489];
+
+    this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
     this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(w, h);
-    this.renderable.setSpriteSequence(
-            topPixel,
-            leftPixel,
-            elmWidthInPixel,
-            elmHeightInPixel,
-            numElements,
-            wPaddingInPixel
-            );
-    this.renderable.setAnimationSpeed(speed);
-    this.renderable.setAnimationType(2);
-            
+    this.renderable.getTransform().setSize(4, 4);
+    this.renderable.setElementPixelPositions(
+            lowerLeft[0], upperRight[0],
+            lowerLeft[1], upperRight[1]);
+    
     GameObject.call(this, this.renderable);
     
     this.setDrawRenderable(true);
     
-  
+    //Configurable
+    this.acceleration = -.05;
+    this.jumpInterval = 120;
+    this.jumpVelocity = 1.1;
+    
+    //State
+    this.velocity = 0;
+    this.floor = y;
+    this.jumpTimer = 30;
 }
 gEngine.Core.inheritPrototype(BunAnimation, GameObject);
 
@@ -61,22 +65,28 @@ gEngine.Core.inheritPrototype(BunAnimation, GameObject);
  * @param properties  The properties object to be used for construction.
  * @returns A new instance.
  */
-BunAnimation.fromProperties = function (properties) {    
+BunAnimation.fromProperties = function (properties) {
+    
     return new BunAnimation(
             properties["position"][0], 
-            properties["position"][1],
-            properties["size"][0], 
-            properties["size"][1], 
-            properties["offset"][0], 
-            properties["offset"][1], 
-            properties["dimensions"][0], 
-            properties["dimensions"][1],
-            properties["elements"],
-            properties["padding"],
-            properties["speed"],
-            properties["textureId"]);
+            properties["position"][1]);
 };
 
 BunAnimation.prototype.update = function () {
-    this.renderable.updateAnimation();
+    
+    var transform = this.renderable.getTransform();
+    
+    this.velocity += this.acceleration;
+    transform.incYPosBy(this.velocity);
+    
+    //If we landed, can't fall further
+    if (transform.getYPos() < this.floor)
+        transform.setYPos(this.floor);
+    
+    //Jump!
+    this.jumpTimer -= 1;
+    if (this.jumpTimer <= 0) {
+        this.jumpTimer = this.jumpInterval;
+        this.velocity = this.jumpVelocity;
+    }
 };

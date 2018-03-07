@@ -66,6 +66,9 @@ function Spaceship(x, y) {
     this.pickupTarget = null;
     this.pickupCountdown = 0;
     
+    this.pickupFinderDistance = 45;
+    this.pickupFinderPropability = 1/1000;
+    
     this.laserCollided = false;
     this.controlsLevelChange = false;
 }
@@ -121,7 +124,6 @@ Spaceship.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
     
-    this.updatePickupFinder();
     this.updatePlayerFinder(camera);
     
     this.laserCollided = false;
@@ -135,6 +137,11 @@ Spaceship.prototype.updatePickupFinder = function () {
     
     //If we already have a carrot chosen, make it go boom
     if (this.pickupTarget !== null) {
+        
+        if (this.pickupTarget.getIsDeleted()) {
+            this.pickupTarget = null;
+            return;
+        }
         
         if (this.pickupCountdown > 0) {
             this.pickupCountdown--;
@@ -166,7 +173,9 @@ Spaceship.prototype.updatePickupFinder = function () {
         distance = Math.sqrt(distance);
         
         //With a random (unlikely) chance, strike this carrot
-        if (distance < 25 && Math.floor(Math.random() * 300) === 10) {
+        if (distance < this.pickupFinderDistance 
+                && Math.floor(Math.random() * 
+                (1 / this.pickupFinderPropability )) === 10) {
             
             this.pickupTarget = carrot;
             this.pickupCountdown = 60;
@@ -205,7 +214,10 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         var distanceInY = playerPos[1] - xform.getPosition()[1];
         
         if (Math.abs(distanceInX) < 70) {
-
+            
+            //Only convert carrots if player is nearby
+            this.updatePickupFinder();
+            
             //Move x position towards the camera in a smooth way
             idealVelocity[0] = distanceInX;
             if (idealVelocity[0] > .07)

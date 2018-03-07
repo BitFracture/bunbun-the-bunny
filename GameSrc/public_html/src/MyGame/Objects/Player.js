@@ -242,9 +242,12 @@ Player.prototype.updateLaser = function (camera) {
     if (gEngine.Input.isButtonPressed(0)) {
         
         //Use up carrot points, abort if none left
-        this.carrotPoints -= .03;
         if (this.carrotPoints <= 0)
             return;
+        else
+            this.carrotPoints -= .03;
+        if (this.carrotPoints <= 0)
+            this.carrotPoints = 0;
         
         //Get our pos and the mouse pos
         var myPos = this.getTransform().getPosition();
