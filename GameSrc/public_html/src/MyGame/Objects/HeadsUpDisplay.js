@@ -45,15 +45,17 @@ HeadsUpDisplay.fromProperties = function (properties) {
  */
 HeadsUpDisplay.prototype.draw = function (camera) {
     
-    GameObject.prototype.draw.call(this, camera);
-    
-    var camPos = camera.getWCCenter();
-    this.mStatusText.getTransform().setPosition(
-            camPos[0] - 47,
-            camPos[1] - 34
-            );
-    
-    this.mStatusText.draw(camera);
+    if (camera.getName() === "main") {
+        GameObject.prototype.draw.call(this, camera);
+
+        var camPos = camera.getWCCenter();
+        this.mStatusText.getTransform().setPosition(
+                camPos[0] - 47,
+                camPos[1] - 34
+                );
+
+        this.mStatusText.draw(camera);
+    }
 };
 
 

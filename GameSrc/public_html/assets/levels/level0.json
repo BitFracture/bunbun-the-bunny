@@ -810,8 +810,8 @@
             {
                 "__depth":      -100,
                 "__hasPhysics": false,
-                "waterSpeed":   0.05,
-                "waterLevel":   -10
+                "waterSpeed":   0.04,
+                "waterLevel":   -20
             }
         ],
         "Facade": [
@@ -870,7 +870,7 @@
             {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [500, 230]
+                "position":     [500, 190]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
