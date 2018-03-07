@@ -5,9 +5,6 @@
         {
             "name": "assets/textures/Bun_LoadScreen.png",
             "type": "texture"
-        }, {
-            "name": "assets/textures/Bun_jump_animation.png",
-            "type": "texture"
         }
     ],
     "cameraList": [
