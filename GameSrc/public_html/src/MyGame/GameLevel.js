@@ -133,13 +133,19 @@ GameLevel.prototype.unloadAsset = function (asset) {
  */
 GameLevel.prototype.initialize = function () {
     
-    //Global conditions
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
-    
     this.physicsObjectList = new GameObjectSet();
     this.objectList = new GameObjectSet();
     
     var levelConfig = this.LEVEL;
+    
+    //World lighting setup
+    if (typeof levelConfig["ambientColor"] === 'undefined')
+        levelConfig["ambientColor"] = [1, 1, 1, 1];
+    gEngine.DefaultResources.setGlobalAmbientColor(levelConfig["ambientColor"]);
+    
+    if (typeof levelConfig["ambientIntensity"] === 'undefined')
+        levelConfig["ambientIntensity"] = 1.0;
+    gEngine.DefaultResources.setGlobalAmbientIntensity(levelConfig["ambientIntensity"]);
     
     //Load cameras
     if (levelConfig["cameraList"].length <= 0)

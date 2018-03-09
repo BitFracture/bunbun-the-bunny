@@ -1,6 +1,8 @@
 {
     "name": "Level 0",
     "description": "A BunBun beta level",
+    "ambientColor": [1, 1, 1, 1],
+    "ambientIntensity": 0.5,
     "assetList": [
         {
             "name": "assets/textures/bunOverlay.png",
@@ -811,7 +813,7 @@
                 "__depth":      -100,
                 "__hasPhysics": false,
                 "waterSpeed":   0.04,
-                "waterLevel":   -20
+                "waterLevel":   -20000
             }
         ],
         "Facade": [

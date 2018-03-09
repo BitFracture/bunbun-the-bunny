@@ -31,13 +31,14 @@ function Player(x, y) {
     var lowerLeft = [23, 23];
     var upperRight = [489, 489];
 
-    this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
-    this.renderable.setColor([1, 1, 1, 0]);
+    this.renderable = new LightRenderable("assets/textures/BunSprite1.png");
+    //this.renderable.setColor([0, 0, 1, 1]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setElementPixelPositions(
+    /*this.renderable.setElementPixelPositions(
             lowerLeft[0], upperRight[0],
-            lowerLeft[1], upperRight[1]);
+            lowerLeft[1], upperRight[1]);*/
+    //this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
     GameObject.call(this, this.renderable);
     
     var r = new RigidCircle(this.getTransform(), 2);
@@ -139,6 +140,8 @@ Player.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
     var xform = this.getTransform();
+
+    //console.log(this.getCollisionInfo().getNormal());
 
     this.updateLaser(camera);
 

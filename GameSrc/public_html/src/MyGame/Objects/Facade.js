@@ -32,7 +32,6 @@ function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
         textureAsset) {
 
     this.renderable = new SpriteRenderable(textureAsset);
-    this.renderable.setColor([1, 1, 1, 0]);
     this.renderable.getTransform().setPosition(x + (w / 2), y + (h / 2));
     this.renderable.getTransform().setSize(w, h);
     this.renderable.setElementPixelPositions(
@@ -75,7 +74,7 @@ Facade.prototype.draw = function (camera) {
     if (camera.getName() === "minimap")
         this.renderable.setColor([.5, .5, .5, 1]);
     else
-        this.renderable.setColor([.5, .5, .5, 0]);
+        this.renderable.setColor([0, 0, 0, 0]);
     
     GameObject.prototype.draw.call(this, camera);
 };
