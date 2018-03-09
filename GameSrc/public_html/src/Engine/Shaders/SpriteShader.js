@@ -56,9 +56,9 @@ gEngine.Core.inheritPrototype(SpriteShader, TextureShader);
  * @returns {void}
  * @memberOf SpriteShader
  */
-SpriteShader.prototype.activateShader = function (pixelColor, aCamera) {
+SpriteShader.prototype.activateShader = function (pixelColor, aCamera, lightingEnabled) {
     // first call the super class's activate
-    SimpleShader.prototype.activateShader.call(this, pixelColor, aCamera);
+    SimpleShader.prototype.activateShader.call(this, pixelColor, aCamera, lightingEnabled);
 
     // now binds the proper texture coordinate buffer
     var gl = gEngine.Core.getGL();

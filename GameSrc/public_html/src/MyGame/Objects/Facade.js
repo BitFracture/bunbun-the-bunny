@@ -37,6 +37,7 @@ function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
     this.renderable.setElementPixelPositions(
             lowerLeftX, upperRightX,
             lowerLeftY, upperRightY);
+    this.renderable.setLightingEnabled(false);
     
     GameObject.call(this, this.renderable);
     

@@ -81,7 +81,7 @@ SimpleShader.prototype.getShader = function () { return this.mCompiledShader; };
  * @param {Camera} aCamera Camera to draw to
  * @returns {void}
  */
-SimpleShader.prototype.activateShader = function (pixelColor, aCamera) {
+SimpleShader.prototype.activateShader = function (pixelColor, aCamera, lightingEnabled) {
     var gl = gEngine.Core.getGL();
     gl.useProgram(this.mCompiledShader);
     gl.uniformMatrix4fv(this.mViewProjTransform, false, aCamera.getVPMatrix());
@@ -94,8 +94,17 @@ SimpleShader.prototype.activateShader = function (pixelColor, aCamera) {
         0);             // offsets to the first element
     gl.enableVertexAttribArray(this.mShaderVertexPositionAttribute);
     gl.uniform4fv(this.mPixelColor, pixelColor);
-    gl.uniform4fv(this.mGlobalAmbientColor, gEngine.DefaultResources.getGlobalAmbientColor());
-    gl.uniform1f(this.mGlobalAmbientIntensity, gEngine.DefaultResources.getGlobalAmbientIntensity());
+    
+    //Environment lighting (may be disabled)
+    if (typeof lightingEnabled === 'undefined' || lightingEnabled === true) {
+        
+        gl.uniform4fv(this.mGlobalAmbientColor, gEngine.DefaultResources.getGlobalAmbientColor());
+        gl.uniform1f(this.mGlobalAmbientIntensity, gEngine.DefaultResources.getGlobalAmbientIntensity());
+    } else {
+        
+        gl.uniform4fv(this.mGlobalAmbientColor, [1.0, 1.0, 1.0, 1.0]);
+        gl.uniform1f(this.mGlobalAmbientIntensity, 1.0);
+    }
 };
 
 /**

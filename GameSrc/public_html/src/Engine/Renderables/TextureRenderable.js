@@ -48,7 +48,7 @@ gEngine.Core.inheritPrototype(TextureRenderable, Renderable);
  */
 TextureRenderable.prototype.draw = function (aCamera) {
     // activate the texture
-    gEngine.Textures.activateTexture(this.mTexture);
+    gEngine.Textures.activateTexture(this.mTexture, null, this.lightingEnabled);
     Renderable.prototype.draw.call(this, aCamera);
 };
 

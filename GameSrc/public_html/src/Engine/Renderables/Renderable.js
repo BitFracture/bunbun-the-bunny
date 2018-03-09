@@ -23,7 +23,14 @@ function Renderable() {
     this.mShader = gEngine.DefaultResources.getConstColorShader();  // this is the default
     this.mXform = new Transform(); // transform that moves this object around
     this.mColor = [1, 1, 1, 1];    // color of pixel
+    
+    this.lightingEnabled = true;
 }
+
+Renderable.prototype.setLightingEnabled = function(enabled) {
+    
+    this.lightingEnabled = enabled;
+};
 
 //<editor-fold desc="Public Methods">
 //**-----------------------------------------
@@ -38,7 +45,7 @@ function Renderable() {
  */
 Renderable.prototype.draw = function (aCamera) {
     var gl = gEngine.Core.getGL();
-    this.mShader.activateShader(this.mColor, aCamera);  // always activate the shader first!
+    this.mShader.activateShader(this.mColor, aCamera, this.lightingEnabled);  // always activate the shader first!
     this.mShader.loadObjectTransform(this.mXform.getTransform());
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 };
