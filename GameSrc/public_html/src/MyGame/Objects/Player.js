@@ -54,7 +54,7 @@ function Player(x, y) {
     
     //Add directional daylight
     this.daylight = new Light();
-    this.daylight.setColor([.75, .75, .75, 1]);
+    this.daylight.setColor([.35, .35, .35, 1]);
     this.daylight.setZPos(-5);
     this.daylight.setDirection([0, -.25, -1]);
     this.daylight.setLightType(Light.eLightType.eDirectionalLight);
@@ -82,6 +82,7 @@ function Player(x, y) {
     this.laserHit.getTransform().setSize(4, 4);
     this.laserHit.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.laserHit.setAnimationSpeed(1);
+    this.laserHit.setLightingEnabled(false);
     
     //Map indicator
     this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");

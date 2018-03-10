@@ -15,37 +15,19 @@
             "name": "assets/textures/Overlay4.png",
             "type": "texture"
         }, {
-            "name": "assets/textures/Overlay4Normal.png",
-            "type": "texture"
-        }, {
             "name": "assets/textures/Overlay5.png",
-            "type": "texture"
-        }, {
-            "name": "assets/textures/Overlay5Normal.png",
             "type": "texture"
         }, {
             "name": "assets/textures/Overlay6.png",
             "type": "texture"
         }, {
-            "name": "assets/textures/Overlay6Normal.png",
-            "type": "texture"
-        }, {
             "name": "assets/textures/Overlay1.png",
-            "type": "texture"
-        }, {
-            "name": "assets/textures/Overlay1Normal.png",
             "type": "texture"
         }, {
             "name": "assets/textures/Overlay2.png",
             "type": "texture"
         }, {
-            "name": "assets/textures/Overlay2Normal.png",
-            "type": "texture"
-        }, {
             "name": "assets/textures/Overlay3.png",
-            "type": "texture"
-        }, {
-            "name": "assets/textures/Overlay3Normal.png",
             "type": "texture"
         }, {
             "name": "assets/textures/carrotSlice.png",
@@ -844,48 +826,42 @@
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Overlay4.png",
-                "normalId":   "assets/textures/Overlay4Normal.png"
+                "textureId":  "assets/textures/Overlay4.png"
             }, {
                 "__depth":    50,
                 "position":   [100, 0],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Overlay5.png",
-                "normalId":   "assets/textures/Overlay5Normal.png"
+                "textureId":  "assets/textures/Overlay5.png"
             }, {
                 "__depth":    50,
                 "position":   [200, 25],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Overlay6.png",
-                "normalId":   "assets/textures/Overlay6Normal.png"
+                "textureId":  "assets/textures/Overlay6.png"
             }, {
                 "__depth":    50,
                 "position":   [300, 50],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Overlay1.png",
-                "normalId":   "assets/textures/Overlay1Normal.png"
+                "textureId":  "assets/textures/Overlay1.png"
             }, {
                 "__depth":    50,
                 "position":   [400, 75],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Overlay2.png",
-                "normalId":   "assets/textures/Overlay2Normal.png"
+                "textureId":  "assets/textures/Overlay2.png"
             }, {
                 "__depth":    50,
                 "position":   [500, 100],
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/Overlay3.png",
-                "normalId":   "assets/textures/Overlay3Normal.png"
+                "textureId":  "assets/textures/Overlay3.png"
             }
             
         ],
