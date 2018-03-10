@@ -12,10 +12,16 @@
         </group>
         <group>
             <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/Player.js</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/WinPoint.js</file>
-            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/CarrotPickup.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/GameLevel.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Core/Resources/Engine_DefaultResources.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/GLSLShaders/SimpleFS.glsl</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/GLSLShaders/TextureFS.glsl</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Lights/Light.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/Facade.js</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/GLSLShaders/LightFS.glsl</file>
             <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/MyGame/Objects/Spaceship.js</file>
             <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/assets/levels/level0.json</file>
+            <file>file:/C:/Users/Admin/git/css452/bunbun-the-bunny.git/GameSrc/public_html/src/Engine/Shaders/LightShader.js</file>
         </group>
     </open-files>
 </project-private>

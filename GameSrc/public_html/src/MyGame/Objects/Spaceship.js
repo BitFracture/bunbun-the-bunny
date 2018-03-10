@@ -22,20 +22,22 @@
  * @param y  Y position
  */
 function Spaceship(x, y) {
-    
-    //Texture crop box
-    var lowerLeft = [15, 150];
-    var upperRight = [475, 315];
-    
-    this.renderable = new SpriteRenderable("assets/textures/Spaceship.png");
-    this.renderable.setColor([1, 1, 1, 0]);
+
+    this.renderable = new IllumRenderable(
+            "assets/textures/Spaceship.png",
+            "assets/textures/SpaceshipNormal.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(27.6, 9.9);
-    this.renderable.setElementPixelPositions(
-            lowerLeft[0], upperRight[0],
-            lowerLeft[1], upperRight[1]);
-
+    this.renderable.setSpriteProperties([15, 150], [450, 165], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     GameObject.call(this, this.renderable);
+    
+    //Alien ship light
+    this.glow = new Light();
+    this.glow.setColor([0.25, 1.0, 0.25, 0]);
+    this.glow.setFar(30);
+    this.glow.setLightType(Light.eLightType.ePointLight);
+    this.renderable.addLight(this.glow);
     
     //Map indicator
     this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");
@@ -123,6 +125,9 @@ Spaceship.prototype.draw = function (camera) {
 Spaceship.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
+    
+    var pos = this.renderable.getTransform().getPosition();
+    this.glow.set2DPosition([pos[0], pos[1] - 10]);
     
     this.updatePlayerFinder(camera);
     

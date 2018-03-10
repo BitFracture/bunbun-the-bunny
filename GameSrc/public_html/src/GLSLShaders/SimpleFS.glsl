@@ -11,5 +11,6 @@ uniform float uGlobalAmbientIntensity;  // this is shared globally
 
 void main(void)  {
     // for every pixel called sets to the user specified color
-    gl_FragColor = uPixelColor * uGlobalAmbientIntensity * uGlobalAmbientColor;
+    vec3 rgbColor = vec3(uPixelColor * uGlobalAmbientColor) * uGlobalAmbientIntensity;
+    gl_FragColor = vec4(rgbColor, uPixelColor.a);
 }

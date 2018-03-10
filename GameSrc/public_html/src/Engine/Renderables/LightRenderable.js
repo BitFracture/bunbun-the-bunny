@@ -67,9 +67,29 @@ LightRenderable.prototype.getLightAt = function (index) {
  * @returns {void}
  * @memberOf LightRenderable
  */
-LightRenderable.prototype.addLight = function (l) {
-    this.mLights.push(l);
+LightRenderable.prototype.addLight = function (light) {
+    this.mLights.push(light);
 };
+
+LightRenderable.prototype.removeLight = function (light) {
+    
+    var i = this.mLights.indexOf(light);
+    if (i >= 0)
+        this.mLights.splice(i, 1);
+};
+
+/**
+ * Attaches an external list of lights. This is great for managing global 
+ * lighting.
+ * 
+ * @param {type} lightList
+ * @returns {undefined}
+ */
+LightRenderable.prototype.attachLightSet = function (lightSet) {
+    
+    this.mLights = lightSet.mSet;
+};
+
 //--- end of Public Methods
 
 //</editor-fold>

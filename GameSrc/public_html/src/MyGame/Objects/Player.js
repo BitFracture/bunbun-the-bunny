@@ -27,28 +27,49 @@ function Player(x, y) {
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
-    //Texture crop box
-    var lowerLeft = [23, 23];
-    var upperRight = [489, 489];
-
-    this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
-    this.renderable.setColor([1, 1, 1, 0]);
+    this.renderable = new LightRenderable("assets/textures/BunSprite1.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setElementPixelPositions(
-            lowerLeft[0], upperRight[0],
-            lowerLeft[1], upperRight[1]);
+    this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     GameObject.call(this, this.renderable);
     
     var r = new RigidCircle(this.getTransform(), 2);
     this.setRigidBody(r);
     r.setMass(0.2);
-    r.setDragConstant(.1);
+    r.setDragConstant(1);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(false);
     r.setFriction(0);
     
     this.jumpTimeout = 0;
+    
+    //Add a light attached to BunBun
+    this.halo = new Light();
+    this.halo.setColor([0.5, 0.5, 0.5, 0]);
+    this.halo.setFar(35);
+    this.halo.setLightType(Light.eLightType.ePointLight);
+    this.halo.setDropOff(.1);
+    this.renderable.addLight(this.halo);
+    
+    //Add directional daylight
+    this.daylight = new Light();
+    this.daylight.setColor([.35, .35, .35, 1]);
+    this.daylight.setZPos(-5);
+    this.daylight.setDirection([0, -.25, -1]);
+    this.daylight.setLightType(Light.eLightType.eDirectionalLight);
+    this.renderable.addLight(this.daylight);
+    
+    //Add laser zap light
+    this.laserLight = new Light();
+    this.laserLight.setColor([1, 0, 0, 1]);
+    this.laserLight.setLightType(Light.eLightType.ePointLight);
+    this.laserLight.setDropOff(.1);
+    this.laserLight.setFar(10);
+    this.laserLight.setNear(1);
+    this.laserLight.setLightTo(false);
+    this.laserLight.setIntensity(3);
+    this.renderable.addLight(this.laserLight);
     
     //Store camera references for later
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
@@ -72,6 +93,7 @@ function Player(x, y) {
     this.laserHit.getTransform().setSize(4, 4);
     this.laserHit.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
     this.laserHit.setAnimationSpeed(1);
+    this.laserHit.setLightingEnabled(false);
     
     //Map indicator
     this.mapRenderable = new TextureRenderable("assets/textures/indicator.png");
@@ -109,6 +131,10 @@ Player.fromProperties = function (properties) {
  */
 Player.prototype.draw = function (camera) {
     
+    //Turn on zap light when and only when laser is on
+    this.laserLight.setLightTo(this.laserEnabled && this.laserHitEnable);
+    this.laserLight.set2DPosition(this.laserHit.getTransform().getPosition());
+    
     if (camera.getName() === "minimap") {
         
         var myPos = this.renderable.getTransform().getPosition();
@@ -118,7 +144,7 @@ Player.prototype.draw = function (camera) {
     
     else {
         GameObject.prototype.draw.call(this, camera);
-
+        
         if (this.laserEnabled) {
 
             this.laser.draw(camera);
@@ -129,6 +155,16 @@ Player.prototype.draw = function (camera) {
     }
 };
 
+/**
+ * Unregister our light object when we are destroyed
+ * 
+ * @returns {undefined}
+ */
+Player.prototype.delete = function () {
+    
+    this.renderable.removeLight(this.halo);
+    GameObject.prototype.delete.call(this);
+};
 
 /**
  * Take user input and update rigid body.
@@ -139,6 +175,11 @@ Player.prototype.update = function (camera) {
     
     GameObject.prototype.update.call(this);
     var xform = this.getTransform();
+
+    //console.log(this.getCollisionInfo().getNormal());
+
+    //Place light at mouse cursor
+    this.halo.set2DPosition(this.renderable.getTransform().getPosition());
 
     this.updateLaser(camera);
 
@@ -234,6 +275,8 @@ Player.prototype.update = function (camera) {
  */
 Player.prototype.updateLaser = function (camera) {
     
+    //Flash the laser light
+    this.laserLight.setColor([(Math.random() / 3) + 0.33, 0, 0, 1]);
     this.laserHit.updateAnimation();
     this.laserHit.getTransform().setRotationInRad(Math.random() * 20);
     
@@ -380,4 +423,3 @@ function intersects(firstLineStart, firstLineEnd, secondLineStart, secondLineEnd
         }
     }
 };
-

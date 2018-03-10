@@ -29,15 +29,22 @@
  * @param textureAsset  The asset ID of the overlay texture
  */
 function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
-
-    this.renderable = new SpriteRenderable(textureAsset);
-    this.renderable.setColor([1, 1, 1, 0]);
+        textureAsset, textureNormal, unlit) {
+    
+    this.renderable = null;
+    if (typeof unlit !== 'undefined' && unlit) {
+        this.renderable = new SpriteAnimateRenderable(textureAsset);
+        this.renderable.setLightingEnabled(false);
+    } else {
+        if (typeof textureNormal !== 'undefined')
+            this.renderable = new IllumRenderable(textureAsset, textureNormal);
+        else
+            this.renderable = new LightRenderable(textureAsset);
+        this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
+    }
     this.renderable.getTransform().setPosition(x + (w / 2), y + (h / 2));
     this.renderable.getTransform().setSize(w, h);
-    this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
+    this.renderable.setSpriteProperties([lowerLeftX, lowerLeftY], [upperRightX - lowerLeftX, upperRightY - lowerLeftY], 1, 0);
     
     GameObject.call(this, this.renderable);
     
@@ -53,7 +60,7 @@ gEngine.Core.inheritPrototype(Facade, GameObject);
  * @returns A new instance.
  */
 Facade.fromProperties = function (properties) {
-    
+
     return new Facade(
             properties["position"][0], 
             properties["position"][1], 
@@ -63,7 +70,9 @@ Facade.fromProperties = function (properties) {
             properties["lowerLeft"][1], 
             properties["upperRight"][0], 
             properties["upperRight"][1],
-            properties["textureId"]);
+            properties["textureId"],
+            properties["normalId"],
+            properties["unlit"]);
 };
 
 
@@ -75,7 +84,7 @@ Facade.prototype.draw = function (camera) {
     if (camera.getName() === "minimap")
         this.renderable.setColor([.5, .5, .5, 1]);
     else
-        this.renderable.setColor([.5, .5, .5, 0]);
+        this.renderable.setColor([0, 0, 0, 0]);
     
     GameObject.prototype.draw.call(this, camera);
 };

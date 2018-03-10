@@ -26,11 +26,11 @@ function Carrot(x, y) {
     this.idealSize = 8;
     this.currentSize = .01;
     
-    this.renderable = new SpriteRenderable("assets/textures/carrotSlice.png");
-    this.renderable.setColor([1, .37, 0, 0]);
+    this.renderable = new LightRenderable("assets/textures/carrotSlice.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(this.currentSize, this.currentSize);
-    this.renderable.setElementPixelPositions(0, 379, 0, 379);
+    this.renderable.setSpriteProperties([0, 0], [379, 379], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
 
     GameObject.call(this, this.renderable);
     

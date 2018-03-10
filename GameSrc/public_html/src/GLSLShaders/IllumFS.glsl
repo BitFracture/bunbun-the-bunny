@@ -24,11 +24,11 @@ struct Material {
 };
 uniform Material uMaterial;
 
-#define kGLSLuLightArraySize 4
+#define kGLSLuLightArraySize 25
     // GLSL Fragment shader requires loop control
-    // variable to be a constant number. This number 4
+    // variable to be a constant number. This number 25
     // says, this fragment shader will _ALWAYS_ process
-    // all 4 light sources. 
+    // all 25 light sources. 
     // ***********WARNING***********************
     // This number must correspond to the constant with
     // the same name defined in LightShader.js file.

@@ -74,7 +74,7 @@ AsyncLoader.prototype.draw = function (camera) {
     var transform = this.renderable.getTransform();
     transform.setSize(barSize[0] + 1, barSize[1] + 1);
     transform.setPosition(barPosition[0], barPosition[1]);
-    this.renderable.setColor([8, 8, 8, 1]);
+    this.renderable.setColor([1, 1, 1, 1]);
     this.renderable.draw(camera);
     
     //Second, draw the loading bar itself
@@ -82,7 +82,7 @@ AsyncLoader.prototype.draw = function (camera) {
     transform.setPosition(
             barPosition[0] + ((barSize[0] * progress) / 2) - (barSize[0] / 2), 
             barPosition[1]);
-    this.renderable.setColor([1, 1, 1, 1]);
+    this.renderable.setColor([.8, .8, .8, 1]);
     this.renderable.draw(camera);
 };
 

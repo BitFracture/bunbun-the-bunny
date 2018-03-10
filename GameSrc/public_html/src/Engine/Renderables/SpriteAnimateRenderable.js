@@ -83,6 +83,27 @@ SpriteAnimateRenderable.eAnimationType = Object.freeze({
 });
 
 /**
+ * A not-terrible way to set sprite animations without confusing the hell out
+ * of everyone and everything in a 100 mile radius. 
+ * 
+ * @param lowerLeft  The lower-left corner point (2d)
+ * @param upperRight  The upper-right corner point (2d)
+ * @param frames  The number of animation frames
+ * @param wadding  The spacing between the animation frames
+ */
+SpriteAnimateRenderable.prototype.setSpriteProperties = function (
+        lowerLeft, size, frames, wadding) {
+    
+    this.setSpriteSequence(
+            lowerLeft[1] + size[1], 
+            lowerLeft[0], 
+            size[0], 
+            size[1],
+            frames,
+            wadding);
+};
+
+/**
  * Set the Sprite animation sequence parameters
  * Always set the left-most element to be the first
  * @param {Number} topPixel Top of the sprite row in pixel

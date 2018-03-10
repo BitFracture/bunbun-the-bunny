@@ -23,10 +23,13 @@
  */
 function CarrotPickup(x, y) {
     
-    this.renderable = new TextureRenderable("assets/textures/carrotPickup.png");
     //this.renderable.setColor([1, .37, 0, 1]);
+
+    this.renderable = new LightRenderable("assets/textures/carrotPickup.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(2, 8);
+    this.renderable.setSpriteProperties([0, 0], [128, 512], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
 
     GameObject.call(this, this.renderable);
     

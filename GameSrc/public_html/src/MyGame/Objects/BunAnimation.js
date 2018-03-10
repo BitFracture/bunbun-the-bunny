@@ -30,17 +30,28 @@
  */
 function BunAnimation(x, y) {
     
-    //Texture crop box
-    var lowerLeft = [23, 23];
-    var upperRight = [489, 489];
-
-    this.renderable = new SpriteRenderable("assets/textures/BunSprite1.png");
-    this.renderable.setColor([1, 1, 1, 0]);
+    this.renderable = new LightRenderable("assets/textures/BunSprite1.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setElementPixelPositions(
-            lowerLeft[0], upperRight[0],
-            lowerLeft[1], upperRight[1]);
+    this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
+    GameObject.call(this, this.renderable);
+    
+    //Add a light attached to BunBun
+    this.halo = new Light();
+    this.halo.setColor([0.75, 0.75, 0.75, 0]);
+    this.halo.setFar(35);
+    this.halo.setLightType(Light.eLightType.ePointLight);
+    this.halo.setDropOff(.1);
+    this.renderable.addLight(this.halo);
+    
+    //Add directional daylight
+    this.daylight = new Light();
+    this.daylight.setColor([.35, .35, .35, 1]);
+    this.daylight.setZPos(-5);
+    this.daylight.setDirection([0, -.25, -1]);
+    this.daylight.setLightType(Light.eLightType.eDirectionalLight);
+    this.renderable.addLight(this.daylight);
     
     GameObject.call(this, this.renderable);
     
@@ -89,4 +100,6 @@ BunAnimation.prototype.update = function () {
         this.jumpTimer = this.jumpInterval;
         this.velocity = this.jumpVelocity;
     }
+    
+    this.halo.set2DPosition(this.renderable.getTransform().getPosition());
 };

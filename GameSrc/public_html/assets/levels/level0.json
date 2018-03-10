@@ -1,6 +1,8 @@
 {
     "name": "Level 0",
     "description": "A BunBun beta level",
+    "ambientColor": [1, 1, 1, 1],
+    "ambientIntensity": 0.0,
     "assetList": [
         {
             "name": "assets/textures/bunOverlay.png",
@@ -38,6 +40,9 @@
             "type": "texture"
         }, {
             "name": "assets/textures/Spaceship.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/SpaceshipNormal.png",
             "type": "texture"
         }, {
             "name": "assets/textures/indicator.png",
@@ -882,7 +887,7 @@
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [15, 75]
+                "position":     [20, 85]
             }
         ],
         "WinPoint": [
