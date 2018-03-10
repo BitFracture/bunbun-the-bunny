@@ -42,6 +42,9 @@
             "name": "assets/textures/Spaceship.png",
             "type": "texture"
         }, {
+            "name": "assets/textures/SpaceshipNormal.png",
+            "type": "texture"
+        }, {
             "name": "assets/textures/indicator.png",
             "type": "texture"
         }, {
@@ -884,7 +887,7 @@
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [15, 75]
+                "position":     [20, 85]
             }
         ],
         "WinPoint": [

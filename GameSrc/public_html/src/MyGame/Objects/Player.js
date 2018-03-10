@@ -45,11 +45,12 @@ function Player(x, y) {
     this.jumpTimeout = 0;
     
     //Add a light attached to cursor
-    this.mouseLight = new Light();
-    this.mouseLight.setColor([0.5, 0.5, 0.5, 0]);
-    this.mouseLight.setLightType(Light.eLightType.ePointLight);
-    this.mouseLight.setDropOff(.1);
-    this.renderable.addLight(this.mouseLight);
+    this.halo = new Light();
+    this.halo.setColor([0.5, 0.5, 0.5, 0]);
+    this.halo.setFar(35);
+    this.halo.setLightType(Light.eLightType.ePointLight);
+    this.halo.setDropOff(.1);
+    this.renderable.addLight(this.halo);
     
     //Store camera references for later
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
@@ -137,7 +138,7 @@ Player.prototype.draw = function (camera) {
  */
 Player.prototype.delete = function () {
     
-    this.renderable.removeLight(this.mouseLight);
+    this.renderable.removeLight(this.halo);
     GameObject.prototype.delete.call(this);
 };
 
@@ -154,7 +155,7 @@ Player.prototype.update = function (camera) {
     //console.log(this.getCollisionInfo().getNormal());
 
     //Place light at mouse cursor
-    this.mouseLight.set2DPosition([camera.mouseWCX(), camera.mouseWCY()]);
+    this.halo.set2DPosition(this.renderable.getTransform().getPosition());
 
     this.updateLaser(camera);
 

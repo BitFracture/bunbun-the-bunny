@@ -31,13 +31,11 @@
 function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
         textureAsset) {
 
-    this.renderable = new SpriteRenderable(textureAsset);
+    this.renderable = new LightRenderable(textureAsset);
     this.renderable.getTransform().setPosition(x + (w / 2), y + (h / 2));
     this.renderable.getTransform().setSize(w, h);
-    this.renderable.setElementPixelPositions(
-            lowerLeftX, upperRightX,
-            lowerLeftY, upperRightY);
-    this.renderable.setLightingEnabled(false);
+    this.renderable.setSpriteProperties([lowerLeftX, lowerLeftY], [upperRightX - lowerLeftX, upperRightY - lowerLeftY], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     
     GameObject.call(this, this.renderable);
     
