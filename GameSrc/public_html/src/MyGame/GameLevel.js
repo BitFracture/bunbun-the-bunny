@@ -35,6 +35,8 @@ function GameLevel(levelAsset) {
     //The camera to view the scene
     this.cameraList = [];
     
+    this.lightSet = new LightSet();
+    
     this.finishLine = null;
 }
 gEngine.Core.inheritPrototype(GameLevel, Scene);
@@ -339,3 +341,8 @@ GameLevel.prototype.getCamera = function (name) {
     return null;
 };
 
+
+GameLevel.prototype.getGlobalLights = function () {
+  
+    return this.lightSet;
+};

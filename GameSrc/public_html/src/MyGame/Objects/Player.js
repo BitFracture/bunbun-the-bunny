@@ -27,29 +27,29 @@ function Player(x, y) {
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
-    //Texture crop box
-    var lowerLeft = [23, 23];
-    var upperRight = [489, 489];
-
     this.renderable = new LightRenderable("assets/textures/BunSprite1.png");
-    //this.renderable.setColor([0, 0, 1, 1]);
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
-    /*this.renderable.setElementPixelPositions(
-            lowerLeft[0], upperRight[0],
-            lowerLeft[1], upperRight[1]);*/
-    //this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
+    this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
+    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     GameObject.call(this, this.renderable);
     
     var r = new RigidCircle(this.getTransform(), 2);
     this.setRigidBody(r);
     r.setMass(0.2);
-    r.setDragConstant(.1);
+    r.setDragConstant(1);
     this.setDrawRenderable(true);
     this.setDrawRigidShape(false);
     r.setFriction(0);
     
     this.jumpTimeout = 0;
+    
+    //Add a light attached to cursor
+    this.mouseLight = new Light();
+    this.mouseLight.setColor([0.5, 0.5, 0.5, 0]);
+    this.mouseLight.setLightType(Light.eLightType.ePointLight);
+    this.mouseLight.setDropOff(.1);
+    this.renderable.addLight(this.mouseLight);
     
     //Store camera references for later
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
@@ -130,6 +130,16 @@ Player.prototype.draw = function (camera) {
     }
 };
 
+/**
+ * Unregister our light object when we are destroyed
+ * 
+ * @returns {undefined}
+ */
+Player.prototype.delete = function () {
+    
+    this.renderable.removeLight(this.mouseLight);
+    GameObject.prototype.delete.call(this);
+};
 
 /**
  * Take user input and update rigid body.
@@ -142,6 +152,9 @@ Player.prototype.update = function (camera) {
     var xform = this.getTransform();
 
     //console.log(this.getCollisionInfo().getNormal());
+
+    //Place light at mouse cursor
+    this.mouseLight.set2DPosition([camera.mouseWCX(), camera.mouseWCY()]);
 
     this.updateLaser(camera);
 
@@ -383,4 +396,3 @@ function intersects(firstLineStart, firstLineEnd, secondLineStart, secondLineEnd
         }
     }
 };
-
