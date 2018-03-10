@@ -60,6 +60,17 @@ function Player(x, y) {
     this.daylight.setLightType(Light.eLightType.eDirectionalLight);
     this.renderable.addLight(this.daylight);
     
+    //Add laser zap light
+    this.laserLight = new Light();
+    this.laserLight.setColor([1, 0, 0, 1]);
+    this.laserLight.setLightType(Light.eLightType.ePointLight);
+    this.laserLight.setDropOff(.1);
+    this.laserLight.setFar(10);
+    this.laserLight.setNear(1);
+    this.laserLight.setLightTo(false);
+    this.laserLight.setIntensity(3);
+    this.renderable.addLight(this.laserLight);
+    
     //Store camera references for later
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
     this.miniCameraRef = gEngine.GameLoop.getScene().getCamera("minimap");
@@ -120,6 +131,10 @@ Player.fromProperties = function (properties) {
  */
 Player.prototype.draw = function (camera) {
     
+    //Turn on zap light when and only when laser is on
+    this.laserLight.setLightTo(this.laserEnabled && this.laserHitEnable);
+    this.laserLight.set2DPosition(this.laserHit.getTransform().getPosition());
+    
     if (camera.getName() === "minimap") {
         
         var myPos = this.renderable.getTransform().getPosition();
@@ -129,7 +144,7 @@ Player.prototype.draw = function (camera) {
     
     else {
         GameObject.prototype.draw.call(this, camera);
-
+        
         if (this.laserEnabled) {
 
             this.laser.draw(camera);
@@ -260,6 +275,8 @@ Player.prototype.update = function (camera) {
  */
 Player.prototype.updateLaser = function (camera) {
     
+    //Flash the laser light
+    this.laserLight.setColor([(Math.random() / 3) + 0.33, 0, 0, 1]);
     this.laserHit.updateAnimation();
     this.laserHit.getTransform().setRotationInRad(Math.random() * 20);
     
