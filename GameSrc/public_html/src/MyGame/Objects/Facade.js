@@ -29,9 +29,13 @@
  * @param textureAsset  The asset ID of the overlay texture
  */
 function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset) {
-
-    this.renderable = new LightRenderable(textureAsset);
+        textureAsset, textureNormal) {
+    
+    this.renderable = null;
+    if (typeof textureNormal !== 'undefined')
+        this.renderable = new IllumRenderable(textureAsset, textureNormal);
+    else
+        this.renderable = new LightRenderable(textureAsset);
     this.renderable.getTransform().setPosition(x + (w / 2), y + (h / 2));
     this.renderable.getTransform().setSize(w, h);
     this.renderable.setSpriteProperties([lowerLeftX, lowerLeftY], [upperRightX - lowerLeftX, upperRightY - lowerLeftY], 1, 0);
@@ -51,7 +55,7 @@ gEngine.Core.inheritPrototype(Facade, GameObject);
  * @returns A new instance.
  */
 Facade.fromProperties = function (properties) {
-    
+
     return new Facade(
             properties["position"][0], 
             properties["position"][1], 
@@ -61,7 +65,8 @@ Facade.fromProperties = function (properties) {
             properties["lowerLeft"][1], 
             properties["upperRight"][0], 
             properties["upperRight"][1],
-            properties["textureId"]);
+            properties["textureId"],
+            properties["normalId"]);
 };
 
 

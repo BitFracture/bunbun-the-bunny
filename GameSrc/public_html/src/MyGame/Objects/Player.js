@@ -44,13 +44,21 @@ function Player(x, y) {
     
     this.jumpTimeout = 0;
     
-    //Add a light attached to cursor
+    //Add a light attached to BunBun
     this.halo = new Light();
     this.halo.setColor([0.5, 0.5, 0.5, 0]);
     this.halo.setFar(35);
     this.halo.setLightType(Light.eLightType.ePointLight);
     this.halo.setDropOff(.1);
     this.renderable.addLight(this.halo);
+    
+    //Add directional daylight
+    this.daylight = new Light();
+    this.daylight.setColor([.75, .75, .75, 1]);
+    this.daylight.setZPos(-5);
+    this.daylight.setDirection([0, -.25, -1]);
+    this.daylight.setLightType(Light.eLightType.eDirectionalLight);
+    this.renderable.addLight(this.daylight);
     
     //Store camera references for later
     this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
