@@ -20,7 +20,8 @@ function Water(waterLevel, waterSpeed) {
     this.riseRate = waterSpeed;
     this.waterLevel = waterLevel;
     this.renderable = new Renderable();
-    this.renderable.setColor([0.25, 0.5, 1, 0.2]);  
+    this.renderable.setColor([0.25, 0.5, 1, 0.2]);
+    this.renderable.setLightingEnabled(false);
     
     GameObject.call(this, this.renderable);
     

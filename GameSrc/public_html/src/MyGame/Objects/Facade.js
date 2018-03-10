@@ -29,17 +29,22 @@
  * @param textureAsset  The asset ID of the overlay texture
  */
 function Facade(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset, textureNormal) {
+        textureAsset, textureNormal, unlit) {
     
     this.renderable = null;
-    if (typeof textureNormal !== 'undefined')
-        this.renderable = new IllumRenderable(textureAsset, textureNormal);
-    else
-        this.renderable = new LightRenderable(textureAsset);
+    if (typeof unlit !== 'undefined' && unlit) {
+        this.renderable = new SpriteAnimateRenderable(textureAsset);
+        this.renderable.setLightingEnabled(false);
+    } else {
+        if (typeof textureNormal !== 'undefined')
+            this.renderable = new IllumRenderable(textureAsset, textureNormal);
+        else
+            this.renderable = new LightRenderable(textureAsset);
+        this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
+    }
     this.renderable.getTransform().setPosition(x + (w / 2), y + (h / 2));
     this.renderable.getTransform().setSize(w, h);
     this.renderable.setSpriteProperties([lowerLeftX, lowerLeftY], [upperRightX - lowerLeftX, upperRightY - lowerLeftY], 1, 0);
-    this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     
     GameObject.call(this, this.renderable);
     
@@ -66,7 +71,8 @@ Facade.fromProperties = function (properties) {
             properties["upperRight"][0], 
             properties["upperRight"][1],
             properties["textureId"],
-            properties["normalId"]);
+            properties["normalId"],
+            properties["unlit"]);
 };
 
 

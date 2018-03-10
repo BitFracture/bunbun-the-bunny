@@ -816,7 +816,7 @@
                 "__depth":      -100,
                 "__hasPhysics": false,
                 "waterSpeed":   0.04,
-                "waterLevel":   -20000
+                "waterLevel":   -20
             }
         ],
         "Facade": [
