@@ -5,6 +5,12 @@
         {
             "name": "assets/textures/loseScreen.png",
             "type": "texture"
+        }, {
+            "name": "assets/textures/Bun_animated.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills.png",
+            "type": "texture"
         }
     ],
     "cameraList": [
@@ -26,6 +32,24 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/loseScreen.png"
+            }
+        ],
+        "BunBunAnimated": [
+            {
+                "__depth":      51,
+                "position":     [50, 37.5],
+                "size":         [10, 10],
+                "textureId":    "assets/textures/Bun_animated.png"
+            }
+        ],
+        "Background": [
+            {
+                "__depth":    52,
+                "position":   [50, 25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/bg_hills.png"
             }
         ]
     }

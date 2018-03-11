@@ -207,6 +207,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         
         colObject.delete();
         this.controlsLevelChange = true;
+        gEngine.AudioClips.stopLoopedAudio();
     }
     
     //Move towards the player if one exists
@@ -259,9 +260,14 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
             //Tractor beam control
             if (this.tractorBeam && Math.abs(distanceInX) < 6 &&
                     distanceInY < 0 && distanceInY > -52) {
-                if (playerList[0].getRigidBody().getVelocity()[1] < 15)
+                // spaceship beam audio
+                if (!this.controlsLevelChange)
+                    gEngine.AudioClips.playLoopedAudio("assets/sounds/Spaceship_BeamUse.wav");
+                if (playerList[0].getRigidBody().getVelocity()[1] < 15) 
                     playerList[0].getRigidBody().incVelocity(0, 2);
-            }
+            } else {
+                gEngine.AudioClips.stopLoopedAudio();
+            }           
         } else {
             
             this.velocity[0] = 0;
@@ -276,7 +282,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         
         //Player was abducted successfully
         if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
-            
+            gEngine.AudioClips.stopLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
             gEngine.GameLoop.stop();
         }

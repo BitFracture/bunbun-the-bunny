@@ -27,10 +27,11 @@ function Player(x, y) {
     this.moveDelta = 2;
     this.speedMultiplier = 1;
 
-    this.renderable = new LightRenderable("assets/textures/BunSprite1.png");
+    this.renderable = new LightRenderable("assets/textures/Bun_animated.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
+    this.renderable.setSpriteProperties([0, 0], [100, 100], 1, 0);
+    this.renderable.setAnimationSpeed(5);
     this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     GameObject.call(this, this.renderable);
     
@@ -107,7 +108,7 @@ function Player(x, y) {
     
     //Statistics
     this.carrotPoints = 20;
-    this.oxygenLevel = 100;
+    this.oxygenLevel = 100;  
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
 
@@ -226,23 +227,27 @@ Player.prototype.update = function (camera) {
             
             if (this.jumpTimeout <= 0 && gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
                 gEngine.AudioClips.playACue(this.jumpSound);
+                // start jump animation
+                this.renderable.setSpriteProperties([0, 0], [100, 100], 10, 0);
                 var jumpSpeed = 50 * normNorm[1] * speedMultiplier;
                 this.getRigidBody().setVelocity(this.getRigidBody().getVelocity()[0], jumpSpeed);
 
                 this.jumpTimeout = 30; // Make player wait 30 cycles to jump
             }
         }
-    }
-    
+    }    
+    this.renderable.updateAnimationSingle();
     //Handle left right motion
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
 
+        this.renderable.getTransform().setSize(-4, 4);
         this.getRigidBody().setVelocity(
                 -12 * speedMultiplier, 
                 this.getRigidBody().getVelocity()[1]);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
 
+        this.renderable.getTransform().setSize(4, 4);
         this.getRigidBody().setVelocity(
                 12 * speedMultiplier, 
                 this.getRigidBody().getVelocity()[1]);
@@ -264,7 +269,7 @@ Player.prototype.update = function (camera) {
         camPos[1] = myPos[1] - panThresh[1];
     if (camPos[1] > myPos[1] + panThresh[1])
         camPos[1] = myPos[1] + panThresh[1];
-    this.miniCameraRef.setWCCenter(camPos[0], camPos[1]);
+    this.miniCameraRef.setWCCenter(camPos[0], camPos[1]);    
 };
 
 

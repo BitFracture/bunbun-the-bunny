@@ -31,16 +31,25 @@
                         "name": "assets/sounds/Bun_Pain.wav",
                         "type": "sound"
                     }, {
-                        "name": "assets/sounds/BunBun_Level_1_NoIntro.mp3",
+                        "name": "assets/sounds/Bun_Powerup.wav",
                         "type": "sound"
                     }, {
-                        "name": "assets/sounds/BunBun_Level_1.mp3",
+                        "name": "assets/sounds/BunBun_Level_1_Short.wav",
+                        "type": "sound"
+                    }, {
+                        "name": "assets/sounds/BunBun_Intro_DrumsAndGtr.wav",
                         "type": "sound"
                     }, {
                         "name": "assets/sounds/Game_Over.wav",
                         "type": "sound"
                     }, {
-                        "name": "assets/sounds/Game_Win.wav",
+                        "name": "assets/sounds/Game_Win_new.wav",
+                        "type": "sound"
+                    }, {
+                        "name": "assets/sounds/Spaceship_BeamBun.wav",
+                        "type": "sound"
+                    }, {
+                        "name": "assets/sounds/Spaceship_BeamUse.wav",
                         "type": "sound"
                     }
                 ],

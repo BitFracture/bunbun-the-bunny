@@ -36,7 +36,7 @@
             "name": "assets/textures/flareStrip.png",
             "type": "texture"
         }, {
-            "name": "assets/textures/BunSprite1.png",
+            "name": "assets/textures/Bun_animated.png",
             "type": "texture"
         }, {
             "name": "assets/textures/Spaceship.png",
@@ -46,6 +46,9 @@
             "type": "texture"
         }, {
             "name": "assets/textures/indicator.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills.png",
             "type": "texture"
         }, {
             "name": "assets/fonts/Consolas-32",
@@ -897,6 +900,16 @@
         ],
         "HeadsUpDisplay": [
             {}
+        ],
+        "Background": [
+            {
+                "__depth":    52,
+                "position":   [50, 25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/bg_hills.png"
+            }
         ]
     }
 }

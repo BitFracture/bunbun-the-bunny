@@ -13,6 +13,9 @@
         }, {
             "name": "assets/textures/BunSprite1.png",
             "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills.png",
+            "type": "texture"
         }
     ],
     "cameraList": [
@@ -49,6 +52,16 @@
                 "__depth":      51,
                 "position":     [50, 35],
                 "size":         [5, 13.2]
+            }
+        ],
+        "Background": [
+            {
+                "__depth":    52,
+                "position":   [50, 25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/bg_hills.png"
             }
         ]
     }

@@ -87,7 +87,7 @@ SpriteAnimateRenderable.eAnimationType = Object.freeze({
  * of everyone and everything in a 100 mile radius. 
  * 
  * @param lowerLeft  The lower-left corner point (2d)
- * @param upperRight  The upper-right corner point (2d)
+ * @param size
  * @param frames  The number of animation frames
  * @param wadding  The spacing between the animation frames
  */
@@ -191,6 +191,20 @@ SpriteAnimateRenderable.prototype.updateAnimation = function () {
         }
     }
 };
+
+SpriteAnimateRenderable.prototype.updateAnimationSingle = function () {
+    this.mCurrentTick++;
+    if (this.mCurrentTick >= this.mUpdateInterval) {
+        this.mCurrentTick = 0;
+        this.mCurrentElm += this.mCurrentAnimAdvance;
+        if ((this.mCurrentElm >= 0) && (this.mCurrentElm < this.mNumElems)) {
+            this._setSpriteElement();
+        } else {
+            //this._initAnimation();
+        }
+    }
+};
+
 //--- end of Public Methods
 //
 //</editor-fold>
