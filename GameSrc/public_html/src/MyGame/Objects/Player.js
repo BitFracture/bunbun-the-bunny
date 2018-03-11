@@ -205,6 +205,11 @@ Player.prototype.update = function (camera) {
                 gEngine.GameLoop.stop();
             }
         }
+        
+        if (this.oxygenLevel <= 100 && underWater === false){
+            this.oxygenLevel += .35;
+        }
+        
     }
     
     var speedMultiplier = 1;
