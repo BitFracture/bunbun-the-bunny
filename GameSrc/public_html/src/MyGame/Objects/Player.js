@@ -106,6 +106,12 @@ function Player(x, y) {
     this.landSound = "assets/sounds/Bun_Land.wav";
     this.painSound = "assets/sounds/Bun_Pain.wav";
     
+    //Variation of scale based on harmonic
+    this.sizeScale = new ShakePosition(0.75, -0.75, 0.5, 60, false);
+    this.sizeScale.setRemainingCycles(0);
+    //For flipping left and right 
+    this.direction = 1;
+    
     //Statistics
     this.carrotPoints = 20;
     this.oxygenLevel = 100;  
@@ -240,14 +246,14 @@ Player.prototype.update = function (camera) {
     //Handle left right motion
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
 
-        this.renderable.getTransform().setSize(-4, 4);
+        this.direction = -1;
         this.getRigidBody().setVelocity(
                 -12 * speedMultiplier, 
                 this.getRigidBody().getVelocity()[1]);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
 
-        this.renderable.getTransform().setSize(4, 4);
+        this.direction = 1;
         this.getRigidBody().setVelocity(
                 12 * speedMultiplier, 
                 this.getRigidBody().getVelocity()[1]);
@@ -269,7 +275,11 @@ Player.prototype.update = function (camera) {
         camPos[1] = myPos[1] - panThresh[1];
     if (camPos[1] > myPos[1] + panThresh[1])
         camPos[1] = myPos[1] + panThresh[1];
-    this.miniCameraRef.setWCCenter(camPos[0], camPos[1]);    
+    this.miniCameraRef.setWCCenter(camPos[0], camPos[1]);  
+    
+    //Update animation
+    var shake = this.sizeScale.getShakeResults();
+    this.renderable.getTransform().setSize(this.direction * (4 + shake[0]), 4 + shake[1]);
 };
 
 
