@@ -236,7 +236,7 @@ Player.prototype.update = function (camera) {
             }
         }
     }    
-    this.renderable.updateAnimation();
+    this.renderable.updateAnimationSingle();
     //Handle left right motion
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
 

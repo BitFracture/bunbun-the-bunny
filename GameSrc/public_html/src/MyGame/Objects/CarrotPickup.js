@@ -98,7 +98,10 @@ CarrotPickup.prototype.update = function (camera) {
                     && Math.abs(myPosition[1] - playerPosition[1]) < 1) {
                 
                 players[0].carrotPoints += 10;
+                var hud = gEngine.GameLoop.getScene().getObjectsByClass("HeadsUpDisplay");
+                hud[0].setCount(20);
                 gEngine.AudioClips.playACue("assets/sounds/Bun_Powerup.wav");
+                // show "+10" animation
                 this.delete();
             }
         }

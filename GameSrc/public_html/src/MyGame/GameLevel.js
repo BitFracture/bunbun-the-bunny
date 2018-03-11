@@ -86,6 +86,7 @@ GameLevel.prototype.unloadScene = function () {
  * Loads an asset from its definition object.
  * 
  * @param asset  The asset properties object defining type and name/path
+ * @param callback
  */
 GameLevel.prototype.loadAsset = function (asset, callback) {
     
@@ -212,7 +213,7 @@ GameLevel.prototype.draw = function () {
 GameLevel.prototype.update = function () {
 
     // Scene transitions
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {  
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {  
         // Transition from Intro to Level 0
         if (this.LEVEL["name"] === "Intro"){
             gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
