@@ -83,8 +83,10 @@ CarrotPickup.prototype.update = function (camera) {
         
         //Move towards the player if it exists
         var players = gEngine.GameLoop.getScene().getObjectsByClass("Player");
-        if (players.length <= 0)
+        if (players.length <= 0) {
+            gEngine.AudioClips.playACue("assets/sounds/Bun_Powerup.wav");
             this.delete();
+        }
         else {
             var playerPosition = players[0].getTransform().getPosition();
             var myPosition = this.getTransform().getPosition();
@@ -96,6 +98,7 @@ CarrotPickup.prototype.update = function (camera) {
                     && Math.abs(myPosition[1] - playerPosition[1]) < 1) {
                 
                 players[0].carrotPoints += 10;
+                gEngine.AudioClips.playACue("assets/sounds/Bun_Powerup.wav");
                 this.delete();
             }
         }

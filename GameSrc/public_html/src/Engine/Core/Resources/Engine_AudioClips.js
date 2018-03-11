@@ -22,8 +22,15 @@ var gEngine = gEngine || { };
  * @type gEngine.AudioClips
  */
 gEngine.AudioClips = (function () {
+    
+//    var AudioNode = function (clipName, buff) {
+//        this.mName = clipName;
+//        this.mBuffer = buff;
+//    };
+    
     var mAudioContext = null;
     var mBgAudioNode = null;
+//    var mBgAudioNode = [];
 
     /**
      * Initializes the audio context to play sounds.
@@ -53,6 +60,7 @@ gEngine.AudioClips = (function () {
      * Load Audio Source into the resource map
      * @memberOf gEngine.AudioClips
      * @param {String} clipName
+     * @param {type} callback
      * @returns {void}
      */
     var loadAudio = function (clipName, callback) {
@@ -115,7 +123,7 @@ gEngine.AudioClips = (function () {
             sourceNode.start(0);
         }
     };
-
+    
     /**
      * Play a audioclip on repeat. Stops current background clip if playing.
      * @memberOf gEngine.AudioClips
@@ -133,6 +141,12 @@ gEngine.AudioClips = (function () {
             mBgAudioNode.connect(mAudioContext.destination);
             mBgAudioNode.loop = true;
             mBgAudioNode.start(0);
+//            var node = new AudioNode(clipName, mAudioContext.createBufferSource());            
+//            mBgAudioNode[clipName] = node;
+//            mBgAudioNode[clipName].mBuffer.buffer = clipInfo;
+//            mBgAudioNode[clipName].mBuffer.connect(mAudioContext.destination);
+//            mBgAudioNode[clipName].mBuffer.loop = true;
+//            mBgAudioNode[clipName].mBuffer.start(0);
         }
     };
 
@@ -147,8 +161,9 @@ gEngine.AudioClips = (function () {
             mBgAudioNode.stop(0);
             mBgAudioNode = null;
         }
+        //mBgAudioNode[clipName].mBuffer.stop(0);
     };
-
+    
     /**
      * Returns if background audio is playing
      * @memberOf gEngine.AudioClips

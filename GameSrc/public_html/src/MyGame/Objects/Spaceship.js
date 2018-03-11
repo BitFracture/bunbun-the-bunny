@@ -259,7 +259,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
             //Tractor beam control
             if (this.tractorBeam && Math.abs(distanceInX) < 6 &&
                     distanceInY < 0 && distanceInY > -52) {
-                if (playerList[0].getRigidBody().getVelocity()[1] < 15)
+                if (playerList[0].getRigidBody().getVelocity()[1] < 15) 
                     playerList[0].getRigidBody().incVelocity(0, 2);
             }
         } else {

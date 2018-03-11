@@ -175,18 +175,16 @@ GameLevel.prototype.initialize = function () {
     }
     
     //This needs to get pushed to objects
-    if (this.LEVEL["name"] === "Level 0") {
-        gEngine.AudioClips.stopBackgroundAudio();
-        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_NoIntro.mp3");
-    } else if (this.LEVEL["name"] === "Intro") {
-        gEngine.AudioClips.stopBackgroundAudio();
-        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1.mp3");
+    if (this.LEVEL["name"] === "Level 0") {        
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
+    } else if (this.LEVEL["name"] === "Intro") {        
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
     } else if (this.LEVEL["name"] === "LoseScreen") {
-        gEngine.AudioClips.stopBackgroundAudio();
-        gEngine.AudioClips.playACue("assets/sounds/Game_Over.wav");
+        gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/Game_Over.wav");
     } else if (this.LEVEL["name"] === "WinScreen") {
-        gEngine.AudioClips.stopBackgroundAudio();
-        gEngine.AudioClips.playACue("assets/sounds/Game_Win.wav");
+        gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
+        gEngine.AudioClips.playBackgroundAudio("assets/sounds/Game_Win_new.wav");
     }
 };  
 
@@ -213,20 +211,29 @@ GameLevel.prototype.draw = function () {
  */
 GameLevel.prototype.update = function () {
 
-    // Transition from Intro to Level 0
+    // Scene transitions
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {  
+        // Transition from Intro to Level 0
         if (this.LEVEL["name"] === "Intro"){
+            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
             gEngine.Core.setNextScene(new GameLevel("assets/levels/level0.json"));
             gEngine.GameLoop.stop();
         }
-        else if (this.LEVEL["name"] === "WinScreen"
-              || this.LEVEL["name"] === "LoseScreen"){
+        // Transition from Win Screen to Intro
+        else if (this.LEVEL["name"] === "WinScreen"){
+            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Win_new.wav");
+            gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
+            gEngine.GameLoop.stop();
+        }
+        // Transition from Lose Screen to Intro
+        else if (this.LEVEL["name"] === "LoseScreen"){
+            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Over.wav");
             gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
             gEngine.GameLoop.stop();
         }
     }
     
-    // For testing: press 1 to show win screen
+    // For testing: press 3 to show win screen
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {  
         //if (this.LEVEL["name"] === "Intro"){
             gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
