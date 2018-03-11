@@ -30,6 +30,7 @@ gEngine.AudioClips = (function () {
     
     var mAudioContext = null;
     var mBgAudioNode = null;
+    var mLoopedAudioNode = null;
 //    var mBgAudioNode = [];
 
     /**
@@ -149,6 +150,26 @@ gEngine.AudioClips = (function () {
 //            mBgAudioNode[clipName].mBuffer.start(0);
         }
     };
+    
+    var playLoopedAudio = function (clipName) {
+        if (mLoopedAudioNode === null) {
+            var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
+            if (clipInfo !== null) {
+                mLoopedAudioNode = mAudioContext.createBufferSource();
+                mLoopedAudioNode.buffer = clipInfo;
+                mLoopedAudioNode.connect(mAudioContext.destination);
+                mLoopedAudioNode.loop = true;
+                mLoopedAudioNode.start(0);                
+            }
+        }
+    };
+    
+    var stopLoopedAudio = function () {
+        if (mLoopedAudioNode !== null) {
+            mLoopedAudioNode.stop(0);
+            mLoopedAudioNode = null;
+        }
+    };
 
     /**
      * Stops current background audio clip if playing
@@ -183,7 +204,9 @@ gEngine.AudioClips = (function () {
         playACue: playACue,
         playBackgroundAudio: playBackgroundAudio,
         stopBackgroundAudio: stopBackgroundAudio,
-        isBackgroundAudioPlaying: isBackgroundAudioPlaying
+        isBackgroundAudioPlaying: isBackgroundAudioPlaying,
+        playLoopedAudio: playLoopedAudio,
+        stopLoopedAudio: stopLoopedAudio
     };
     return mPublic;
 }());

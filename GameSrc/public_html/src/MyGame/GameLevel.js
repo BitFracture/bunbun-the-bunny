@@ -176,14 +176,18 @@ GameLevel.prototype.initialize = function () {
     }
     
     //This needs to get pushed to objects
-    if (this.LEVEL["name"] === "Level 0") {        
+    if (this.LEVEL["name"] === "Level 0") {       
+        gEngine.AudioClips.stopLoopedAudio();
         gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
     } else if (this.LEVEL["name"] === "Intro") {        
+        gEngine.AudioClips.stopLoopedAudio();
         gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
     } else if (this.LEVEL["name"] === "LoseScreen") {
+        gEngine.AudioClips.stopLoopedAudio();
         gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
         gEngine.AudioClips.playBackgroundAudio("assets/sounds/Game_Over.wav");
     } else if (this.LEVEL["name"] === "WinScreen") {
+        gEngine.AudioClips.stopLoopedAudio();
         gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
         gEngine.AudioClips.playBackgroundAudio("assets/sounds/Game_Win_new.wav");
     }
