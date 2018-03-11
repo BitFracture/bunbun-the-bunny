@@ -265,11 +265,17 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
             //Tractor beam control
             if (this.tractorBeam && Math.abs(distanceInX) < 6 &&
                     distanceInY < 0 && distanceInY > -52) {
-                // spaceship beam audio
+                
+                //Spaceship beam audio
                 if (!this.controlsLevelChange)
                     gEngine.AudioClips.playLoopedAudio("assets/sounds/Spaceship_BeamUse.wav");
+                
+                //Tractor beam pull
                 if (playerList[0].getRigidBody().getVelocity()[1] < 15) 
                     playerList[0].getRigidBody().incVelocity(0, 2);
+                
+                //Make the player oscillate
+                playerList[0].sizeScale.addRemainingCycles(5);
             } else {
                 gEngine.AudioClips.stopLoopedAudio();
             }           

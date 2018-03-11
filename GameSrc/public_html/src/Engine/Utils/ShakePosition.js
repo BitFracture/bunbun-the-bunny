@@ -18,7 +18,7 @@
  * @param {Number} shakeDuration for how long in number of cycles
  * @returns {ShakePosition} New instance of ShakePosition
  */
-function ShakePosition(xDelta, yDelta, shakeFrequency, shakeDuration) {
+function ShakePosition(xDelta, yDelta, shakeFrequency, shakeDuration, enableRandom) {
     this.mXMag = xDelta;
     this.mYMag = yDelta;
 
@@ -26,6 +26,11 @@ function ShakePosition(xDelta, yDelta, shakeFrequency, shakeDuration) {
     this.mOmega = shakeFrequency * 2 * Math.PI; // Converts frequency to radians 
 
     this.mNumCyclesLeft = shakeDuration;
+    this.mNumCyclesCounted = 0;
+    
+    this.enableRandom = true;
+    if (typeof enableRandom !== 'undefined' && !enableRandom)
+        this.enableRandom = false;
 }
 
 /**
@@ -44,17 +49,41 @@ ShakePosition.prototype.shakeDone = function () {
  */
 ShakePosition.prototype.getShakeResults = function () {
     this.mNumCyclesLeft--;
+    this.mNumCyclesCounted++;
     var c = [];
     var fx = 0;
     var fy = 0;
     if (!this.shakeDone()) {
         var v = this._nextDampedHarmonic();
-        fx = (Math.random() > 0.5) ? -v : v;
-        fy = (Math.random() > 0.5) ? -v : v;
+        if (this.enableRandom) {
+            fx = (Math.random() > 0.5) ? -v : v;
+            fy = (Math.random() > 0.5) ? -v : v;
+        }
+        else {
+            fx = v;
+            fy = v;
+        }
     }
     c[0] = this.mXMag * fx;
     c[1] = this.mYMag * fy;
     return c;
+};
+
+ShakePosition.prototype.setRemainingCycles = function (remaining) {
+    
+    this.mNumCyclesLeft = remaining;
+    if (this.mNumCyclesLeft < 0)
+        this.mNumCyclesLeft = 0;
+    if (this.mNumCyclesLeft > this.mCycles)
+        this.mNumCyclesLeft = this.mCycles;
+};
+ShakePosition.prototype.addRemainingCycles = function (remaining) {
+    
+    this.mNumCyclesLeft += remaining;
+    if (this.mNumCyclesLeft < 0)
+        this.mNumCyclesLeft = 0;
+    if (this.mNumCyclesLeft > this.mCycles)
+        this.mNumCyclesLeft = this.mCycles;
 };
 
 /**
@@ -64,6 +93,7 @@ ShakePosition.prototype.getShakeResults = function () {
  */
 ShakePosition.prototype._nextDampedHarmonic = function () {
     // computes (Cycles) * cos(  Omega * t )
+    var position = (this.mCycles - this.mNumCyclesCounted) / this.mCycles;
     var frac = this.mNumCyclesLeft / this.mCycles;
-    return frac * frac * Math.cos((1 - frac) * this.mOmega);
+    return frac * frac * Math.cos((1 - position) * this.mOmega);
 };
