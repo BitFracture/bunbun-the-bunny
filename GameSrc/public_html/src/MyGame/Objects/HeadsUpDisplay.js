@@ -105,8 +105,8 @@ HeadsUpDisplay.prototype.update = function (camera) {
             this.mCarrotsText.setColor([1, 1, 1, 1]);
             this.mCarrotsText.setTextHeight(3);
         }
-        this.mStatusText.setText("CarrotPoints: ");
-        this.mCarrotsText.setText(" " + carrots);
+        this.mStatusText.setText("Carrot Points: ");
+        this.mCarrotsText.setText("  " + carrots);
         this.mOxygenText.setText(
                 "   Oxygen: " 
                 + oxygen
