@@ -29,17 +29,10 @@
  */
 function Background(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
         textureAsset, textureNormal, unlit) {
-    this.renderable = null;
-//    if (typeof unlit !== 'undefined' && unlit) {
-        this.renderable = new SpriteAnimateRenderable(textureAsset);
-        this.renderable.setLightingEnabled(false);
-//    } else {
-//        if (typeof textureNormal !== 'undefined')
-//            this.renderable = new IllumRenderable(textureAsset, textureNormal);
-//        else
-//            this.renderable = new LightRenderable(textureAsset);
-//        this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
-//    }
+    
+    this.renderable = new SpriteAnimateRenderable(textureAsset);
+    this.renderable.setLightingEnabled(false);
+    
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(w, h);
     this.renderable.setColor([0, 0, 0, 0]);
@@ -88,3 +81,4 @@ Background.prototype.update = function () {
     var camPos = this.mainCameraRef.getWCCenter();
     this.renderable.getTransform().setPosition(camPos[0], camPos[1]); 
 };
+

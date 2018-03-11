@@ -240,12 +240,14 @@ Player.prototype.update = function (camera) {
     //Handle left right motion
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
 
+        this.renderable.getTransform().setSize(-4, 4);
         this.getRigidBody().setVelocity(
                 -12 * speedMultiplier, 
                 this.getRigidBody().getVelocity()[1]);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
 
+        this.renderable.getTransform().setSize(4, 4);
         this.getRigidBody().setVelocity(
                 12 * speedMultiplier, 
                 this.getRigidBody().getVelocity()[1]);
