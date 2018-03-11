@@ -309,7 +309,7 @@ Player.prototype.updateLaser = function (camera) {
         
         //Get our pos and the mouse pos
         var myPos = this.getTransform().getPosition();
-        myPos = [myPos[0] + 1.3, myPos[1]];
+        myPos = [myPos[0] + (this.direction * 1.3), myPos[1]];
         var toPos = [
                 camera.mouseWCX(),
                 camera.mouseWCY()];
