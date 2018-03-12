@@ -136,7 +136,7 @@ gEngine.Textures = (function () {
      * @param {String} textureName Name of Texture
      * @returns {void}
      */
-    var activateTexture = function (textureName) {
+    var activateTexture = function (textureName, wrap) {
         var gl = gEngine.Core.getGL();
         var texInfo = gEngine.ResourceMap.retrieveAsset(textureName);
 
@@ -145,8 +145,13 @@ gEngine.Textures = (function () {
         gl.bindTexture(gl.TEXTURE_2D, texInfo.mGLTexID);
         
         // To prevent texture wrappings
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        if (!!wrap) {
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        } else {
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        }
 
         // Handles how magnification and minimization filters will work.
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);

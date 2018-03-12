@@ -33,8 +33,15 @@ function TextureRenderable(myTexture) {
     this.mTexBottomIndex = 0;
 
     this.setTexture(myTexture);     // texture for this object, cannot be a "null"
+    
+    this.wrapEnabled = false;
 }
 gEngine.Core.inheritPrototype(TextureRenderable, Renderable);
+
+TextureRenderable.prototype.setWrapEnabled = function (enabled) {
+  
+    this.wrapEnabled = !!enabled;
+};
 
 //<editor-fold desc="Public Methods">
 //**-----------------------------------------
@@ -48,7 +55,7 @@ gEngine.Core.inheritPrototype(TextureRenderable, Renderable);
  */
 TextureRenderable.prototype.draw = function (aCamera) {
     // activate the texture
-    gEngine.Textures.activateTexture(this.mTexture, null, this.lightingEnabled);
+    gEngine.Textures.activateTexture(this.mTexture, this.wrapEnabled);
     Renderable.prototype.draw.call(this, aCamera);
 };
 
