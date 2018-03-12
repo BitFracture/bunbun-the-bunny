@@ -30,9 +30,9 @@ function JukeBox(audioFile, isLooped) {
     
     //Start the audio
     if (this.isLooped) {
-        //gEngine.AudioClips.playBackgroundAudio(this.audioFile);
+        gEngine.AudioClips.playBackgroundAudio(this.audioFile);
     } else {
-        //gEngine.AudioClips.playNonLoopedAudio(this.audioFile);
+        gEngine.AudioClips.playNonLoopedAudio(this.audioFile);
     }
 }
 gEngine.Core.inheritPrototype(JukeBox, GameObject);
