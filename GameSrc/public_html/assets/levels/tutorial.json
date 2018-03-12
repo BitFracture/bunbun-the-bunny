@@ -346,7 +346,7 @@
             {
                 "__depth":      -100,
                 "__hasPhysics": false,
-                "waterSpeed":   0.04,
+                "waterSpeed":   0.03,
                 "waterLevel":   -20
             }
         ],
@@ -383,7 +383,16 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [128, 128],
                 "textureId":  "assets/textures/Overlay0.png"
-            },     
+            }, {
+                "__comment":  "End level wall",
+                "__depth":    50,
+                "position":   [300, -200],
+                "size":       [100, 266.24],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay0.png"
+            },
+            
             
             {
                 "__comment":  "Instructions 1",
@@ -393,7 +402,7 @@
                 "lowerLeft":  [0, 136],
                 "upperRight": [255, 268],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":      true
             },{
                 "__comment":  "Instructions 2",
                 "__depth":    49,
@@ -402,7 +411,7 @@
                 "lowerLeft":  [0, 403],
                 "upperRight": [255, 539],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":      true
             },{
                 "__comment":  "Instructions 3",
                 "__depth":    49,
@@ -411,7 +420,7 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [255, 133],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":       true
             },{
                 "__comment":  "Instructions 4",
                 "__depth":    49,
@@ -420,7 +429,7 @@
                 "lowerLeft":  [255, 403],
                 "upperRight": [512, 539],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":       true
             },{
                 "__comment":  "Instructions 5",
                 "__depth":    49,
@@ -429,7 +438,7 @@
                 "lowerLeft":  [0, 269],
                 "upperRight": [255, 402],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":      true
             },{
                 "__comment":  "Instructions 6",
                 "__depth":    49,
@@ -438,7 +447,7 @@
                 "lowerLeft":  [0, 538],
                 "upperRight": [255, 677],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":      true
             }, {
                 "__comment":  "Instructions 8",
                 "__depth":    49,
@@ -446,7 +455,8 @@
                 "size":       [25.6, 13.1],
                 "lowerLeft":  [256, 269],
                 "upperRight": [512, 400],
-                "textureId":  "assets/textures/tutorial_instructions.png"
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
             }, {
                 "__comment":  "Instructions 7",
                 "__depth":    49,
@@ -455,7 +465,7 @@
                 "lowerLeft":  [256, 135],
                 "upperRight": [512, 268],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":      true
             }, {
                 "__comment":  "Instructions 9",
                 "__depth":    49,
@@ -464,8 +474,9 @@
                 "lowerLeft":  [256, 0],
                 "upperRight": [512, 133],
                 "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":        true
+                "unlit":      true
             },
+            
             
             {
                 "__depth":    50,
@@ -494,7 +505,7 @@
         "Editor": [
             {
                 "__depth": -1000,
-                "isEnabled": true               
+                "isEnabled": false               
             }
         ],
         "Spaceship": [
