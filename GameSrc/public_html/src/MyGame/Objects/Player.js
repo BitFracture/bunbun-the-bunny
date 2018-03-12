@@ -170,6 +170,7 @@ Player.prototype.draw = function (camera) {
 Player.prototype.delete = function () {
     
     this.renderable.removeLight(this.halo);
+    this.renderable.removeLight(this.laserLight);
     GameObject.prototype.delete.call(this);
 };
 

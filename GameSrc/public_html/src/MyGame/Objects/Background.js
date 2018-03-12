@@ -27,23 +27,35 @@
  * @param textureNormal
  * @param unlit
  */
-function Background(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY,
-        textureAsset, textureNormal, unlit) {
+function Background(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY, textureList) {
     
-    this.renderable = new SpriteAnimateRenderable(textureAsset);
-    this.renderable.setLightingEnabled(false);
+    this.backPos = [lowerLeftX, lowerLeftY];
+    this.backSize = [upperRightX - lowerLeftX, upperRightY - lowerLeftY];
     
-    this.renderable.getTransform().setPosition(x, y);
-    this.renderable.getTransform().setSize(w, h);
-    this.renderable.setColor([0, 0, 0, 0]);
-    this.renderable.setSpriteProperties([lowerLeftX, lowerLeftY], [upperRightX - lowerLeftX, upperRightY - lowerLeftY], 1, 0);
+    this.rearMovementProportion = 1.5;
+    this.layerProportion = 0.5;
+    this.textureList = textureList
     
-    GameObject.call(this, this.renderable);
+    this.renderables = [];
+    for (var texture in this.textureList) {
+        this.renderables.push(this.makeRenderable(this.textureList[texture], x, y, w, h));
+    }
     
-    this.setDrawRenderable(true);
-    this.mainCameraRef = gEngine.GameLoop.getScene().getCamera("main");
+    GameObject.call(this, new Renderable());
+    this.setDrawRenderable(false);
 }
 gEngine.Core.inheritPrototype(Background, GameObject);
+
+
+Background.prototype.makeRenderable = function(texture, x, y, w, h) {
+    
+    var renderable = new SpriteAnimateRenderable(texture);
+    renderable.getTransform().setPosition(x, y);
+    renderable.getTransform().setSize(w, h);
+    renderable.setWrapEnabled(true);
+    renderable.setLightingEnabled(false);
+    return renderable;
+};
 
 
 /**
@@ -63,22 +75,41 @@ Background.fromProperties = function (properties) {
             properties["lowerLeft"][1], 
             properties["upperRight"][0], 
             properties["upperRight"][1],
-            properties["textureId"],
-            properties["normalId"],
-            properties["unlit"]);
+            properties["textureList"]);
 };
 
 
 /**
  * @param camera
  */
-Background.prototype.draw = function (camera) {    
-    if (camera.getName() === "main")    
-        GameObject.prototype.draw.call(this, camera);
+Background.prototype.draw = function (camera) { 
+    if (camera.getName() === "main") {
+        
+        //Fix to the camera position
+        var camPos = camera.getWCCenter();
+
+        for (var rid in this.renderables) {
+            
+            this.renderables[rid].getTransform().setPosition(camPos[0], camPos[1]); 
+            this.renderables[rid].draw(camera);
+        }
+    }
 };
 
-Background.prototype.update = function () {
-    var camPos = this.mainCameraRef.getWCCenter();
-    this.renderable.getTransform().setPosition(camPos[0], camPos[1]); 
+Background.prototype.update = function (camera) {
+    
+    var camPos = camera.getWCCenter();
+    
+    //Vary the texture coordinates to animate
+    var renderable = null;
+    var offsetProportion = this.rearMovementProportion;
+    var offset = 0;
+    for (var rid in this.renderables) {
+        
+        renderable = this.renderables[rid];
+        offset = camPos[0] / offsetProportion;
+        offsetProportion *= this.layerProportion;
+        renderable.setSpriteProperties([this.backPos[0] + offset, this.backPos[1]], this.backSize, 1, 0);
+    }
 };
 
