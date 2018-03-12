@@ -9,6 +9,12 @@
             "name":   "assets/textures/carrotPickup.png",
             "type":   "texture"
         }, {
+            "name": "assets/textures/Overlay0.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/Overlay0p.png",
+            "type": "texture"
+        }, {
             "name": "assets/textures/Overlay4.png",
             "type": "texture"
         }, {
@@ -825,11 +831,27 @@
                 "__depth":      -100,
                 "__hasPhysics": false,
                 "waterSpeed":   0.04,
-                "waterLevel":   -20
+                "waterLevel":   -20000
             }
         ],
         "Facade": [
             {
+                "__comment":  "Left, start of level",
+                "__depth":    50,
+                "position":   [-100, -225],
+                "size":       [100, 300],
+                "lowerLeft":  [0, 0],
+                "upperRight": [128, 128],
+                "textureId":  "assets/textures/Overlay0.png"
+            }, {
+                "__comment":  "Bottom, start of level",
+                "__depth":    50,
+                "position":   [0, -200],
+                "size":       [300, 200],
+                "lowerLeft":  [0, 0],
+                "upperRight": [128, 128],
+                "textureId":  "assets/textures/Overlay0.png"
+            }, {
                 "__depth":    50,
                 "position":   [0, -25],
                 "size":       [100, 100],
@@ -884,19 +906,19 @@
             {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [500, 190]
+                "position":     [500000, 190]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [300, 150]
+                "position":     [300000, 150]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [180, 120]
+                "position":     [180000, 120]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [20, 85]
+                "position":     [20000, 85]
             }
         ],
         "WinPoint": [

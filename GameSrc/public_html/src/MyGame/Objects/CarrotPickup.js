@@ -99,7 +99,8 @@ CarrotPickup.prototype.update = function (camera) {
                 
                 players[0].carrotPoints += 3;
                 var hud = gEngine.GameLoop.getScene().getObjectsByClass("HeadsUpDisplay");
-                hud[0].setCount(20);
+                if (hud.length > 0)
+                    hud[0].setCount(20);
                 gEngine.AudioClips.playACue("assets/sounds/Bun_Powerup.wav");
                 this.delete();
             }
