@@ -140,17 +140,48 @@
         <div id="showhide" style="width: 800px; display: none;">
         <p>
             <b>Control Keys</b><br/>
-            - Press WAD to move and jump (S does nothing)<br/>
-            - Press Space to jump<br/>
-            - Move mouse to aim lasers<br/>
-            - Left click to fire lasers<br/><br/>
+			<ul>
+				<li>Press WAD to move and jump (S does nothing)
+            	<li>Press Space to jump
+            	<li>Move mouse to aim laser
+            	<li>Left click to fire laser
+			</ul>
             
             <b>Grader Notes</b><br/>
-            - No spotlight, because it doesn't fit with the design (Approved)<br/>
-            - Press 1 to toggle displaying rigid body platforms<br/>
-            - Press 2 to simulate lose scren<br/>
-            - Press 3 to simulate win screen<br/>
-            - We added a bonus level 1 (tutorial level)<br/>
+			<ul>
+				<li>No spotlight, because it doesn't fit with the design (Approved)
+            	<li>Press 1 to toggle displaying rigid body platforms
+            	<li>Press 2 to simulate lose scren
+            	<li>Press 3 to simulate win screen
+			</ul>
+            
+            <b>Bonus Features</b><br/>
+			<ul>
+				<li>All levels defined by JSON level files
+				<li>Added an extra level (tutorial level)
+				<li>Added a 4-layer parallax background
+				<li>Added a terrain editor
+			</ul>
+            
+            <b>Using The Terrain Editor</b><br/>
+			<ul>
+				<li><b>First</b> you must enable the editor in the respective map file
+					<ul>
+						<li>Find the desired map file under 'assets/levels'
+						<li>Find the entry for 'Editor' in the 'objectList'
+						<li>Set 'isEnabled' to true
+					</ul>
+				<li>Toggle terrain visibility by pressing 1
+				<li>Use left mouse click to select terrain blocks
+				<li>Use TFGH (next to WASD) to move terrain
+				<li>Use IJKL (next to TFGH) to scale terrain
+				<li>Use arrow keys to rotate terrain
+				<li>Use shift to slow terrain operations
+				<li>Shift + E exports level file data to console
+				<li>Shift + X deleted the selected terrain block
+				<li>Shift + C clones the selected terrain block
+				<li>Use O and P keys to zoom in and out respectively
+			</ul>
         </p>
         </div>
     </body>
