@@ -114,6 +114,7 @@ function Player(x, y) {
     
     //Statistics
     this.carrotPoints = 20;
+    this.carrotRegenTime = -1;
     this.oxygenLevel = 100;  
 }
 gEngine.Core.inheritPrototype(Player, GameObject);
@@ -310,15 +311,29 @@ Player.prototype.updateLaser = function (camera) {
     
     //Laser usage
     this.laserEnabled = false;
+    
+    if (this.carrotPoints <= 0){
+        if (this.carrotRegenTime >= 0)
+            this.carrotRegenTime -= 1;
+        if (this.carrotRegenTime === 0){
+            var cpDiff = 1 - this.carrotPoints;
+            if (cpDiff > 0)
+                this.carrotPoints += cpDiff;
+        }
+    }
+
     if (gEngine.Input.isButtonPressed(0)) {
         
         //Use up carrot points, abort if none left
-        if (this.carrotPoints <= 0)
+        if (this.carrotPoints <= 0){
             return;
+        }
         else
             this.carrotPoints -= .03;
-        if (this.carrotPoints <= 0)
+        if (this.carrotPoints <= 0){
+            this.carrotRegenTime = 120;
             this.carrotPoints = 0;
+        }
         
         //Get our pos and the mouse pos
         var myPos = this.getTransform().getPosition();
