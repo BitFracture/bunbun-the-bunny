@@ -279,7 +279,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
                 //Make the player oscillate
                 playerList[0].sizeScale.addRemainingCycles(5);
             } else {
-                gEngine.AudioClips.stopLoopedAudio();
+                gEngine.AudioClips.stopLoopedAudio("assets/sounds/Spaceship_BeamUse.wav");
             }           
         } else {
             
@@ -308,4 +308,11 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
     
     xform.incXPosBy(this.velocity[0]);
     xform.incYPosBy(this.velocity[1]);
+};
+
+Spaceship.prototype.delete = function() {
+    
+    gEngine.AudioClips.stopLoopedAudio("assets/sounds/Spaceship_BeamUse.wav");
+    
+    GameObject.prototype.delete.call(this);
 };

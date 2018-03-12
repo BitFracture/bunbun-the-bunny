@@ -67,6 +67,12 @@
         ],
         "NextLevelController": [
             {}
+        ],
+        "JukeBox": [
+            {
+                "audioFile": "assets/sounds/Game_Win_new.wav",
+                "isLooped": false
+            }
         ]
     }
 }

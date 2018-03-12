@@ -74,6 +74,13 @@ GameLevel.prototype.loadScene = function () {
  */
 GameLevel.prototype.unloadScene = function () {
     
+    //Call delete() on all game objects. This allows for destructor-like calls
+    //    to execute, stopping audio and other resources.
+    var objList = this.objectList.getObjectList();
+    for (var obj in objList) {
+        objList[obj].delete();
+    }
+    
     //Remove the level file asset
     gEngine.TextFileLoader.unloadTextFile(this.LEVEL_FILE);
     
@@ -175,29 +182,6 @@ GameLevel.prototype.initialize = function () {
                 newObject.setDrawDepth(properties["__depth"]);
         }
     }
-    
-    //This needs to get pushed to objects
-    if (this.LEVEL["name"] === "Level 0") {       
-        gEngine.AudioClips.stopLoopedAudio();
-       // gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
-    } else if (this.LEVEL["name"] === "Intro") {        
-        gEngine.AudioClips.stopLoopedAudio();
-        gEngine.AudioClips.stopNonLoopedAudio();
-       // gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
-    } else if (this.LEVEL["name"] === "LoseScreen") {
-        gEngine.AudioClips.stopLoopedAudio();
-        gEngine.AudioClips.stopBackgroundAudio();
-        //gEngine.AudioClips.playNonLoopedAudio("assets/sounds/Game_Over.wav");
-        gEngine.AudioClips.detuneBackground(-600);
-    } else if (this.LEVEL["name"] === "WinScreen") {
-        gEngine.AudioClips.stopLoopedAudio();
-        gEngine.AudioClips.stopBackgroundAudio();
-        //gEngine.AudioClips.playNonLoopedAudio("assets/sounds/Game_Win_new.wav");
-    } else if (this.LEVEL["name"] === "Tutorial") {
-        gEngine.AudioClips.stopLoopedAudio();
-        gEngine.AudioClips.stopBackgroundAudio();
-       //gEngine.AudioClips.playBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
-    }
 };  
 
 
@@ -222,35 +206,12 @@ GameLevel.prototype.draw = function () {
  * Processes updates and collisions.
  */
 GameLevel.prototype.update = function () {
-
-    // Scene transitions
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {  
-        // Transition from Intro to Tutorial
-        if (this.LEVEL["name"] === "Intro"){
-            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
-        }
-        // Transition from Win Screen to Intro
-        else if (this.LEVEL["name"] === "WinScreen"){
-            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Win_new.wav");
-        }
-        // Transition from Lose Screen to Intro
-        else if (this.LEVEL["name"] === "LoseScreen"){
-            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Over.wav");
-        }
-        // Transition from Win Screen to Intro
-        else if (this.LEVEL["name"] === "WinScreen"){
-            //gEngine.AudioClips.stopNonLoopedAudio();
-        }
-        // Transition from Lose Screen to Intro
-        else if (this.LEVEL["name"] === "LoseScreen"){
-            //gEngine.AudioClips.stopNonLoopedAudio();
-        }
-    }
     
     // For testing: press 3 to show win screen
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {  
 
         gEngine.AudioClips.stopNonLoopedAudio();
+        gEngine.AudioClips.stopLoopedAudio();
         gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
         gEngine.GameLoop.stop();
     }
@@ -259,6 +220,7 @@ GameLevel.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {  
 
         gEngine.AudioClips.stopNonLoopedAudio();
+        gEngine.AudioClips.stopLoopedAudio();
         gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
         gEngine.GameLoop.stop();
     }

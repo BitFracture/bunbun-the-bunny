@@ -67,6 +67,12 @@
         ],
         "NextLevelController": [
             {}
+        ],
+        "JukeBox": [
+            {
+                "audioFile": "assets/sounds/Game_Over.wav",
+                "isLooped": false
+            }
         ]
     }
 }
