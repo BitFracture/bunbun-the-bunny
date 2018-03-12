@@ -962,7 +962,8 @@
         ],
         "WinPoint": [
             {
-                "boundary": 590
+                "boundary": 590,
+                "nextLevelFile": "assets/levels/intro.json"
             }
         ],
         "HeadsUpDisplay": [

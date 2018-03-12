@@ -219,7 +219,9 @@ Player.prototype.update = function (camera) {
     }
     //Death criteria
     if (this.oxygenLevel <= 0 || xform.getYPos() < -100) {
-
+        
+        //Tell the losing screen to go back here when it exits
+        gEngine.Global.set("next-level", gEngine.Global.get("current-level"));
         gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
         gEngine.GameLoop.stop();
     }

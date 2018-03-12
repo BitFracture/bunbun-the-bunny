@@ -6,16 +6,13 @@
 /*global document */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
-//  Global variable EngineCore
-//  the following syntax enforces there can only be one instance of EngineCore object
-"use strict";  // Operate in Strict mode such that variables must be declared before used!
+"use strict"; 
 
 /**
  * Static refrence to gEngine
  * @type gEngine
  */
 var gEngine = gEngine || { };
-    // initialize the variable while ensuring it is not redefined
 
 /**
  * @class gEngine.Core

@@ -293,7 +293,9 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         
         //Player was abducted successfully
         if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
-            gEngine.AudioClips.stopLoopedAudio();
+            gEngine.AudioClips.stopLoopedAudio();        
+            //Tell the losing screen to go back here when it exits
+            gEngine.Global.set("next-level", gEngine.Global.get("current-level"));
             gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
             gEngine.GameLoop.stop();
         }
