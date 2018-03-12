@@ -60,6 +60,7 @@ GameLevel.prototype.preLoadScene = function () {
 GameLevel.prototype.loadScene = function () {
     
     //Parse and save the level configuration
+    gEngine.Global.set("current-level", this.LEVEL_FILE);
     this.LEVEL = JSON.parse(gEngine.ResourceMap.retrieveAsset(this.LEVEL_FILE));
 
     //Load up the assets
@@ -226,40 +227,40 @@ GameLevel.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {  
         // Transition from Intro to Tutorial
         if (this.LEVEL["name"] === "Intro"){
-            gEngine.AudioClips.stopBackgroundAudio();
-            gEngine.Core.setNextScene(new GameLevel("assets/levels/Tutorial.json"));
-            gEngine.GameLoop.stop();
+            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Intro_DrumsAndGtr.wav");
+        }
+        // Transition from Win Screen to Intro
+        else if (this.LEVEL["name"] === "WinScreen"){
+            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Win_new.wav");
+        }
+        // Transition from Lose Screen to Intro
+        else if (this.LEVEL["name"] === "LoseScreen"){
+            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Over.wav");
         }
         // Transition from Win Screen to Intro
         else if (this.LEVEL["name"] === "WinScreen"){
             //gEngine.AudioClips.stopNonLoopedAudio();
-            gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
-            gEngine.GameLoop.stop();
         }
         // Transition from Lose Screen to Intro
         else if (this.LEVEL["name"] === "LoseScreen"){
             //gEngine.AudioClips.stopNonLoopedAudio();
-            gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
-            gEngine.GameLoop.stop();
         }
     }
     
     // For testing: press 3 to show win screen
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {  
-        //if (this.LEVEL["name"] === "Intro"){
-            gEngine.AudioClips.stopNonLoopedAudio();
-            gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
-            gEngine.GameLoop.stop();
-        //}
+
+        gEngine.AudioClips.stopNonLoopedAudio();
+        gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
+        gEngine.GameLoop.stop();
     }
     
     // For testing: press 2 to show game over screen
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {  
-        //if (this.LEVEL["name"] === "Intro"){
-            gEngine.AudioClips.stopNonLoopedAudio();
-            gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
-            gEngine.GameLoop.stop();
-        //}
+
+        gEngine.AudioClips.stopNonLoopedAudio();
+        gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+        gEngine.GameLoop.stop();
     }
     
     this.objectList.update(this.cameraList[0]);

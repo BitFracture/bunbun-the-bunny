@@ -17,13 +17,14 @@
  * 
  * @param boundary  The x position
  */
-function WinPoint(boundary) {
+function WinPoint(boundary, nextLevelFile) {
     
     this.renderable = new LineRenderable(boundary, -10000, boundary, 10000);
     this.renderable.setColor([0, 1, 0, 1]);
     GameObject.call(this, this.renderable);
     
     this.boundary = boundary;
+    this.nextLevelFile = nextLevelFile;
 }
 gEngine.Core.inheritPrototype(WinPoint, GameObject);
 
@@ -36,7 +37,8 @@ gEngine.Core.inheritPrototype(WinPoint, GameObject);
  */
 WinPoint.fromProperties = function (properties) {    
     return new WinPoint(
-            properties["boundary"]);
+            properties["boundary"],
+            properties["nextLevelFile"]);
 };
 
 
@@ -66,6 +68,7 @@ WinPoint.prototype.update = function (camera) {
         if (players[0].getTransform().getPosition()[0] > this.boundary) {
             
             //Game win!
+            gEngine.Global.set("next-level", this.nextLevelFile);
             gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
             gEngine.GameLoop.stop();
         }

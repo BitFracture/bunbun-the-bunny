@@ -64,6 +64,9 @@
                     "assets/textures/bg_hills3.png"
                 ]
             }
+        ],
+        "NextLevelController": [
+            {}
         ]
     }
 }
