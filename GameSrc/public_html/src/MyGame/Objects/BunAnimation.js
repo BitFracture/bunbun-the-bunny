@@ -33,7 +33,7 @@ function BunAnimation(x, y) {
     this.renderable = new LightRenderable("assets/textures/BunSprite1.png");
     this.renderable.getTransform().setPosition(x, y);
     this.renderable.getTransform().setSize(4, 4);
-    this.renderable.setSpriteProperties([23, 23], [466, 466], 1, 0);
+    this.renderable.setSpriteProperties([0, 0], [64, 64], 1, 0);
     this.renderable.attachLightSet(gEngine.GameLoop.getScene().getGlobalLights());
     GameObject.call(this, this.renderable);
     

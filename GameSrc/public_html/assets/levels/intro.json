@@ -25,6 +25,9 @@
         }, {
             "name": "assets/textures/bg_hills3.png",
             "type": "texture"
+        }, {
+            "name": "assets/textures/credits.png",
+            "type": "texture"
         }
     ],
     "cameraList": [
@@ -54,6 +57,14 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
                 "textureId":  "assets/textures/Bun_TitleScreenTerrain.png"
+            }, {
+                "__depth":    0,
+                "position":   [69, 2],
+                "size":       [30, 30],
+                "lowerLeft":  [0, 0],
+                "upperRight": [512, 512],
+                "textureId":  "assets/textures/credits.png",
+                "unlit":        true
             }
         ],
         "BunAnimation": [
