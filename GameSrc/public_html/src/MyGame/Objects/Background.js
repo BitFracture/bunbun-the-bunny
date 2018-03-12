@@ -34,7 +34,7 @@ function Background(x, y, w, h, lowerLeftX, lowerLeftY, upperRightX, upperRightY
     
     this.rearMovementProportion = 1.5;
     this.layerProportion = 0.5;
-    this.textureList = textureList
+    this.textureList = textureList;
     
     this.renderables = [];
     for (var texture in this.textureList) {

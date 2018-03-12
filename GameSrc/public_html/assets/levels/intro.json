@@ -79,7 +79,7 @@
         ],
         "NextLevelController": [
             {
-                "levelFile": "assets/levels/level0.json"
+                "levelFile": "assets/levels/tutorial.json"
             }
         ]
     }
