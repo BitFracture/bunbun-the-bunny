@@ -434,6 +434,12 @@
                     "assets/textures/bg_hills3.png"
                 ]
             }
+        ],
+        "JukeBox": [
+            {
+                "audioFile": "assets/sounds/BunBun_Level_1_Short.wav",
+                "isLooped": true
+            }
         ]
     }
 }

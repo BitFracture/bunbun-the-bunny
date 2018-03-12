@@ -81,6 +81,12 @@
             {
                 "levelFile": "assets/levels/tutorial.json"
             }
+        ],
+        "JukeBox": [
+            {
+                "audioFile": "assets/sounds/BunBun_Intro_DrumsAndGtr.wav",
+                "isLooped": true
+            }
         ]
     }
 }
