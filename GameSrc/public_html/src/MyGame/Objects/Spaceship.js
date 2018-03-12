@@ -61,6 +61,7 @@ function Spaceship(x, y) {
     this.tractorRenderable = new Renderable();
     this.tractorRenderable.setColor([1, 0, 0, .125]);
     this.tractorRenderable.getTransform().setSize(12, 48);
+    this.tractorRenderable.setLightingEnabled(false);
     
     //Zapper
     this.zapperRenderable = new LineRenderable(0, 0, 1, 1);
@@ -248,7 +249,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
             if (Math.abs(distanceInX) < 10 && playerPos[1] < xform.getPosition()[1]) {
                 offset = 0;
                 this.tractorBeam = true;
-                this.tractorRenderable.getTransform().setPosition(xform.getXPos(), xform.getYPos() - 28);
+                this.tractorRenderable.getTransform().setPosition(xform.getXPos(), xform.getYPos() - 27);
             }
 
             //Move y position towards camera in a constant way if not being shot
