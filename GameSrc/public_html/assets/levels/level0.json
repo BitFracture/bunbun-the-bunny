@@ -5,7 +5,6 @@
     "ambientIntensity": 0.0,
     "assetList": [
         {
-            "source": "https://www.kisspng.com/png-carrot-png-image-65628/",
             "name":   "assets/textures/carrotPickup.png",
             "type":   "texture"
         }, {

@@ -142,7 +142,7 @@ Editor.prototype.update = function (camera) {
     this.chosenTransform.cloneTo(this.selectBox.getTransform());
 
     var rotRate = 0.05;
-    var transRate = 0.5;
+    var transRate = 0.2;
     var minimumThickness = 0.25;
 
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Shift)) {

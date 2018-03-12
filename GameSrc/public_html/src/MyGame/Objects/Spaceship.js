@@ -208,10 +208,12 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         var player = playerList[0];
         
         if (this.pixelTouches(player, collisionPoint)) {
-                
+            // need audio clip for this
+            //gEngine.AudioClips.stopBackgroundAudio();
+            //gEngine.AudioClips.playBackgroundAudio();
             player.delete();
             this.controlsLevelChange = true;
-            gEngine.AudioClips.stopLoopedAudio();
+            //gEngine.AudioClips.stopLoopedAudio();
         }
     }
     
@@ -293,7 +295,8 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         
         //Player was abducted successfully
         if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
-            gEngine.AudioClips.stopLoopedAudio();
+           // gEngine.AudioClips.detuneBackground(-400);
+            //gEngine.AudioClips.stopLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
             gEngine.GameLoop.stop();
         }
