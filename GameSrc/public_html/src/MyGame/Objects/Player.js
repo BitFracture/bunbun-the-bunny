@@ -186,11 +186,6 @@ Player.prototype.update = function (camera) {
     var xform = this.getTransform();
 
     //console.log("Player normal: " + JSON.stringify(this.getCollisionInfo().getNormal()));
-    //Debug: Zoom the camera
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O))
-        camera.setWCWidth(camera.getWCWidth() - 5);
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.P))
-        camera.setWCWidth(camera.getWCWidth() + 5);
 
     //Place light at mouse cursor
     this.halo.set2DPosition(this.renderable.getTransform().getPosition());

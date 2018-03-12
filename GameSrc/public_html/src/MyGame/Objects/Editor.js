@@ -83,6 +83,12 @@ Editor.prototype.update = function (camera) {
     if (!this.isEnabled)
         return;
     
+    //Zoom the camera
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O))
+        camera.setWCWidth(camera.getWCWidth() - 5);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.P))
+        camera.setWCWidth(camera.getWCWidth() + 5);
+    
     //Help editors find coordinates
     if (gEngine.Input.isButtonClicked(0)) {
         
