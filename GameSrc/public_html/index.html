@@ -122,7 +122,7 @@
             Your browser does not support the HTML5 canvas.
         </canvas>
         <script>
-            var showingElm = true;
+            var showingElm = false;
             function showHide()
             {
                 var domElm = document.getElementById("showhide");
@@ -135,7 +135,7 @@
         </script>
         <br/>
         <a href="#" onclick="showHide()">Show/hide details</a>
-        <div id="showhide" style="width: 800px;">
+        <div id="showhide" style="width: 800px; display: none;">
         <p>
             <b>Control Keys</b><br/>
             - Press WSD to move and jump<br/>

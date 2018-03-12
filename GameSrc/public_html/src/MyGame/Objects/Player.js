@@ -184,7 +184,12 @@ Player.prototype.update = function (camera) {
     GameObject.prototype.update.call(this);
     var xform = this.getTransform();
 
-    //console.log(this.getCollisionInfo().getNormal());
+    //console.log("Player normal: " + JSON.stringify(this.getCollisionInfo().getNormal()));
+    //Debug: Zoom the camera
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O))
+        camera.setWCWidth(camera.getWCWidth() - 5);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.P))
+        camera.setWCWidth(camera.getWCWidth() + 5);
 
     //Place light at mouse cursor
     this.halo.set2DPosition(this.renderable.getTransform().getPosition());
@@ -204,14 +209,13 @@ Player.prototype.update = function (camera) {
             
             underWater = true;
             this.oxygenLevel -= .15;
-            
-            //Drown the character
-            if (this.oxygenLevel <= 0) {
-                
-                gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
-                gEngine.GameLoop.stop();
-            }
         }
+    }
+    //Death criteria
+    if (this.oxygenLevel <= 0 || xform.getYPos() < -100) {
+
+        gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
+        gEngine.GameLoop.stop();
     }
     
     var speedMultiplier = 1;
@@ -236,7 +240,10 @@ Player.prototype.update = function (camera) {
         //If the normalized normal force is positive, jump
         if (normNorm[1] > 0) {
             
-            if (this.jumpTimeout <= 0 && gEngine.Input.isKeyPressed(gEngine.Input.keys.Space)) {
+            if (this.jumpTimeout <= 0 && (
+                    gEngine.Input.isKeyPressed(gEngine.Input.keys.Space) ||
+                    gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) ) {
+                
                 gEngine.AudioClips.playACue(this.jumpSound);
                 // start jump animation
                 this.renderable.setSpriteProperties([0, 0], [100, 100], 10, 0);
