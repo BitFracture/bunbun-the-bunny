@@ -210,6 +210,11 @@ Player.prototype.update = function (camera) {
             underWater = true;
             this.oxygenLevel -= .15;
         }
+        
+        if (this.oxygenLevel <= 100 && underWater === false){
+            this.oxygenLevel += .35;
+        }
+        
     }
     //Death criteria
     if (this.oxygenLevel <= 0 || xform.getYPos() < -100) {
