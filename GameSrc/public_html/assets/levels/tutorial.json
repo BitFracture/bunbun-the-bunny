@@ -1,0 +1,195 @@
+{
+    "name": "Tutorial",
+    "description": "A BunBun tutorial level",
+    "ambientColor": [1, 1, 1, 1],
+    "ambientIntensity": 0.0,
+    "assetList": [
+        {
+            "name":   "assets/textures/carrotPickup.png",
+            "type":   "texture"
+        }, {
+            "name": "assets/textures/Tutorial1.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/Tutorial2.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/Tutorial3.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/carrotSlice.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/flareStrip.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/Bun_animated.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/Spaceship.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/SpaceshipNormal.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/indicator.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills0.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills1.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills2.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills3.png",
+            "type": "texture"
+        }, {
+            "name": "assets/fonts/Consolas-32",
+            "type": "font"
+        }
+    ],
+    "cameraList": [
+        {
+            "name": "main",
+            "center": [50, 37.5],
+            "width": 100,
+            "pixelPosition": [0, 0],
+            "pixelSize": [800, 600],
+            "color": [0.38, 0.78, 1.0, 1]
+        }
+    ],
+    "objectList": {
+        "TerrainBlock": [
+            {
+                "__hasPhysics": true,
+                "position": [
+                    50, 
+                    20
+                ],
+                "size": [
+                    30,
+                    30
+                ],
+                "angle": 0
+            }
+        ],
+        "CarrotPickup": [
+            {
+                "__depth":  51,
+                "position": [70, 60]
+            }
+        ],
+        "Player": [
+            {
+                "__hasPhysics": true,
+                "__depth":      -2,
+                "position":     [50, 40]
+            }
+        ],
+        "Water": [
+            {
+                "__depth":      -100,
+                "__hasPhysics": false,
+                "waterSpeed":   0.04,
+                "waterLevel":   -20
+            }
+        ],
+        "Facade": [
+            {
+                "__depth":    50,
+                "position":   [0, -25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay4.png"
+            }, {
+                "__depth":    50,
+                "position":   [100, 0],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay5.png"
+            }, {
+                "__depth":    50,
+                "position":   [200, 25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay6.png"
+            }, {
+                "__depth":    50,
+                "position":   [300, 50],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay1.png"
+            }, {
+                "__depth":    50,
+                "position":   [400, 75],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay2.png"
+            }, {
+                "__depth":    50,
+                "position":   [500, 100],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay3.png"
+            }
+            
+        ],
+        "Editor": [
+            {
+                "__depth": -1000,
+                "isEnabled": false                
+            }
+        ],
+        "Spaceship": [
+            {
+                "__hasPhysics": true,
+                "__depth":      -1,
+                "position":     [500, 190]
+            }, {
+                "__hasPhysics": true,
+                "__depth":      -1,
+                "position":     [300, 150]
+            }, {
+                "__hasPhysics": true,
+                "__depth":      -1,
+                "position":     [180, 120]
+            }, {
+                "__hasPhysics": true,
+                "__depth":      -1,
+                "position":     [20, 85]
+            }
+        ],
+        "WinPoint": [
+            {
+                "boundary": 590
+            }
+        ],
+        "HeadsUpDisplay": [
+            {}
+        ],
+        "Background": [
+            {
+                "__depth":    52,
+                "position":   [50, 25],
+                "size":       [100, 100],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureList": [
+                    "assets/textures/bg_hills0.png",
+                    "assets/textures/bg_hills1.png",
+                    "assets/textures/bg_hills2.png",
+                    "assets/textures/bg_hills3.png"
+                ]
+            }
+        ]
+    }
+}

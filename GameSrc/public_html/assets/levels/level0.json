@@ -5,9 +5,6 @@
     "ambientIntensity": 0.0,
     "assetList": [
         {
-            "name": "assets/textures/bunOverlay.png",
-            "type": "texture"
-        }, {
             "name":   "assets/textures/carrotPickup.png",
             "type":   "texture"
         }, {
