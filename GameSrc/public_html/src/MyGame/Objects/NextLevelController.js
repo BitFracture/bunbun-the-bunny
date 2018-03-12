@@ -29,6 +29,9 @@ function NextLevelController(levelFile) {
     if (typeof levelFile === 'undefined') {
         this.levelFile = gEngine.Global.get("next-level");
     }
+    
+    //Prevent user from accidentally closing a scene immediately by stale key
+    this.timeout = 20;
 }
 gEngine.Core.inheritPrototype(NextLevelController, GameObject);
 
@@ -54,7 +57,10 @@ NextLevelController.prototype.draw = function (camera) {
 
 NextLevelController.prototype.update = function (camera) {
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {  
+    this.timeout -= 1;
+    
+    if (this.timeout < 0 && 
+            gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {  
         if (typeof this.levelFile === 'undefined')
             console.log("Next level was not defined in constructor or global key store");
         else {
