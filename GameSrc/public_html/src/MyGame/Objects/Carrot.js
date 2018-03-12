@@ -74,7 +74,7 @@ Carrot.fromProperties = function (properties) {
  * Update logic
  */
 Carrot.prototype.update = function () {
-    
+
     GameObject.prototype.update.call(this);
     
     //Enlarge!
