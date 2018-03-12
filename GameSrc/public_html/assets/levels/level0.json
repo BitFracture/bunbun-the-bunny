@@ -831,7 +831,7 @@
                 "__depth":      -100,
                 "__hasPhysics": false,
                 "waterSpeed":   0.04,
-                "waterLevel":   -20000
+                "waterLevel":   -20
             }
         ],
         "Facade": [
@@ -906,19 +906,19 @@
             {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [500000, 190]
+                "position":     [500, 190]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [300000, 150]
+                "position":     [300, 150]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [180000, 120]
+                "position":     [180, 120]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [20000, 85]
+                "position":     [20, 85]
             }
         ],
         "WinPoint": [
