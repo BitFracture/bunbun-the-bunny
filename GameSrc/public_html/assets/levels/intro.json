@@ -14,7 +14,16 @@
             "name": "assets/textures/BunSprite1.png",
             "type": "texture"
         }, {
-            "name": "assets/textures/bg_hills.png",
+            "name": "assets/textures/bg_hills0.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills1.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills2.png",
+            "type": "texture"
+        }, {
+            "name": "assets/textures/bg_hills3.png",
             "type": "texture"
         }
     ],
@@ -61,7 +70,11 @@
                 "size":       [100, 100],
                 "lowerLeft":  [0, 0],
                 "upperRight": [1024, 1024],
-                "textureId":  "assets/textures/bg_hills.png"
+                "textureList": [
+                    "assets/textures/bg_hills1.png",
+                    "assets/textures/bg_hills2.png",
+                    "assets/textures/bg_hills3.png"
+                ]
             }
         ]
     }

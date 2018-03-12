@@ -121,5 +121,31 @@
         <canvas id="GLCanvas" width="800" height="600">
             Your browser does not support the HTML5 canvas.
         </canvas>
+        <script>
+            var showingElm = true;
+            function showHide()
+            {
+                var domElm = document.getElementById("showhide");
+                if (showingElm)
+                    domElm.style.display = "none";
+                else
+                    domElm.style.display = "block";
+                showingElm = !showingElm;
+            }
+        </script>
+        <br/>
+        <a href="#" onclick="showHide()">Show/hide details</a>
+        <div id="showhide" style="width: 800px;">
+        <p>
+            <b>Control Keys</b><br/>
+            - Press WSD to move and jump<br/>
+            - Press Space to jump<br/>
+            - Move mouse to aim lasers<br/>
+            - Click to fire lasers<br/><br/>
+            
+            <b>Notes</b><br/>
+            - No spotlight, because it doesn't fit with the design<br/>
+        </p>
+        </div>
     </body>
 </html>
