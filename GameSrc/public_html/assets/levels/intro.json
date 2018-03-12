@@ -90,7 +90,7 @@
         ],
         "NextLevelController": [
             {
-                "levelFile": "assets/levels/tutorial.json"
+                "levelFile": "assets/levels/level1.json"
             }
         ],
         "JukeBox": [
