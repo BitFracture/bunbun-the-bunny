@@ -207,7 +207,7 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
     if (playerList.length > 0 && playerList[0].getIsDeleted() === false){
         var player = playerList[0];
         
-        if (this.pixelTouches(player, collisionPoint)) {
+        if (player.pixelTouches(this, collisionPoint)) {
             // need audio clip for this
             //gEngine.AudioClips.stopBackgroundAudio();
             //gEngine.AudioClips.playBackgroundAudio();

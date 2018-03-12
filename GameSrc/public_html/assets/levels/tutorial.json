@@ -53,6 +53,9 @@
             "name": "assets/textures/bg_hills3.png",
             "type": "texture"
         }, {
+            "name": "assets/textures/tutorial_instructions.png",
+            "type": "texture"
+        }, {
             "name": "assets/fonts/Consolas-32",
             "type": "font"
         }
@@ -272,6 +275,18 @@
                 "position":     [70, 41.5]
             }, {
                 "__depth": 51,
+                "position":     [75, 41.5]
+            }, {
+                "__depth": 51,
+                "position":     [80, 41.5]
+            }, {
+                    "__depth": 51,
+                "position":     [85, 41.5]
+            }, {
+                    "__depth": 51,
+                "position":     [90, 41.5]
+            }, {
+                "__depth": 51,
                 "position":     [68, 26]
             }, {
                 "__depth": 51,
@@ -331,7 +346,7 @@
             {
                 "__depth":      -100,
                 "__hasPhysics": false,
-                "waterSpeed":   0.00004,
+                "waterSpeed":   0.03,
                 "waterLevel":   -20
             }
         ],
@@ -368,7 +383,100 @@
                 "lowerLeft":  [0, 0],
                 "upperRight": [128, 128],
                 "textureId":  "assets/textures/Overlay0.png"
-            },       
+            }, {
+                "__comment":  "End level wall",
+                "__depth":    50,
+                "position":   [300, -200],
+                "size":       [100, 266.24],
+                "lowerLeft":  [0, 0],
+                "upperRight": [1024, 1024],
+                "textureId":  "assets/textures/Overlay0.png"
+            },
+            
+            
+            {
+                "__comment":  "Instructions 1",
+                "__depth":    49,
+                "position":   [5, 0],
+                "size":       [25.5, 12.7],
+                "lowerLeft":  [0, 136],
+                "upperRight": [255, 268],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            },{
+                "__comment":  "Instructions 2",
+                "__depth":    49,
+                "position":   [20, 30],
+                "size":       [25.6, 13.6],
+                "lowerLeft":  [0, 403],
+                "upperRight": [255, 539],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            },{
+                "__comment":  "Instructions 3",
+                "__depth":    49,
+                "position":   [42, 8],
+                "size":       [25.5, 13.3],
+                "lowerLeft":  [0, 0],
+                "upperRight": [255, 133],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":       true
+            },{
+                "__comment":  "Instructions 4",
+                "__depth":    49,
+                "position":   [60, 45],
+                "size":       [25.6, 13.6],
+                "lowerLeft":  [255, 403],
+                "upperRight": [512, 539],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":       true
+            },{
+                "__comment":  "Instructions 5 (comes after 6, for some reason)",
+                "__depth":    49,
+                "position":   [128, 23],
+                "size":       [25.6, 13.3],
+                "lowerLeft":  [0, 270],
+                "upperRight": [255, 402],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            },{
+                "__comment":  "Instructions 6",
+                "__depth":    49,
+                "position":   [97, 16],
+                "size":       [25.6, 13.9],
+                "lowerLeft":  [0, 538],
+                "upperRight": [255, 677],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            }, {
+                "__comment":  "Instructions 7",
+                "__depth":    49,
+                "position":   [172, 20],
+                "size":       [25.6, 13.3],
+                "lowerLeft":  [256, 135],
+                "upperRight": [512, 266.5],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            }, {
+                "__comment":  "Instructions 8",
+                "__depth":    49,
+                "position":   [229, 33],
+                "size":       [25.6, 13.1],
+                "lowerLeft":  [256, 269],
+                "upperRight": [512, 400],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            }, {
+                "__comment":  "Instructions 9",
+                "__depth":    49,
+                "position":   [272, 78],
+                "size":       [25.6, 13.3],
+                "lowerLeft":  [256, 0],
+                "upperRight": [512, 133],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            },
+            
             
             {
                 "__depth":    50,
@@ -397,14 +505,14 @@
         "Editor": [
             {
                 "__depth": -1000,
-                "isEnabled": false                
+                "isEnabled": false               
             }
         ],
         "Spaceship": [
             {
                 "__hasPhysics": true,
                 "__depth":      -1,
-                "position":     [110, 70]
+                "position":     [160, 70]
             }, {
                 "__hasPhysics": true,
                 "__depth":      -1,
