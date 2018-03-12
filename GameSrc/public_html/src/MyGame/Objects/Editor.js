@@ -31,9 +31,11 @@ function Editor(isEnabled) {
     
     this.highlightBox = new Renderable();
     this.highlightBox.setColor([0.5, 1.0, 0.5, 0.15]);
+    this.highlightBox.setLightingEnabled(false);
     
     this.selectBox = new Renderable();
     this.selectBox.setColor([1.0, 0.5, 0.5, 0.5]);
+    this.selectBox.setLightingEnabled(false);
     
     this.defaultBox = new Renderable();
     this.defaultBox.getTransform().setSize(0, 0);

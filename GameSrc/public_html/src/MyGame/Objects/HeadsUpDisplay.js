@@ -18,7 +18,6 @@
 function HeadsUpDisplay() {
     
     this.renderable = new Renderable();
-
     GameObject.call(this, this.renderable);
     
     this.mStatusText = new FontRenderable("Loading...");
@@ -59,7 +58,7 @@ HeadsUpDisplay.fromProperties = function (properties) {
 HeadsUpDisplay.prototype.draw = function (camera) {
     
     if (camera.getName() === "main") {
-        GameObject.prototype.draw.call(this, camera);
+        //GameObject.prototype.draw.call(this, camera);
 
         var camPos = camera.getWCCenter();
         this.mStatusText.getTransform().setPosition(
