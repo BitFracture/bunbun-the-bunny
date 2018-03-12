@@ -97,6 +97,9 @@ HeadsUpDisplay.prototype.update = function (camera) {
         if (oxygen < 100) {
             this.mOxygenText.setColor([1, oxygen / 200, oxygen / 200, 1]);
         }
+        if (oxygen === 100) {
+            this.mOxygenText.setColor([1, 1, 1, 1]);
+        }
         if (this.mCount > 0) {
             this.mCarrotsText.setColor([1, 0.53, 0, 1]);
             this.mCarrotsText.setTextHeight(4);

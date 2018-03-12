@@ -93,15 +93,17 @@ Spaceship.fromProperties = function (properties) {
 
 Spaceship.prototype.draw = function (camera) {
     
+    var myPos = this.renderable.getTransform().getPosition();
+    
     if (camera.getName() === "minimap") {
         
-        var myPos = this.renderable.getTransform().getPosition();
         this.mapRenderable.getTransform().setPosition(myPos[0], myPos[1]);
         this.mapRenderable.draw(camera);
     } 
     else {
-        GameObject.prototype.draw.call(this, camera);
-
+        //GameObject.prototype.draw.call(this, camera);
+        this.renderable.draw(camera);
+        
         //Draw tractor beam path
         if (this.tractorBeam)
             this.tractorRenderable.draw(camera);
@@ -109,7 +111,6 @@ Spaceship.prototype.draw = function (camera) {
         //Draw zapper of carrot pickup
         if (this.pickupTarget !== null) {
 
-            var myPos = this.getTransform().getPosition();
             var carrotPos = this.pickupTarget.getTransform().getPosition();
             this.zapperRenderable.setFirstVertex(myPos[0] + 10, myPos[1]);
             this.zapperRenderable.setSecondVertex(carrotPos[0], carrotPos[1]);
@@ -202,14 +203,18 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
     this.tractorBeam = false;
     
     //Collided with player?
-    var colObject = this.getCollisionInfo().getCollidedObject();
-    if (colObject !== null && Player.prototype.isPrototypeOf(colObject)) {
-        // need audio clip for this
-        //gEngine.AudioClips.stopBackgroundAudio();
-        //gEngine.AudioClips.playBackgroundAudio();
-        colObject.delete();
-        this.controlsLevelChange = true;
-        //gEngine.AudioClips.stopLoopedAudio();
+    var collisionPoint = [];
+    if (playerList.length > 0 && playerList[0].getIsDeleted() === false){
+        var player = playerList[0];
+        
+        if (this.pixelTouches(player, collisionPoint)) {
+            // need audio clip for this
+            //gEngine.AudioClips.stopBackgroundAudio();
+            //gEngine.AudioClips.playBackgroundAudio();
+            player.delete();
+            this.controlsLevelChange = true;
+            //gEngine.AudioClips.stopLoopedAudio();
+        }
     }
     
     //Move towards the player if one exists
