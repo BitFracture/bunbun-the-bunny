@@ -214,8 +214,12 @@ Player.prototype.update = function (camera) {
     }
     
     var speedMultiplier = 1;
-    if (underWater)
+    if (underWater) {
         speedMultiplier = 1/3;
+        gEngine.AudioClips.detuneBackground(-200);
+    } else {
+        gEngine.AudioClips.detuneBackground(0);
+    }
     
     //Set gravity accordingly
     this.getRigidBody().setAcceleration([0, -90 * speedMultiplier * speedMultiplier]);

@@ -185,11 +185,12 @@ GameLevel.prototype.initialize = function () {
     } else if (this.LEVEL["name"] === "LoseScreen") {
         gEngine.AudioClips.stopLoopedAudio();
         gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
-        gEngine.AudioClips.playBackgroundAudio("assets/sounds/Game_Over.wav");
+        gEngine.AudioClips.playNonLoopedAudio("assets/sounds/Game_Over.wav");
+        gEngine.AudioClips.detuneBackground(-600);
     } else if (this.LEVEL["name"] === "WinScreen") {
         gEngine.AudioClips.stopLoopedAudio();
         gEngine.AudioClips.stopBackgroundAudio("assets/sounds/BunBun_Level_1_Short.wav");
-        gEngine.AudioClips.playBackgroundAudio("assets/sounds/Game_Win_new.wav");
+        gEngine.AudioClips.playNonLoopedAudio("assets/sounds/Game_Win_new.wav");
     }
 };  
 
@@ -226,13 +227,13 @@ GameLevel.prototype.update = function () {
         }
         // Transition from Win Screen to Intro
         else if (this.LEVEL["name"] === "WinScreen"){
-            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Win_new.wav");
+            gEngine.AudioClips.stopNonLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
             gEngine.GameLoop.stop();
         }
         // Transition from Lose Screen to Intro
         else if (this.LEVEL["name"] === "LoseScreen"){
-            gEngine.AudioClips.stopBackgroundAudio("assets/sounds/Game_Over.wav");
+            gEngine.AudioClips.stopNonLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/intro.json"));
             gEngine.GameLoop.stop();
         }
@@ -241,6 +242,7 @@ GameLevel.prototype.update = function () {
     // For testing: press 3 to show win screen
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Three)) {  
         //if (this.LEVEL["name"] === "Intro"){
+            gEngine.AudioClips.stopNonLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
             gEngine.GameLoop.stop();
         //}
@@ -249,6 +251,7 @@ GameLevel.prototype.update = function () {
     // For testing: press 2 to show game over screen
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Two)) {  
         //if (this.LEVEL["name"] === "Intro"){
+            gEngine.AudioClips.stopNonLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
             gEngine.GameLoop.stop();
         //}

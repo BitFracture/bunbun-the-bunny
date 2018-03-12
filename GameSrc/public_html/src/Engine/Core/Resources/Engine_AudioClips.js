@@ -31,6 +31,7 @@ gEngine.AudioClips = (function () {
     var mAudioContext = null;
     var mBgAudioNode = null;
     var mLoopedAudioNode = null;
+    var mSingleAudioNode = null;
 //    var mBgAudioNode = [];
 
     /**
@@ -125,6 +126,22 @@ gEngine.AudioClips = (function () {
         }
     };
     
+    var playNonLoopedAudio = function (clipName) {
+        var clipInfo = gEngine.ResourceMap.retrieveAsset(clipName);
+        if (clipInfo !== null) {
+            mSingleAudioNode = mAudioContext.createBufferSource();
+            mSingleAudioNode.buffer = clipInfo;
+            mSingleAudioNode.connect(mAudioContext.destination);
+            mSingleAudioNode.start(0);
+        }
+    };
+    var stopNonLoopedAudio = function () {
+        if (mSingleAudioNode !== null) {
+            mSingleAudioNode.stop(0);
+            mSingleAudioNode = null;
+        }
+    };
+    
     /**
      * Play a audioclip on repeat. Stops current background clip if playing.
      * @memberOf gEngine.AudioClips
@@ -193,6 +210,16 @@ gEngine.AudioClips = (function () {
     var isBackgroundAudioPlaying = function () {
         return (mBgAudioNode !== null);
     };
+    
+    var detuneBackground = function (val) {
+        if (mBgAudioNode !== null)
+            mBgAudioNode.detune.value = val;
+    };
+    
+    var detuneLoopedAudio = function (val) {
+        if (mLoopedAudioNode !== null)
+            mLoopedAudioNode.detune.value = val;
+    };
 
     // Public interface for this object. Anything not in here will
     // not be accessable.
@@ -206,7 +233,11 @@ gEngine.AudioClips = (function () {
         stopBackgroundAudio: stopBackgroundAudio,
         isBackgroundAudioPlaying: isBackgroundAudioPlaying,
         playLoopedAudio: playLoopedAudio,
-        stopLoopedAudio: stopLoopedAudio
+        stopLoopedAudio: stopLoopedAudio,
+        detuneBackground: detuneBackground,
+        detuneLoopedAudio: detuneLoopedAudio,
+        playNonLoopedAudio: playNonLoopedAudio,
+        stopNonLoopedAudio: stopNonLoopedAudio
     };
     return mPublic;
 }());

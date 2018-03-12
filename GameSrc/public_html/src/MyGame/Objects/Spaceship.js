@@ -204,10 +204,12 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
     //Collided with player?
     var colObject = this.getCollisionInfo().getCollidedObject();
     if (colObject !== null && Player.prototype.isPrototypeOf(colObject)) {
-        
+        // need audio clip for this
+        //gEngine.AudioClips.stopBackgroundAudio();
+        //gEngine.AudioClips.playBackgroundAudio();
         colObject.delete();
         this.controlsLevelChange = true;
-        gEngine.AudioClips.stopLoopedAudio();
+        //gEngine.AudioClips.stopLoopedAudio();
     }
     
     //Move towards the player if one exists
@@ -288,7 +290,8 @@ Spaceship.prototype.updatePlayerFinder = function (camera) {
         
         //Player was abducted successfully
         if (this.controlsLevelChange && !camera.isTransformInside(xform)) {
-            gEngine.AudioClips.stopLoopedAudio();
+           // gEngine.AudioClips.detuneBackground(-400);
+            //gEngine.AudioClips.stopLoopedAudio();
             gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
             gEngine.GameLoop.stop();
         }
