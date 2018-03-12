@@ -825,7 +825,7 @@
         "Facade": [
             {
                 "__comment":  "Left, start of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [-100, -225],
                 "size":       [100, 300],
                 "lowerLeft":  [0, 0],
@@ -833,7 +833,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, start of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [0, -200],
                 "size":       [100, 200],
                 "lowerLeft":  [0, 0],
@@ -841,7 +841,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, second step of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [100, -200],
                 "size":       [100, 225],
                 "lowerLeft":  [0, 0],
@@ -849,7 +849,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, third step of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [200, -200],
                 "size":       [100, 225],
                 "lowerLeft":  [0, 0],
@@ -857,7 +857,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, fourth step of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [300, -200],
                 "size":       [100, 250],
                 "lowerLeft":  [0, 0],
@@ -865,7 +865,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, fifth step of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [400, -200],
                 "size":       [100, 325],
                 "lowerLeft":  [0, 0],
@@ -873,7 +873,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, sixth step of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [500, -200],
                 "size":       [100, 350],
                 "lowerLeft":  [0, 0],
@@ -881,7 +881,7 @@
                 "textureId":  "assets/textures/Overlay0.png"
             }, {
                 "__comment":  "Bottom, seventh step of level",
-                "__depth":    50,
+                "__depth":    51,
                 "position":   [600, -200],
                 "size":       [100, 375.4],
                 "lowerLeft":  [0, 0],
