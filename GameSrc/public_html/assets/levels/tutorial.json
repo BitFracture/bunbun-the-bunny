@@ -431,11 +431,11 @@
                 "textureId":  "assets/textures/tutorial_instructions.png",
                 "unlit":       true
             },{
-                "__comment":  "Instructions 5",
+                "__comment":  "Instructions 5 (comes after 6, for some reason)",
                 "__depth":    49,
                 "position":   [128, 23],
                 "size":       [25.6, 13.3],
-                "lowerLeft":  [0, 269],
+                "lowerLeft":  [0, 270],
                 "upperRight": [255, 402],
                 "textureId":  "assets/textures/tutorial_instructions.png",
                 "unlit":      true
@@ -449,21 +449,21 @@
                 "textureId":  "assets/textures/tutorial_instructions.png",
                 "unlit":      true
             }, {
+                "__comment":  "Instructions 7",
+                "__depth":    49,
+                "position":   [172, 20],
+                "size":       [25.6, 13.3],
+                "lowerLeft":  [256, 135],
+                "upperRight": [512, 266.5],
+                "textureId":  "assets/textures/tutorial_instructions.png",
+                "unlit":      true
+            }, {
                 "__comment":  "Instructions 8",
                 "__depth":    49,
                 "position":   [229, 33],
                 "size":       [25.6, 13.1],
                 "lowerLeft":  [256, 269],
                 "upperRight": [512, 400],
-                "textureId":  "assets/textures/tutorial_instructions.png",
-                "unlit":      true
-            }, {
-                "__comment":  "Instructions 7",
-                "__depth":    49,
-                "position":   [172, 20],
-                "size":       [25.6, 13.3],
-                "lowerLeft":  [256, 135],
-                "upperRight": [512, 268],
                 "textureId":  "assets/textures/tutorial_instructions.png",
                 "unlit":      true
             }, {
