@@ -212,6 +212,7 @@ GameLevel.prototype.update = function () {
 
         gEngine.AudioClips.stopNonLoopedAudio();
         gEngine.AudioClips.stopLoopedAudio();
+        gEngine.Global.set("next-level", "assets/levels/intro.json");
         gEngine.Core.setNextScene(new GameLevel("assets/levels/winScreen.json"));
         gEngine.GameLoop.stop();
     }
@@ -221,6 +222,7 @@ GameLevel.prototype.update = function () {
 
         gEngine.AudioClips.stopNonLoopedAudio();
         gEngine.AudioClips.stopLoopedAudio();
+        gEngine.Global.set("next-level", "assets/levels/intro.json");
         gEngine.Core.setNextScene(new GameLevel("assets/levels/loseScreen.json"));
         gEngine.GameLoop.stop();
     }

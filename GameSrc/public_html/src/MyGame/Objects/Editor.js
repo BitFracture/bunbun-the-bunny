@@ -31,9 +31,11 @@ function Editor(isEnabled) {
     
     this.highlightBox = new Renderable();
     this.highlightBox.setColor([0.5, 1.0, 0.5, 0.15]);
+    this.highlightBox.setLightingEnabled(false);
     
     this.selectBox = new Renderable();
     this.selectBox.setColor([1.0, 0.5, 0.5, 0.5]);
+    this.selectBox.setLightingEnabled(false);
     
     this.defaultBox = new Renderable();
     this.defaultBox.getTransform().setSize(0, 0);
@@ -82,6 +84,12 @@ Editor.prototype.update = function (camera) {
     
     if (!this.isEnabled)
         return;
+    
+    //Zoom the camera
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O))
+        camera.setWCWidth(camera.getWCWidth() - 5);
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.P))
+        camera.setWCWidth(camera.getWCWidth() + 5);
     
     //Help editors find coordinates
     if (gEngine.Input.isButtonClicked(0)) {
